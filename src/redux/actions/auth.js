@@ -46,7 +46,7 @@ export const register = (body,history,url) => async dispatch =>{
          const res = await axios.post('/auth/register',body,config);
          dispatch({
             type: REGISTER_SUCCESS,
-            payload: res.data.user
+            payload: res.data.newUser
         })
         
         localStorage.setItem('token',res.data.token);

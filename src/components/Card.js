@@ -88,7 +88,7 @@ if(props.post.author === undefined) return "Unknown"
       <Heading>{props.post.title}</Heading>
         
         <CardFooter>
-            <Ava src={avatar} size={30}  round={true}/>
+            <Ava name ={props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
             
             <p>{props.post.author.username}</p>
             <p>{props.post.comments.length} comments</p>
