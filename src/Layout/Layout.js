@@ -12,6 +12,9 @@ import { Headr } from './Headr/Headr';
 const StyledLayout= styled.div`
 min-height: 100vh;
 position: relative;
+.children{
+    margin-bottom: 4rem;
+}
 `
 
 export const Layout = ({children}) => {
@@ -28,7 +31,7 @@ export const Layout = ({children}) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover/>
-         {children}
+     <div className="children">{children}</div>
          <Footer />  
             
         </StyledLayout>

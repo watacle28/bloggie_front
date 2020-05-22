@@ -15,11 +15,11 @@ axios.defaults.baseURL = 'http://localhost:5002/api'
 export const login = (body,history,url) => async dispatch =>{
     
      try {
-        const res = await axios.post('/auth/login',body,config);
-       
+        const res= await axios.post('/auth/login',body,config);
+       console.log({res});
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: res.data
+            payload: res.data.user
         })
         localStorage.setItem('token',res.data.token);
          dispatch({type: ISAUTH})
@@ -43,10 +43,10 @@ export const login = (body,history,url) => async dispatch =>{
 export const register = (body,history,url) => async dispatch =>{
 
     try {
-        const res = await axios.post('/auth/register',body,config);
-        dispatch({
+         const res = await axios.post('/auth/register',body,config);
+         dispatch({
             type: REGISTER_SUCCESS,
-            payload: res.data
+            payload: res.data.user
         })
         
         localStorage.setItem('token',res.data.token);

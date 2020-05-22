@@ -82,11 +82,13 @@ export const deletePost = (id,history)=> async dispatch=>{
 }
 
 export const likePost = (id,userId)=> async dispatch =>{
+   
     try {
+        
         const token = localStorage.getItem('token')
         setAuthToken(token)
-        await axios.post(`blog/like/${id}`)
-        dispatch({type: LIKE_POST, payload: userId})
+        const res = await axios.post(`blog/like/${id}`)
+        dispatch({type: LIKE_POST, payload: res.data.user})
     } catch (error) {
         console.log(error);
     }
@@ -96,7 +98,7 @@ export const unlikePost = (id,userId) => async dispatch =>{
     try {
         const token = localStorage.getItem('token')
         setAuthToken(token)
-        await axios.delete(`blog/like/${id}`)
+        const res = await axios.delete(`blog/like/${id}`)
         dispatch({type: UNLIKE_POST, payload: userId})
     } catch (error) {
         console.log(error);

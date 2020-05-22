@@ -28,3 +28,4 @@ export const GET_COMMENTS = 'GET_COMMENTS';
 export const CLEAR_POST = 'CLEAR_POST'
 export const LIKE_POST ='LIKE_POST'
 export const UNLIKE_POST ='UNLIKE_POST'
+export const  LOADING_LIKING = 'LOADING_LIKING'

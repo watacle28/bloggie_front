@@ -107,7 +107,7 @@ const MobileHead = styled.div`
 `
 
 export const Headr = ({history}) => {
-    const isLoggedIn = useSelector(state=> state.auth.authenticated)
+    const auth = useSelector(state=> state.auth)
     const dispatch = useDispatch()
     const [open , setOpen] = useState(false);
     const node = useRef();
@@ -127,12 +127,12 @@ export const Headr = ({history}) => {
         <div >
        <MobileHead>
        <Burger open={open} setOpen={setOpen}/>
-{isLoggedIn && <Avatar src= {Logo} size={30}  round={true}/>}
+{!auth.loading && auth.authenticated && auth.userData && <Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/>}
 
        <img src={Logo} alt="logo"/>
        </MobileHead>
         <StyledHeadr ref ={node} open = {open}>
-    {isLoggedIn ? authLinks.map((link,index)=><NavLink  key={index} to={link.to}>
+    {auth.authenticated ? authLinks.map((link,index)=><NavLink  key={index} to={link.to}>
                   <button
                    onClick={()=>handleClick(link)}>
                     {link.label}</button></NavLink>):
