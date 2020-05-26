@@ -44,22 +44,19 @@ const StyledComment = styled.div`
     }
 `
 
-export const Comment = ({comment:{body,likes,postedOn,owner}}) => {
+export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handleDeleteComment}) => {
     const currentUser = useSelector(state => state.auth.userData ? state.auth.userData._id : null);
-    const handleDeleteComment = ()=>{
 
-    }
-   
     dayjs.extend(relativeTime)
     return (
         <StyledComment>
-        <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username.substring(0,1)} textSizeRatio ={2} size={40} round={true}/></Link>
+        <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
            
             <div className="comment_data">
                 <ul className="comment_meta_info"> 
                 <li><FaCalendarAlt/>{' '}{dayjs(postedOn).fromNow()}</li>
    {currentUser == owner._id ? <div>
-    <Link to={``}><FaEdit/> {' '} </Link>
+    <Link to='#' onClick={clickToEdit}><FaEdit/> {' '} </Link>
     <Link to='#' onClick={handleDeleteComment}><FaTrash/></Link>
        </div> : ''}
    

@@ -5,7 +5,7 @@ import {useSelector,useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import bg from '../components/bg.jpg';
-import { getSinglePost, addComment, likePost, unlikePost } from '../redux/actions/posts';
+import { getSinglePost, addComment, likePost, unlikePost, editComment, removeComment } from '../redux/actions/posts';
 import { Md } from './md';
 import { StyledAuthors } from './Authors';
 import { Button } from 'react-bootstrap';
@@ -117,7 +117,7 @@ export const SinglePost = (props) => {
     const [comment, setComment] = useState({text: 'add comment', html: ''})
     const [count, setCount] = useState(0)
     const handleComment = (e)=> setComment({...comment,html: e.html, text: e.text})
- 
+   const [isEditing, setIsEditing] = useState({status : false, id: null}) 
  /*check if user has already liked post  */
     let hasLiked = post && currentUser && post.likes.filter(like => like === currentUser._id);
     
@@ -159,6 +159,23 @@ export const SinglePost = (props) => {
         dispatch(addComment(comment.html,props.match.params.id))
         setComment({...comment, html: '',text: 'add comment'})
     }
+    const handleStartEditComment = (comment) =>{
+        setComment({...comment, text: comment.body})
+        setIsEditing({...isEditing, status: true, id: comment._id})
+      
+    }
+  
+    const handleEditComment = (e) =>{
+        e.preventDefault()
+        dispatch(editComment(comment.html,isEditing.id))
+        setComment({...comment, html: '',text: 'add comment'})
+        setIsEditing({...isEditing, status: false, id: null})
+    }
+
+    const handleDeleteComment = (id) =>{
+        dispatch(removeComment(id))
+    }
+
     const dispatch = useDispatch()
     useEffect(() => {
         
@@ -194,13 +211,14 @@ export const SinglePost = (props) => {
         <div className="comments">
         <h4>Comments:</h4>
             {postOne.loading ? <Loader className ='loading'>loading...</Loader> : postOne.post.comments.map((comment)=>(
-                <Comment comment={comment} hasLiked={hasLiked} key={comment._id}/>
+                <Comment comment={comment} hasLiked={hasLiked} handleDeleteComment={()=>handleDeleteComment(comment._id)} clickToEdit={()=> handleStartEditComment(comment)} key={comment._id}/>
             ))}
         </div>
 
          {  isLoggedIn ?  <div className="commenting">
          <Md name='comment' value={comment.text} onChange={handleComment}/>
-         <button onClick={sendComment}>Add Comment</button>
+                {isEditing.status ?  <button onClick={handleEditComment}>Save</button> :
+                <button onClick={sendComment}>Add Comment</button>}
          </div>: 
 
 

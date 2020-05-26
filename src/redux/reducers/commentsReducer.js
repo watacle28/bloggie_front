@@ -1,4 +1,4 @@
-import {ADD_COMMENT, LOADING, GET_COMMENTS} from '../types'
+import {ADD_COMMENT, LOADING, GET_COMMENTS, EDIT_COMMENT, REMOVE_COMMENT} from '../types'
 
 
 
@@ -26,7 +26,17 @@ export const commentsReducer = (state=initialState, {type,payload}) =>{
                 ...state,errors: null, loading:false,post: {...state.post, comments: [...state.post.comments,payload.newComment]}
             }
         
-    
+        case EDIT_COMMENT:
+            //find index of comment edited
+            const index = state.post.comments.findIndex(comment => comment._id == payload._id)
+            console.log({index});
+            return {
+                ...state, errors: null, loading: false, post: {comments: [...state.post.comments.map((comment, i) => i == index ? payload : comment )] }
+            }
+        case REMOVE_COMMENT:
+            return {
+                ...state, errors: null, loading: false, post: {comments: [...state.post.comments.filter(comment => comment._id != payload)]}
+            }
         default:
             return state;
     }

@@ -1,4 +1,4 @@
-import { GET_ALL_POSTS,UNLIKE_POST, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS ,ADD_COMMENT, LOADING, GET_COMMENTS, EDIT_SUCCESS, REMOVE_POST, LIKE_POST} from '../types';
+import { GET_ALL_POSTS,UNLIKE_POST, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS ,ADD_COMMENT, LOADING, GET_COMMENTS, EDIT_SUCCESS, REMOVE_POST, LIKE_POST, EDIT_COMMENT, REMOVE_COMMENT} from '../types';
 import axios from 'axios';
 import {toast} from 'react-toastify'
 
@@ -6,6 +6,7 @@ import { setAuthToken } from '../../utils/setAtuthToken';
 import { loadUserData } from './auth';
 
 axios.defaults.baseURL = 'http://localhost:5002/api'
+
 
 export const getAllPosts = () =>async dispatch =>{
     try {
@@ -52,11 +53,9 @@ export const createPost = (post,history) => async dispatch =>{
 
 export const editPost = (data,id,history)=> async dispatch =>{
     try {
-        console.log({data})
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.put(`blog/edit/${id}`,data)
-        //toast(res.data.msg, {type: 'success'})
         dispatch({type: LOADING})
        dispatch({type: EDIT_SUCCESS, payload: res.data })
        history.push(`/post/${id}`)
@@ -67,7 +66,6 @@ export const editPost = (data,id,history)=> async dispatch =>{
 }
 export const deletePost = (id,history)=> async dispatch=>{
     try {
-        
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.delete(`blog/post/${id}`)
@@ -84,7 +82,6 @@ export const deletePost = (id,history)=> async dispatch=>{
 export const likePost = (id,userId)=> async dispatch =>{
    
     try {
-        
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.post(`blog/like/${id}`)
@@ -111,8 +108,7 @@ export const addComment = (comment,id)=> async dispatch=>{
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.post(`blog/comment/${id}`,{comment})
-       // toast(res.data.msg, {type: 'success'})
-       // dispatch(loadUserData())
+     
        dispatch({type: ADD_COMMENT, payload: res.data })
        
     
@@ -121,8 +117,18 @@ export const addComment = (comment,id)=> async dispatch=>{
     }
 }
 
-const editComment = (data,id)=> async dispatch =>{
-
+export const editComment = (comment,id)=> async dispatch =>{
+    try {
+        const token = localStorage.getItem('token')
+        setAuthToken(token)
+        const res = await axios.put(`blog/comment/edit/${id}`,{comment})
+        
+        dispatch({type: EDIT_COMMENT, payload: res.data.commentToEdit })
+       
+    
+    } catch (error) {
+        console.log(error)
+    }
 }
 
 
@@ -131,6 +137,14 @@ const likeComment = (data,id)=> async dispatch =>{
 }
 
 
-const removeComment = (data,id)=> async dispatch =>{
-    
+export const removeComment = (id)=> async dispatch =>{
+    try {
+        const token = localStorage.getItem('token')
+        setAuthToken(token)
+        await axios.delete(`blog/comment/${id}`)
+        dispatch({type: REMOVE_COMMENT, payload: id})
+    } catch (error) {
+        console.log({error});
+    }
+
 }
