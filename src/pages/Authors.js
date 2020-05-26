@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom'
+import {useSelector, useDispatch} from 'react-redux'
 import styled from 'styled-components';
 import pic from '../components/clo.jpg';
+import { getAllBloggers } from '../redux/actions/user';
+
 
 const Container = styled.div`
 margin-top: 8rem;`
@@ -71,29 +74,39 @@ h5{
 }
 .num{
     background-color: #222;
-    padding: 6px 3px;
+    width:30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
     border-radius: 50%;
     font-size: .8rem;
 }
 
 `
-const authors = [1,2,32,2]
+
 export const Authors = ({match}) => {
-    
+    const authors = useSelector(state => state.bloggers.bloggers)
+    const loadingBloggers = useSelector(state => state.bloggers.loading)
+    const dispatch = useDispatch()
+    console.log({authors});
+    useEffect(() => {
+        dispatch(getAllBloggers())
+    }, [dispatch])
+
     return (
         <Container>
         <StyledHeading>Authors</StyledHeading>
-       {authors.map((author,i)=>( 
+       {!loadingBloggers && authors.map(author => ( 
             
-           <Link to={`/authors/${i}`}>
+           <Link to={`/authors/${author._id}`}>
                <StyledAuthors>
           <img src={pic} alt=""/>
-            <h5>Sir watacle</h5>
+            <h5>{author.username}</h5>
             <small>Web developer</small>
             <div className="posts">
                 <h6>Posts</h6>
                 <h6>:</h6>
-                <h6 className="num">178</h6>
+       <h6 className="num">{author.posts.length}</h6>
             </div> 
             </StyledAuthors>
         </Link>

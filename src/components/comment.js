@@ -1,8 +1,9 @@
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime' 
-import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart}  from 'react-icons/fa'
+import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart, FaTrash}  from 'react-icons/fa'
 import Avatar from 'react-avatar';
 import me from './clo.jpg'
 import { Link } from 'react-router-dom';
@@ -44,16 +45,24 @@ const StyledComment = styled.div`
 `
 
 export const Comment = ({comment:{body,likes,postedOn,owner}}) => {
-    
+    const currentUser = useSelector(state => state.auth.userData ? state.auth.userData._id : null);
+    const handleDeleteComment = ()=>{
+
+    }
+   
     dayjs.extend(relativeTime)
     return (
         <StyledComment>
         <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username.substring(0,1)} textSizeRatio ={2} size={40} round={true}/></Link>
            
             <div className="comment_data">
-                <ul className="comment_meta_info">
-    <li><FaEdit/> {' '} </li>
-    <li><FaCalendarAlt/>{' '}{dayjs(postedOn).fromNow()}</li>
+                <ul className="comment_meta_info"> 
+                <li><FaCalendarAlt/>{' '}{dayjs(postedOn).fromNow()}</li>
+   {currentUser == owner._id ? <div>
+    <Link to={``}><FaEdit/> {' '} </Link>
+    <Link to='#' onClick={handleDeleteComment}><FaTrash/></Link>
+       </div> : ''}
+   
     <li>{likes.length} {'  '} <FaHeart /></li>
                 </ul>
                 <div className="comment_body" dangerouslySetInnerHTML={{__html: body}}/>

@@ -11,9 +11,9 @@ import { StyledAuthors } from './Authors';
 import { Button } from 'react-bootstrap';
 import { smartRedirect } from '../redux/actions/ui';
 import { Comment } from '../components/comment';
-import { loadUserData } from '../redux/actions/auth';
-import { FaThumbsUp, FaHeartbeat, FaHeart } from 'react-icons/fa';
+import { FaHeart } from 'react-icons/fa';
 import { LOADING } from '../redux/types';
+import { NotFound } from './NotFound';
 
 const StyledPost = styled.div`
     width: 80%;
@@ -108,9 +108,6 @@ const Loader = styled.div`
     transform: translate(-50%,-50%)
 `
 export const SinglePost = (props) => {
- 
-    
-    
    const id = props.match.params.id
     const post = useSelector(state=> state.posts.currentPost)
     const postOne = useSelector(state=>state.comments)
@@ -122,26 +119,40 @@ export const SinglePost = (props) => {
     const handleComment = (e)=> setComment({...comment,html: e.html, text: e.text})
  
  /*check if user has already liked post  */
-        let hasLiked = post && currentUser && post.likes.filter((like=> like === currentUser._id));
-        
+    let hasLiked = post && currentUser && post.likes.filter(like => like === currentUser._id);
+    
+     /* console.log({count, hasLiked})
    const handleLikePost = ()=>{
+        hasLiked && setCount(1) 
         console.log({count,hasLiked})
-        if(hasLiked.length < 1 && count == 0){
+        if(hasLiked && count == 0){
              dispatch(likePost(id, currentUser._id))
-            
-             setCount(1)
+                setCount(1)
             }
-
+      
         else if(hasLiked.length > 0 && count == 1) {
            
             dispatch(unlikePost(id,currentUser._id))
-            
             setCount(0)
             }
-            
-   }
-  
+
+   } */
+  const handleLikePost = ()=>{
+      if(count == 0){
+        dispatch( likePost(id, currentUser._id))
+        setCount(1)
+        return;
+      }
+   return;
+  }
+  const handleUnLikePost = ()=>{
+      
+        dispatch(unlikePost(id, currentUser._id))
+       setCount(0)
     
+      
+      
+  }
     const sendComment = (e) => {
         e.preventDefault();
          console.log({comment})
@@ -150,7 +161,7 @@ export const SinglePost = (props) => {
     }
     const dispatch = useDispatch()
     useEffect(() => {
-      
+        
         dispatch(getSinglePost(id))
     
     }, [])
@@ -161,7 +172,7 @@ export const SinglePost = (props) => {
     return (
        <>
     ;
-       {loadingPosts ? <Loader className ='loading'>loading...</Loader> : post &&
+       {loadingPosts  ? <Loader className ='loading'>loading...</Loader> : post ?
         (<StyledPost>
        <img src={post.blogImage} alt="post image"/>
         <div className="post_content">
@@ -169,7 +180,10 @@ export const SinglePost = (props) => {
         <div className="meta">
             <small>{post.tags}</small>
          <small>{new Date(post.createdAt).toLocaleDateString()}</small>
-         <small><Link  onClick={handleLikePost} className='likes'>{post.likes.length}<FaHeart className= {hasLiked && hasLiked.length> 0 ? 'liked icon' : 'icon'}/></Link></small>
+         <small>{post.likes.length}
+         {hasLiked && hasLiked.length > 0 ? <Link  onClick={handleUnLikePost} ><FaHeart className = 'liked icon'/> </Link> :
+         <Link  onClick={handleLikePost} ><FaHeart className = 'icon'/> </Link>}
+         </small>
         </div>
         <div className="post_body">
             <div className='html' dangerouslySetInnerHTML={{__html:post.body}}/>
@@ -199,7 +213,7 @@ export const SinglePost = (props) => {
            
        
         </div>
-    </StyledPost>)}
+    </StyledPost>) : <NotFound id={id} type={'Post'}/>}
        </>
     )
 }

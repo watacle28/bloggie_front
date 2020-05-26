@@ -12,7 +12,7 @@ export const authReducer = (state = initialState,{type,payload}) =>{
    switch (type) {
        case ISAUTH :
            return{
-               ...state, authenticated: true,loading: false
+               ...state, authenticated: true
            }
         case USER_LOADED :
             return {

@@ -94,6 +94,7 @@ export const Editor = (props) => {
         setData({...data, title: '',tags:''})
         setMarkdown({...markdown, html:'',text: ''})
         setImage({...image, preview: '', raw: ''})
+        //postData.body = ''
 
       }
 
@@ -129,7 +130,7 @@ export const Editor = (props) => {
       }
      
     }, [postData])
-console.log(markdown);
+
 
     return (
        

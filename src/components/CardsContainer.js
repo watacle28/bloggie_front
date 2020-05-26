@@ -21,16 +21,19 @@ flex-direction: column;
 
 `
 
-export const CardsContainer = () => {
+const CardsContainer = () => {
     const dispatch = useDispatch();
     const allposts = useSelector(state=>state.posts.posts)
+    const loadingPosts = useSelector(state => state.posts.loading)
+    console.log({loadingPosts});
     useEffect(() => {
         dispatch(getAllPosts())
     }, [])
 
     return (
         <Container>
-            {allposts.map((post) => (<Link to={`/post/${post._id}`} key={post._id}><Card post={post} /></Link>))}
+            {!loadingPosts && allposts.map((post) => (<Link to={`/post/${post._id}`} key={post._id}><Card post={post} /></Link>))}
         </Container>
     )
 }
+export default CardsContainer;

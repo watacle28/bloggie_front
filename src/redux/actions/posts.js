@@ -88,6 +88,7 @@ export const likePost = (id,userId)=> async dispatch =>{
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.post(`blog/like/${id}`)
+
         dispatch({type: LIKE_POST, payload: res.data.user})
     } catch (error) {
         console.log(error);
@@ -99,7 +100,7 @@ export const unlikePost = (id,userId) => async dispatch =>{
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.delete(`blog/like/${id}`)
-        dispatch({type: UNLIKE_POST, payload: userId})
+        dispatch({type: UNLIKE_POST, payload: res.data.user})
     } catch (error) {
         console.log(error);
     }
@@ -110,7 +111,7 @@ export const addComment = (comment,id)=> async dispatch=>{
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.post(`blog/comment/${id}`,{comment})
-        toast(res.data.msg, {type: 'success'})
+       // toast(res.data.msg, {type: 'success'})
        // dispatch(loadUserData())
        dispatch({type: ADD_COMMENT, payload: res.data })
        

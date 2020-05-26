@@ -2,7 +2,7 @@ import React,{useState,useRef} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import Avatar from 'react-avatar'
 import styled from 'styled-components';
-import {NavLink} from 'react-router-dom';
+import {NavLink,Link} from 'react-router-dom';
 import {useOnClickOutside} from './handleOutsideClick'
 import {Burger} from './Burger'
 import {logout} from '../../redux/actions/auth'  
@@ -129,7 +129,7 @@ export const Headr = ({history}) => {
        <Burger open={open} setOpen={setOpen}/>
 {!auth.loading && auth.authenticated && auth.userData && <Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/>}
 
-       <img src={Logo} alt="logo"/>
+      <Link to='/'> <img src={Logo} alt="logo"/></Link>
        </MobileHead>
         <StyledHeadr ref ={node} open = {open}>
     {auth.authenticated ? authLinks.map((link,index)=><NavLink  key={index} to={link.to}>

@@ -13,13 +13,14 @@ import {Authors }from './pages/Authors';
 import {Editor} from './pages/Editor';
 
 //custom routes
-import {AuthRoute,PrivateRoute} from './utils/myRoutes'
+import {AuthRoute,PrivateRoute, CanEditRoute} from './utils/myRoutes'
 import {Layout} from './Layout/Layout'
 
 import './App.css';
 import { SinglePost } from './pages/SinglePost';
 import { Author } from './pages/Author';
 import { loadUserData } from './redux/actions/auth';
+import { FourOFour } from './pages/404';
 
 
 function App() {
@@ -29,20 +30,20 @@ function App() {
   useEffect(() => {
     dispatch(loadUserData())
   
-  }, [])
+  }, [dispatch])
   return ( <Router history={history}>
   
   {!loading && ( <Layout>
      <Switch>
         <Route exact path='/' component={Home}/>
-        <AuthRoute exact path='/login' component={Login}/>
+          <AuthRoute exact path='/login' component={Login}/>
           <AuthRoute exact path='/register' component={Register}/>
           <PrivateRoute exact path='/editor' component={Editor}/>
-          <PrivateRoute exact path='/edit/:id' component={Editor}/>
+          <CanEditRoute exact path='/edit/:id' component={Editor}/>
           <Route exact path='/authors' component={Authors}/>
           <Route exact path ='/authors/:id' component ={Author}/>
           <Route exact path ='/post/:id' component = {SinglePost}/>
-          <Route path='*'><div>you are lost</div></Route>
+          <Route component={FourOFour}/>
        
         </Switch>
    

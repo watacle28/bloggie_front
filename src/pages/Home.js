@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {Suspense, lazy} from 'react';
 import styled from 'styled-components';
 //import bg from '../components/bg.jpg'
 import {Hero} from '../components/Hero'
-import { CardsContainer } from '../components/CardsContainer';
+//import { CardsContainer } from '../components/CardsContainer';
+const CardsContainer = lazy(()=> import('../components/CardsContainer'))
 const Hom = styled.div`
 position: absolute;
 background-color: tomato;
@@ -17,7 +18,10 @@ export const Home = () => {
     return (
       <Hom>
        <Hero/>
-       <CardsContainer/>
+       <Suspense fallback = {<div>loading...</div>}>
+          <CardsContainer/>
+       </Suspense>
+      
       </Hom>
     )
 }

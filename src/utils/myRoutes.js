@@ -11,6 +11,17 @@ export const AuthRoute = ({component: Component, ...rest}) => {
     )
 }
 
+export const CanEditRoute = ({component: Component, ...rest}) => {
+    const isLoggedIn = useSelector((state)=>(state.auth.authenticated))
+    const currentUserPosts = useSelector(state => state.auth.userData ? state.auth.userData.posts : [])
+    const CurrentUserPostsIds = currentUserPosts.map(post => post._id)
+
+    return (
+        <Route {...rest} 
+        render={props => (isLoggedIn && CurrentUserPostsIds.includes(props.match.params.id) ) ? <Component {...props}/> : <Redirect to={`/post/${props.match.params.id}`}/>  }
+        />
+    )
+}
 
 export const PrivateRoute = ({component: Component, ...rest}) => {
     const isLoggedIn = useSelector((state)=>(state.auth.authenticated))
