@@ -1,4 +1,4 @@
-import {ADD_COMMENT, LOADING, GET_COMMENTS, EDIT_COMMENT, REMOVE_COMMENT} from '../types'
+import {ADD_COMMENT, LOADING, GET_COMMENTS, EDIT_COMMENT, REMOVE_COMMENT, LIKE_COMMENT, UNLIKE_COMMENT} from '../types'
 
 
 
@@ -19,7 +19,7 @@ export const commentsReducer = (state=initialState, {type,payload}) =>{
             }
         case GET_COMMENTS:
             return{
-                ...state, loading: false, post:{...state.post, comments: payload}
+                ...state, loading: false, post:{...state.post, comments: [...payload]}
             }    
         case ADD_COMMENT:
             return {
@@ -37,6 +37,16 @@ export const commentsReducer = (state=initialState, {type,payload}) =>{
             return {
                 ...state, errors: null, loading: false, post: {comments: [...state.post.comments.filter(comment => comment._id != payload)]}
             }
+        case LIKE_COMMENT:
+            return{
+                ...state, errors: null, loading: false, post: {comments:
+                    [...state.post.comments.map(comment => comment._id == payload.commentId ? {...comment, likes: payload.likes}: comment) ]}
+            }
+         case UNLIKE_COMMENT: 
+         return{
+            ...state, errors: null, loading: false, post: {comments:
+                [...state.post.comments.map(comment => comment._id == payload.commentId ? {...comment, likes:[...comment.likes.filter(like => like != payload.userId)]}: comment) ]}
+        }
         default:
             return state;
     }

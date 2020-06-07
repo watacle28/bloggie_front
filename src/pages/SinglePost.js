@@ -5,15 +5,18 @@ import {useSelector,useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import bg from '../components/bg.jpg';
-import { getSinglePost, addComment, likePost, unlikePost, editComment, removeComment } from '../redux/actions/posts';
+import { getSinglePost, addComment, likePost, unlikePost, editComment, removeComment, likeComment } from '../redux/actions/posts';
 import { Md } from './md';
 import { StyledAuthors } from './Authors';
 import { Button } from 'react-bootstrap';
 import { smartRedirect } from '../redux/actions/ui';
 import { Comment } from '../components/comment';
+import {Spinner} from '../components/Loader'
 import { FaHeart } from 'react-icons/fa';
 import { LOADING } from '../redux/types';
 import { NotFound } from './NotFound';
+import { toast } from 'react-toastify';
+import { CustomButton } from '../components/CustomButtom';
 
 const StyledPost = styled.div`
     width: 80%;
@@ -27,6 +30,7 @@ const StyledPost = styled.div`
     background-color: #161e20;
     border-radius: 10px;
     overflow-x: hidden;
+
     a{
         color: white
     }
@@ -69,12 +73,8 @@ const StyledPost = styled.div`
          overflow: auto;
          
      }
-     button{
-         background-color: transparent;
-         border-color: white;
-         color: tomato;
-
-     }
+    
+     
      .coa{
          text-align: center;
      }
@@ -83,9 +83,7 @@ const StyledPost = styled.div`
          flex-direction: column;
          align-items: center;
          margin-bottom: 4rem;
-         button{
-             padding: 3px 8px;
-         }
+        
      }
     .icon{
         margin-left: 2px
@@ -97,15 +95,16 @@ const StyledPost = styled.div`
         display: flex;
         align-items: center
     }
+
 `
 
-const Loader = styled.div`
+export const Loader = styled.div`
     width: 2rem;
     height: 2rem;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%)
+    transform: translate(-50%,-50%);
 `
 export const SinglePost = (props) => {
    const id = props.match.params.id
@@ -119,25 +118,12 @@ export const SinglePost = (props) => {
     const handleComment = (e)=> setComment({...comment,html: e.html, text: e.text})
    const [isEditing, setIsEditing] = useState({status : false, id: null}) 
  /*check if user has already liked post  */
-    let hasLiked = post && currentUser && post.likes.filter(like => like === currentUser._id);
-    
-     /* console.log({count, hasLiked})
-   const handleLikePost = ()=>{
-        hasLiked && setCount(1) 
-        console.log({count,hasLiked})
-        if(hasLiked && count == 0){
-             dispatch(likePost(id, currentUser._id))
-                setCount(1)
-            }
-      
-        else if(hasLiked.length > 0 && count == 1) {
-           
-            dispatch(unlikePost(id,currentUser._id))
-            setCount(0)
-            }
-
-   } */
+    let hasLikedPost = post && currentUser && post.likes.filter(like => like === currentUser._id);
+   
+   
   const handleLikePost = ()=>{
+    if(!isLoggedIn) return toast('please log in or register first',{type: 'error'})
+
       if(count == 0){
         dispatch( likePost(id, currentUser._id))
         setCount(1)
@@ -146,12 +132,10 @@ export const SinglePost = (props) => {
    return;
   }
   const handleUnLikePost = ()=>{
-      
+      if(!isLoggedIn) return toast('please log in or register first',{type: 'error'})
         dispatch(unlikePost(id, currentUser._id))
        setCount(0)
-    
-      
-      
+  
   }
     const sendComment = (e) => {
         e.preventDefault();
@@ -173,7 +157,16 @@ export const SinglePost = (props) => {
     }
 
     const handleDeleteComment = (id) =>{
+        
         dispatch(removeComment(id))
+        setComment({...comment, html: '',text: 'add comment'})
+        setIsEditing({...isEditing, status: false, id: null})
+    }
+    const handleLikingComment = (id) =>{
+        if(isLoggedIn){
+            return  dispatch(likeComment(id,currentUser._id)) 
+        }
+        toast('please log in or register to like comment',{type: 'error'})
     }
 
     const dispatch = useDispatch()
@@ -188,8 +181,8 @@ export const SinglePost = (props) => {
    }
     return (
        <>
-    ;
-       {loadingPosts  ? <Loader className ='loading'>loading...</Loader> : post ?
+    
+       {loadingPosts   ? <Spinner className ='loading'/> : post ?
         (<StyledPost>
        <img src={post.blogImage} alt="post image"/>
         <div className="post_content">
@@ -197,9 +190,10 @@ export const SinglePost = (props) => {
         <div className="meta">
             <small>{post.tags}</small>
          <small>{new Date(post.createdAt).toLocaleDateString()}</small>
-         <small>{post.likes.length}
-         {hasLiked && hasLiked.length > 0 ? <Link  onClick={handleUnLikePost} ><FaHeart className = 'liked icon'/> </Link> :
+         <small>
+         {hasLikedPost && hasLikedPost.length > 0 ? <Link  onClick={handleUnLikePost} ><FaHeart className = 'liked icon'/> </Link> :
          <Link  onClick={handleLikePost} ><FaHeart className = 'icon'/> </Link>}
+         <sup>{post.likes.length}</sup>
          </small>
         </div>
         <div className="post_body">
@@ -211,20 +205,21 @@ export const SinglePost = (props) => {
         <div className="comments">
         <h4>Comments:</h4>
             {postOne.loading ? <Loader className ='loading'>loading...</Loader> : postOne.post.comments.map((comment)=>(
-                <Comment comment={comment} hasLiked={hasLiked} handleDeleteComment={()=>handleDeleteComment(comment._id)} clickToEdit={()=> handleStartEditComment(comment)} key={comment._id}/>
+                <Comment comment={comment} hasLikedPost={hasLikedPost} handleLikingComment={()=>handleLikingComment(comment._id)} clickToEdit={()=> handleStartEditComment(comment)} key={comment._id}
+                handleDeleteComment = {()=>handleDeleteComment(comment._id)}/>
             ))}
         </div>
 
          {  isLoggedIn ?  <div className="commenting">
          <Md name='comment' value={comment.text} onChange={handleComment}/>
-                {isEditing.status ?  <button onClick={handleEditComment}>Save</button> :
-                <button onClick={sendComment}>Add Comment</button>}
+                {isEditing.status ?  <button disabled={comment.text === '' ? true : false} onClick={handleEditComment}>Save</button> :
+                <CustomButton secondary disabled={comment.html === '' ? true : false} onClick={sendComment}>Add Comment</CustomButton>}
          </div>: 
 
 
         <div className='coa'>
-        <Link to='/login'><Button onClick={handleRedirect}>Log In </Button></Link> / {' '}
-         <Link to='/register'><Button onClick={handleRedirect}>Register </Button></Link> <br/>
+        <Link to='/login'><CustomButton secondary onClick={handleRedirect}>Log In </CustomButton></Link> <br/> or <br/> {' '}
+         <Link to='/register'><CustomButton secondary onClick={handleRedirect}>Register </CustomButton></Link> <br/>
            {' '} to comment
         </div>
          }

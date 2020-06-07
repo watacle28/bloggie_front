@@ -44,12 +44,15 @@ const StyledComment = styled.div`
     }
 `
 
-export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handleDeleteComment}) => {
+export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handleDeleteComment, handleLikingComment}) => {
     const currentUser = useSelector(state => state.auth.userData ? state.auth.userData._id : null);
+    
 
     dayjs.extend(relativeTime)
     return (
+     
         <StyledComment>
+            
         <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
            
             <div className="comment_data">
@@ -60,11 +63,14 @@ export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handl
     <Link to='#' onClick={handleDeleteComment}><FaTrash/></Link>
        </div> : ''}
    
-    <li>{likes.length} {'  '} <FaHeart /></li>
+    <Link  to='#' onClick={handleLikingComment}>{'  '} <FaHeart /><sup>{likes.length} </sup></Link>
                 </ul>
                 <div className="comment_body" dangerouslySetInnerHTML={{__html: body}}/>
                 <div className="line"></div>
             </div>
+        
         </StyledComment>
+        
+        
     )
 }

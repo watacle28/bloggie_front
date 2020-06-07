@@ -1,4 +1,4 @@
-import React,{useState,useRef} from 'react';
+import React,{useState,useRef,useLayoutEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import Avatar from 'react-avatar'
 import styled from 'styled-components';
@@ -84,7 +84,7 @@ button{
     }
     @media screen and (min-width: 577px) {
         font-size: 1rem;
-      letter-spacing: 2px;
+       letter-spacing: 2px;
     }
   }
 
@@ -94,11 +94,14 @@ const MobileHead = styled.div`
    position: fixed;
    align-items: center;
    z-index:9999;
-   width: 80%;
-   margin: auto 2rem;
-   justify-content: space-between;
-   top: 5%;
-   height: 40px;
+   width: 100%;
+   margin: auto;
+   padding: 2rem auto;
+   justify-content: space-around;
+   transition: all .6s ease-in-out;
+   background: ${props => props.scrolled ? '#222222' : null};
+   top: 0;
+   height: 60px;
    img{
      width: 40px;
      border-radius: 50%
@@ -106,7 +109,11 @@ const MobileHead = styled.div`
  
 `
 
+
+
+
 export const Headr = ({history}) => {
+   const [scrollStatus, setScrollStatus] = useState(false)
     const auth = useSelector(state=> state.auth)
     const dispatch = useDispatch()
     const [open , setOpen] = useState(false);
@@ -123,9 +130,23 @@ export const Headr = ({history}) => {
         return
       }
     }
+    useLayoutEffect(() => {
+      const onscroll = () =>{
+        if(window.scrollY > 0){
+            setScrollStatus(true)
+        } 
+       else setScrollStatus(false)
+      }
+      
+      
+      window.addEventListener('scroll', onscroll)
+      return () => {
+        window.removeEventListener('scroll', onscroll)
+      };
+    }, [])
     return (
         <div >
-       <MobileHead>
+       <MobileHead scrolled ={scrollStatus}>
        <Burger open={open} setOpen={setOpen}/>
 {!auth.loading && auth.authenticated && auth.userData && <Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/>}
 

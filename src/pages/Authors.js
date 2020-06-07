@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import styled from 'styled-components';
 import pic from '../components/clo.jpg';
 import { getAllBloggers } from '../redux/actions/user';
+import { FaArrowCircleRight } from 'react-icons/fa';
 
 
 const Container = styled.div`
@@ -15,6 +16,8 @@ const StyledHeading = styled.h4`
     justify-content: center;
     margin-top: 2rem;
     text-transform:uppercase;
+    color: white;
+    font-weight: 900;
     ::before{
         content:'';
         color: white;
@@ -95,24 +98,25 @@ export const Authors = ({match}) => {
 
     return (
         <Container>
+            
         <StyledHeading>Authors</StyledHeading>
        {!loadingBloggers && authors.map(author => ( 
             
            <Link to={`/authors/${author._id}`}>
-               <StyledAuthors>
+               <StyledAuthors data-aos ='flip-right'>
           <img src={pic} alt=""/>
             <h5>{author.username}</h5>
             <small>Web developer</small>
             <div className="posts">
                 <h6>Posts</h6>
-                <h6>:</h6>
+                <h6><FaArrowCircleRight/></h6>
        <h6 className="num">{author.posts.length}</h6>
             </div> 
             </StyledAuthors>
         </Link>
 
 
-       ))}
+       ))} 
         </Container>
     )
 }

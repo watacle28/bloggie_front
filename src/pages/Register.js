@@ -5,6 +5,7 @@ import {toast} from 'react-toastify'
 import {StyledForm} from './Login';
 import { register } from '../redux/actions/auth';
 import { Link } from 'react-router-dom';
+import { CustomButton } from '../components/CustomButtom';
 
 
 export const Register = ({history}) => {
@@ -45,7 +46,7 @@ const dispatch = useDispatch();
         <input type="password" id='password' name='password' onChange={handleChange}/>
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input type="password" id='confirmPassword' name='cpassword' onChange={handleChange}/>
-        <button type='submit'>Register</button>
+        <CustomButton type='submit'>Register</CustomButton>
         <small>Already have an account? <Link to='/login'>Sign In</Link></small>
 
     </StyledForm>

@@ -3,6 +3,7 @@ import {useDispatch,useSelector} from 'react-redux'
 import styled from 'styled-components';
 import { login } from '../redux/actions/auth';
 import { Link } from 'react-router-dom';
+import { CustomButton } from '../components/CustomButtom';
 
 export const StyledForm = styled.form`
   width: 80vw;
@@ -22,7 +23,7 @@ export const StyledForm = styled.form`
       text-transform: uppercase;
       font-weight: 400;
   }
-  label,button{
+  label{
       display: block;
       margin: 0;
       font-size: .8rem;
@@ -44,26 +45,10 @@ export const StyledForm = styled.form`
       }
   }
   button{
-      background: transparent;
-      text-transform: uppercase;
-      margin: 1rem 0;
-      padding: 3px 6px;
-      border: none;
-      font-weight: 400;
-      border: 1px solid black;
-      transition: all .5s ease-in-out;
+     
       @media screen and (min-width: 576px){
           width:20%;
       };
-      :focus{
-          outline: none;
-          
-      };
-      :hover{
-          color: white;
-          border-color: white;
-          transform: scale(1.1);
-      }
 
     }
   a{
@@ -97,11 +82,11 @@ export const Login = (props) => {
             <StyledForm onSubmit={handleSubmit} noValidate >
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label>
-                <input type="email" id='email' name='email' onChange={handleChange}/>
+                <input autoFocus type="email" id='email' name='email' onChange={handleChange}/>
                 <label htmlFor="password">Password</label>
-                <input type="password" id='password' name='password' onChange={handleChange}/>
-                <button type='submit'>Log In</button>
-    <small>New here?<Link to='/register'>Create an account</Link></small>
+                <input  type="password" id='password' name='password' onChange={handleChange}/>
+                <CustomButton type='submit'>Log In</CustomButton>
+                <small>New here? <span style={{marginLeft:'5px'}}><Link to='/register'>Create an account</Link></span></small>
             </StyledForm>
     
     )

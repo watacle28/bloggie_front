@@ -5,6 +5,7 @@ import {ImageUpload} from '../components/ImageUpload';
 import { Md } from './md';
 import axios from 'axios';
 import { createPost, getSinglePost, editPost } from '../redux/actions/posts';
+import { CustomButton } from '../components/CustomButtom';
 
 const StyledEditor = styled.form`
   width: 80vw;
@@ -51,14 +52,7 @@ const StyledContainer = styled.div`
  scroll-behavior: smooth;
  padding: 2rem 0;
 `
-const UploadBtn = styled.button`
- background-color: transparent;
- border: 1px solid black;
- padding: 5px 12px;
- text-transform: uppercase;
- color: white;
- margin: 1rem 0;
-`
+
 export const Editor = (props) => {
   const postData = useSelector(state=> state.posts.currentPost)
 
@@ -87,7 +81,7 @@ export const Editor = (props) => {
     }
     //post id
       const id = props.match.params.id
-     console.log({id});
+
       //func to reset fields after submit
 
       const handleReset = ()=>{
@@ -100,7 +94,7 @@ export const Editor = (props) => {
 
     const handlePublish = async (e) => {
         e.preventDefault()
-      
+       
       const formdata = new FormData();
       formdata.append('blogImage',image.raw)
       formdata.append('body', markdown.html)
@@ -109,10 +103,13 @@ export const Editor = (props) => {
      
       if(id){
         dispatch(editPost(formdata,id,props.history))
+        
           handleReset()
-      }
+      } 
+      
       dispatch(createPost(formdata,props.history))
-        handleReset()
+      handleReset()
+    
       } 
       
       useEffect(() => {    
@@ -135,19 +132,24 @@ export const Editor = (props) => {
     return (
        
        <StyledContainer>
-        <StyledEditor >
+        <StyledEditor  onSubmit={handlePublish}>
 
-<h4 className='hdr'>Add a post</h4>
-<label htmlFor="title">Title</label>
-{!loading && <input type="text" value={data.title} onChange = {handleDataChange} id="title" name="title"/>}
-<label htmlFor="tags">Tags</label>
-<input type="text" value ={data.tags} id="tags" onChange = {handleDataChange}  name="tags"/>
-<label htmlFor="body">Post</label>
-<Md name = "markdown" value={postData ? postData.body : markdown.text} onChange = {handleMD} />
-{/* <textarea name="body" id="body" cols="30" rows="auto"></textarea> */}
-<ImageUpload image={image} handleChange={handleImage} />
-<UploadBtn type='submit'onClick={handlePublish} >Publish</UploadBtn>
-</StyledEditor>
+          <h4 className='hdr'>Add a post</h4>
+          <label htmlFor="title">Title</label>
+          {!loading && <input type="text" autoFocus value={data.title} onChange = {handleDataChange} id="title" name="title"/>}
+          <label htmlFor="tags">Tags</label>
+          <input type="text" value ={data.tags} id="tags"  onChange = {handleDataChange}  name="tags"/>
+          <label htmlFor="body">Post</label>
+          <Md name = "markdown" value={postData ? postData.body : markdown.text}  onChange = {handleMD} />
+          {/* <textarea name="body" id="body" cols="30" rows="auto"></textarea> */}
+          <ImageUpload image={image} handleChange={handleImage} />
+          <CustomButton disabled ={data.title === '' || data.tags === '' || markdown.html === '' ||
+            image.preview === '' ? true : false} 
+          type='submit' >Publish</CustomButton>
+          </StyledEditor>
+
+
+          
 
        </StyledContainer>
      

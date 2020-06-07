@@ -2,6 +2,8 @@ import React ,{useEffect}from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import {BrowserRouter as Router,Switch,Route,Redirect} from 'react-router-dom';
 import {createBrowserHistory} from 'history'
+import Aos from 'aos';
+import 'aos/dist/aos.css'
 //toast notifications provider
 
 //component import
@@ -28,6 +30,7 @@ function App() {
   const history = createBrowserHistory()
   const loading = useSelector(state =>state.auth.loading)
   useEffect(() => {
+    Aos.init()
     dispatch(loadUserData())
   
   }, [dispatch])
