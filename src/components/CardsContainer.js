@@ -46,7 +46,7 @@ const CardsContainer = () => {
 
     return (
         <Container >
-            {!loadingPosts && allposts.map((post,i) => (<Link to={`/post/${post._id}`} key={post._id}><Card  post={post} /></Link>))}
+            {!loadingPosts && allposts.map((post,i) => (<Card key={post._id} post={post} />))}
         </Container>
     )
 }

@@ -21,7 +21,7 @@ width: 100%;
     padding: .5rem;
 }
 .rc-md-editor .editor-container .sec-md .input{
-      background-color: #ff4c3b;
+      background-color: #161a23;
     
 }
 .rc-md-editor .editor-container .sec-md .input{

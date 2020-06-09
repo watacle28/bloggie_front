@@ -33,3 +33,15 @@ export const PrivateRoute = ({component: Component, ...rest}) => {
 }
 
 
+export const ProfileRoute = ({component: Component, ...rest}) => {
+    const loggedInUser = useSelector((state)=>(state.auth.userData && state.auth.userData._id))
+    console.log({loggedInUser});
+
+    //check if current logged in user owns the profile they wanna edit
+
+    return (
+        <Route {...rest} 
+        render={props => (loggedInUser == props.match.params.id ) ? <Component {...props}/> : <Redirect to='/'/>  }
+        />
+    )
+}

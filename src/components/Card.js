@@ -11,15 +11,12 @@ import {} from 'react-icons';
 import Ava from 'react-avatar';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { getSinglePost, deletePost } from '../redux/actions/posts';
-
-import Aos from 'aos';
-import 'aos/dist/aos.css'
+import { CustomButton } from './CustomButtom';
 
 const StyledCard = styled(motion.div)`
 width: 100%;
 overflow: hidden;
 border-radius: 10px;
-padding:-bottom 1rem;
 font-size: 80%;
 transition: all 1s ease-in-out;
 color: white;
@@ -27,9 +24,13 @@ box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px
 :last-child{
   margin-bottom: 1rem;
 }
+a{
+  color: tomato;
+  text-decoration: none;
+}
 img{
 width: 100%;
-height: 50%;
+
 box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
 }
 
@@ -89,8 +90,6 @@ const grandChildren = {
 }
 
 export const Card = (props)=>{
- 
-  const [animate, setAnimate] = useState(true)
   const dispatch = useDispatch()
   const history = useHistory()
   const userId = useSelector(state => state.auth.userData ? state.auth.userData._id : '')
@@ -108,7 +107,7 @@ export const Card = (props)=>{
          animate = 'open'
          
          >
-      <motion.img variants={childrenVariants} src={props.post.blogImage} alt=""/>
+     <Link to={`/post/${props.post._id}`}> <motion.img variants={childrenVariants} src={props.post.blogImage} alt=""/></Link>
       <CardContent  variants={childrenVariants}>
      
     <motion.div variants={grandChildren} className='post_meta'>
@@ -121,7 +120,7 @@ export const Card = (props)=>{
       </div>
      </>: null}
       </motion.div>
-      <Heading variants={grandChildren}>{props.post.title}</Heading>
+      <Heading variants={grandChildren}><Link to={`/post/${props.post._id}`}>{props.post.title}</Link></Heading>
         
         <CardFooter variants={grandChildren}>
             <Ava name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
@@ -132,7 +131,9 @@ export const Card = (props)=>{
 
             
         </CardFooter>
-      </CardContent>    
+      
+      </CardContent>  
+      <Link to={`/post/${props.post._id}`}><CustomButton variants={childrenVariants} secondary>Read more</CustomButton></Link>  
         </StyledCard>
       
     )

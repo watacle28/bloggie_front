@@ -1,10 +1,29 @@
 import React,{useEffect,useState} from 'react';
 import styled from 'styled-components';
-import { CustomButton } from './CustomButtom';
+import { FaCamera } from 'react-icons/fa';
+import { motion } from 'framer-motion';
 
-const Placeholder = styled.div`
-width: 100%;
- 
+const Container = styled(motion.div)`
+      border-radius: 50%;
+      width: 8rem;
+      height: 8rem;
+      border: 1px solid #161a23;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      label{
+        position: absolute;
+        cursor: pointer;
+        svg{
+          width: 3rem;
+          height: 3rem;
+        }
+      }
+  img{
+    width: 100%;
+    height: 100%
+  }
 `
 
 export const ImageUpload =({image,handleChange})=> {
@@ -13,21 +32,14 @@ export const ImageUpload =({image,handleChange})=> {
 
 
   return (
-    <div align="center">
+    <Container align="center">
+      <div> {image.preview && <img style={{opacity:'0.5'}} src={ image.preview }  alt='preview'/>}</div>
       <label htmlFor="upload-button">
-        {
-          image.preview ? <img src={ image.preview } width="300" height="300" alt='preview'/> : (
-            <>
-             <CustomButton secondary>
-                 Add Image
-            </CustomButton>
-            </>
-          )
-        }
+         <FaCamera/>
       </label>
-      <input type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange}/>
-      <br />
+      <input autoFocus type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange}/>
+      
 
-    </div>
+    </Container>
   )
 }

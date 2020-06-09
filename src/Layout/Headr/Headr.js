@@ -148,7 +148,7 @@ export const Headr = ({history}) => {
         <div >
        <MobileHead scrolled ={scrollStatus}>
        <Burger open={open} setOpen={setOpen}/>
-{!auth.loading && auth.authenticated && auth.userData && <Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/>}
+{!auth.loading && auth.authenticated && auth.userData && <Link to={`/authors/${auth.userData._id}`}><Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/></Link>}
 
       <Link to='/'> <img src={Logo} alt="logo"/></Link>
        </MobileHead>

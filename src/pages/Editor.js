@@ -27,7 +27,7 @@ transform: translate(-50%,-50%); */
    }
 
 input,textarea{ 
-      background-color: #ff4c3b;
+      background-color: #161a23;
       border: 1px solid black;
       margin-bottom: 1rem;
       border-radius: 10px;
@@ -94,7 +94,7 @@ export const Editor = (props) => {
 
     const handlePublish = async (e) => {
         e.preventDefault()
-       
+      
       const formdata = new FormData();
       formdata.append('blogImage',image.raw)
       formdata.append('body', markdown.html)
@@ -105,6 +105,7 @@ export const Editor = (props) => {
         dispatch(editPost(formdata,id,props.history))
         
           handleReset()
+          return;
       } 
       
       dispatch(createPost(formdata,props.history))

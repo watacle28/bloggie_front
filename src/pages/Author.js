@@ -81,7 +81,7 @@ export const Author = (props) => {
                 <FaLinkedin/>
             </Socio>
             {currentBlogger._id == loggedInBlogger ?
-             <Link to ='#'><CustomButton ><FaPencilAlt/> {'  '}<span>Edit Profile</span></CustomButton></Link> : null}
+             <Link to ={`/profile/${loggedInBlogger}`}><CustomButton ><FaPencilAlt/> {'  '}<span>Edit Profile</span></CustomButton></Link> : null}
             <div className="posts">
                 <h6>Posts</h6>
                 <h6><FaArrowCircleRight/></h6>

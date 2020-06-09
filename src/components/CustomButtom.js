@@ -1,13 +1,17 @@
 import styled from 'styled-components';
 import {motion} from 'framer-motion';
 
-export const CustomButton = styled.button`
+export const CustomButton = styled(motion.button)`
     padding: .25rem 1rem;
     background: ${props => props.secondary ? 'white' : 'transparent'};
     color: ${props => props.secondary ? '#161e20' : 'white'};
     border: 1px solid white;
     border-radius: 200px;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
     font-weight: 700;
     margin: 1rem;
     outline: none;
