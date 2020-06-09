@@ -16,6 +16,9 @@ const StyledEditor = styled.form`
  align-items: center;
  justify-content: center;
  margin: 4rem auto;
+ label{
+   color: white
+ }
 /* position: absolute;
 top: 50%;
 left: 50%;
@@ -24,6 +27,9 @@ transform: translate(-50%,-50%); */
 .hdr{
     text-transform: uppercase;
     color: white;
+    font-weight: 900;
+    margin-bottom: 2rem;
+
    }
 
 input,textarea{ 
@@ -33,7 +39,7 @@ input,textarea{
       border-radius: 10px;
       border: none;
       padding: 5px 12px;
-     
+      color: white;
       transition: all .5s ease-in-out;
 
       @media screen and (min-width: 576px){
@@ -135,12 +141,12 @@ export const Editor = (props) => {
        <StyledContainer>
         <StyledEditor  onSubmit={handlePublish}>
 
-          <h4 className='hdr'>Add a post</h4>
+          <h2 className='hdr'>Add a post</h2>
           <label htmlFor="title">Title</label>
           {!loading && <input type="text" autoFocus value={data.title} onChange = {handleDataChange} id="title" name="title"/>}
           <label htmlFor="tags">Tags</label>
           <input type="text" value ={data.tags} id="tags"  onChange = {handleDataChange}  name="tags"/>
-          <label htmlFor="body">Post</label>
+          {/* <label htmlFor="body">Post</label> */}
           <Md name = "markdown" value={postData ? postData.body : markdown.text}  onChange = {handleMD} />
           {/* <textarea name="body" id="body" cols="30" rows="auto"></textarea> */}
           <ImageUpload image={image} handleChange={handleImage} />

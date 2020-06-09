@@ -5,6 +5,8 @@ import axios from 'axios';
 import { ImageUpload } from '../components/ImageUpload';
 import { CustomButton } from '../components/CustomButtom';
 import { useEffect } from 'react';
+import { Location } from '../components/Location';
+
 
     const ProfileContainer = styled(motion.div)`
         width: 100vw;
@@ -15,8 +17,13 @@ import { useEffect } from 'react';
         justify-content:center;
         align-items: center;
         h2 {
+            color: white;
             font-weight: 900;
             text-transform: uppercase;
+        }
+        h3{
+            
+            font-weight: 700;
         }
 
     `
@@ -51,7 +58,7 @@ import { useEffect } from 'react';
             border-radius: 200px;
             border: none;
             padding: .5rem 1rem;
-           
+            appearance: none;
             color: white;
         }
         textarea{
@@ -63,14 +70,16 @@ import { useEffect } from 'react';
     export const EditProfile = () => {
         const [image,setImage] = useState({preview:'',raw:''})
         const [data,setData] = useState({first_name : '', surname:'', email:'', role:'',location:''})
+        const [country, setCountry] = useState('')
+        const [links,setLinks] = useState({fb:'', tw:'',insta:'',in:'',other:''})
 
-
+        //handle changes to user info
         const handleChange = (e)=>{
            setData({...data, [e.target.name]: e.target.value})
         }
-
+        //handle user selecting a profile image
         const handleUpload = (e) =>{
-            console.log(e.target);
+            
             setImage({
                 ...image,
                 preview: URL.createObjectURL(e.target.files[0]),
@@ -78,13 +87,23 @@ import { useEffect } from 'react';
             })
             
         }
+        //handle user selecting loaction NB will use an api to detect user location initially
 
+        const handleLoc = (e) =>{
+            setCountry(e.target.value)
+            }
+        //handle user's links
+        const handleLinks = (e)=>{
+            setLinks({...links, [e.target.name]: e.target.value})
+        }
+        //save user updated profile
         const handleSubmit = (e) =>{
             e.preventDefault();
-            console.log({data,image});
+            console.log({data,image,country,links});
         }
         useEffect
         (() => {
+            setCountry('Zimbabwe')
     //    const getLoc = async ()=>{
     //         const location = await axios.get('https://ipapi.co/json/')
     //         console.log({location});
@@ -119,15 +138,32 @@ import { useEffect } from 'react';
                    <label htmlFor="role">Job Title</label>
                     <input  type="text" id='role' name='role' onChange={handleChange}/>
                    </CustomInput>
-                    <CustomInput>
-                    <label htmlFor="location">Location</label>
-                    <input  type="type" id='location' name='location' onChange={handleChange}/>
-                    </CustomInput>
+                   
+                    <Location value={country} handleLoc={handleLoc}/>
                     <CustomInput>
                     <label htmlFor="email">Bio</label>
-                    <textarea rows='5' cols='20' id='bio' name='bio' onChange={handleChange}/>
-                    </CustomInput>
+                    <textarea placeholder='Say something about yourself...' rows='5' cols='20' id='bio' name='bio' onChange={handleChange}/>
+                    </CustomInput> 
+                    <h3>Contacts</h3>
+                    <CustomInput>
+                   <label htmlFor="fb">Facebook</label>
+                    <input  type="text" id='fb' name='fb' onChange={handleLinks}/>
+                   </CustomInput>
+                   <CustomInput>
+                   <label htmlFor="tw">Twitter</label>
+                    <input  type="text" id='tw' name='tw' onChange={handleLinks}/>
+                   </CustomInput>
+                   <CustomInput>
+                   <label htmlFor="insta">Instagram</label>
+                    <input  type="text" id='insta' name='insta' onChange={handleLinks}/>
+                   </CustomInput>
+                   <CustomInput>
+                   <label htmlFor="other">Other</label>
+                    <input  type="text" id='other' name='other' onChange={handleLinks}/>
+                   </CustomInput>
+                   
                     <CustomButton type='submit'>Save Changes</CustomButton>
+                   
                     </ProfileForm>
             </ProfileContainer>
         )
