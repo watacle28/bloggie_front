@@ -72,7 +72,8 @@ export const Author = (props) => {
       {currentBlogger &&   <StyledAuthors>
               <img src={currentBlogger.avatar? currentBlogger.avatar : pic} alt=""/>
                 <h5>{currentBlogger.fullname ? currentBlogger.fullname : currentBlogger.username}</h5>
-            <small>Web developer</small>
+                 <small>{currentBlogger.role}</small>
+                 <small>{currentBlogger.location}</small>
                 <p style={{textAlign: 'center', marginTop:'1rem'}}>{currentBlogger.bio && currentBlogger.bio}</p>
             <Socio className="socio-icons">
                 <FaFacebook/>

@@ -212,7 +212,7 @@ export const SinglePost = (props) => {
 
          {  isLoggedIn ?  <div className="commenting">
          <Md name='comment' value={comment.text} onChange={handleComment}/>
-                {isEditing.status ?  <button disabled={comment.text === '' ? true : false} onClick={handleEditComment}>Save</button> :
+                {isEditing.status ?  <CustomButton secondary disabled={comment.text === '' ? true : false} onClick={handleEditComment}>Save</CustomButton> :
                 <CustomButton secondary disabled={comment.html === '' ? true : false} onClick={sendComment}>Add Comment</CustomButton>}
          </div>: 
 

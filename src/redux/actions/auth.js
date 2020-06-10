@@ -1,4 +1,4 @@
-import {REGISTER_FAILURE,REGISTER_SUCCESS,LOGIN_SUCCESS,LOGOUT,LOADING, LOGIN_FAILURE,SET_ERRORS, USER_LOADED,ISAUTH} from '../types';
+import {REGISTER_FAILURE,REGISTER_SUCCESS,LOGIN_SUCCESS,LOGOUT,LOADING, LOGIN_FAILURE,SET_ERRORS, USER_LOADED,ISAUTH, PROFILE_UPDATE_SUCCESS, PROFILE_UPDATE_FAILURE} from '../types';
 import axios from 'axios';
 import {toast} from 'react-toastify'
 import {setAuthToken} from '../../utils/setAtuthToken'
@@ -98,4 +98,25 @@ export const  loadUserData = () => async dispatch =>{
         localStorage.removeItem('token')
        
 
+    }
+
+    export const updateProfile = (data,history,id) => async dispatch =>{
+        const token = localStorage.getItem('token')
+        console.log({data})
+        try {
+            setAuthToken(token)
+            const userData = await axios.put('/user/me', data)
+            
+            dispatch({
+                type: PROFILE_UPDATE_SUCCESS,
+                payload: userData.data.user
+        })
+          history.push(`/authors/${id}`)
+            
+        } catch (error) {
+            dispatch({
+                type: PROFILE_UPDATE_FAILURE,
+                payload: error.response.data
+            })
+        }
     }

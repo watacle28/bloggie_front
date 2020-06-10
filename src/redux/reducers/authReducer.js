@@ -1,4 +1,4 @@
-import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,LOGOUT,LOADING, LOGIN_FAILURE,SET_ERRORS, ISAUTH, REGISTER_FAILURE, USER_LOADED} from '../types';
+import {REGISTER_FAIL,REGISTER_SUCCESS,LOGIN_SUCCESS,LOGOUT,LOADING, LOGIN_FAILURE,SET_ERRORS, ISAUTH, REGISTER_FAILURE, USER_LOADED, PROFILE_UPDATE_SUCCESS} from '../types';
 
 const initialState = {
     authenticated: false,
@@ -17,6 +17,10 @@ export const authReducer = (state = initialState,{type,payload}) =>{
         case USER_LOADED :
             return {
                 ...state, errors: null, userData: payload, loading:false
+            }
+        case PROFILE_UPDATE_SUCCESS:
+            return {
+                ...state, errors: null, loading: false, userData: payload
             }
        case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:

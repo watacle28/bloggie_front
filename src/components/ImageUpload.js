@@ -37,7 +37,7 @@ export const ImageUpload =({image,handleChange})=> {
       <label htmlFor="upload-button">
          <FaCamera/>
       </label>
-      <input autoFocus type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange}/>
+      <input autoFocus type="file" id="upload-button"  style={{ display: 'none' }} onChange={handleChange}/>
       
 
     </Container>

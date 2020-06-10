@@ -1,11 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import styled from 'styled-components';
 import {motion} from 'framer-motion';
-import axios from 'axios';
+import {useDispatch, useSelector} from 'react-redux'
 import { ImageUpload } from '../components/ImageUpload';
 import { CustomButton } from '../components/CustomButtom';
-import { useEffect } from 'react';
 import { Location } from '../components/Location';
+import { updateProfile } from '../redux/actions/auth';
 
 
     const ProfileContainer = styled(motion.div)`
@@ -67,12 +67,16 @@ import { Location } from '../components/Location';
         `
    
     
-    export const EditProfile = () => {
+    export const EditProfile = ({history}) => {
+        
         const [image,setImage] = useState({preview:'',raw:''})
         const [data,setData] = useState({first_name : '', surname:'', email:'', role:'',location:''})
         const [country, setCountry] = useState('')
-        const [links,setLinks] = useState({fb:'', tw:'',insta:'',in:'',other:''})
+        const [links,setLinks] = useState({fb:'https://www.facebook.com/', tw:'htttps://twitter.com/',insta:'https:instagram.com/',linkedIn:'https://linkedin.com/',other:''})
 
+        //redux
+        const userData = useSelector(state => state.auth.userData)
+        const dispatch = useDispatch()
         //handle changes to user info
         const handleChange = (e)=>{
            setData({...data, [e.target.name]: e.target.value})
@@ -99,16 +103,29 @@ import { Location } from '../components/Location';
         //save user updated profile
         const handleSubmit = (e) =>{
             e.preventDefault();
-            console.log({data,image,country,links});
+            let fullname = `${data.first_name} ${data.surname}`
+             let formData = new FormData()
+             formData.append('avatar',image.raw)
+             formData.append('socialLinks', links)
+             formData.append('fullname', fullname)
+             formData.append('email', data.email)
+             formData.append('role', data.role)
+             formData.append('location', country)
+             formData.append('bio', data.bio)
+             dispatch(updateProfile(formData,history,userData._id))
         }
         useEffect
         (() => {
-            setCountry('Zimbabwe')
-    //    const getLoc = async ()=>{
-    //         const location = await axios.get('https://ipapi.co/json/')
-    //         console.log({location});
-    //     }
-    //     getLoc()
+           
+            if(userData){
+                const {socialLinks,email,avatar,fullname,bio,role,location} = userData
+                setData({...data,email,first_name: fullname.split(' ')[0],
+                 surname: fullname.split(' ')[1], role, bio})
+                 setLinks({...links,...socialLinks})
+                setImage({...image, preview: avatar})
+                 setCountry(location)
+                
+            }
            
         }, [])
         return (
@@ -124,42 +141,46 @@ import { Location } from '../components/Location';
                    <CustomInput >
                    <label htmlFor="first_name">First Name</label>
                     <input 
-                     type="text" id='first_name' name='first_name' onChange={handleChange}/>
+                     type="text" id='first_name' name='first_name' value={data.first_name} onChange={handleChange}/>
                    </CustomInput>
                     <CustomInput>
                     <label htmlFor="surname">Surname</label>
-                    <input  type="text" id='surname' name='surname' onChange={handleChange}/>
+                    <input  type="text" id='surname' name='surname' value ={data.surname} onChange={handleChange}/>
                     </CustomInput>
                    <CustomInput>
                    <label htmlFor="email">Email</label>
-                    <input  type="email" id='email' name='email' onChange={handleChange}/>
+                    <input  type="email" id='email' name='email' value = {data.email} onChange={handleChange}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="role">Job Title</label>
-                    <input  type="text" id='role' name='role' onChange={handleChange}/>
+                    <input  type="text" id='role' name='role' value={data.role} onChange={handleChange}/>
                    </CustomInput>
                    
                     <Location value={country} handleLoc={handleLoc}/>
                     <CustomInput>
                     <label htmlFor="email">Bio</label>
-                    <textarea placeholder='Say something about yourself...' rows='5' cols='20' id='bio' name='bio' onChange={handleChange}/>
+                    <textarea placeholder='Say something about yourself...' rows='5' cols='20' id='bio' name='bio' value={data.bio} onChange={handleChange}/>
                     </CustomInput> 
                     <h3>Contacts</h3>
                     <CustomInput>
                    <label htmlFor="fb">Facebook</label>
-                    <input  type="text" id='fb' name='fb' onChange={handleLinks}/>
+                    <input  type="text" id='fb' name='fb'value = {links.fb} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="tw">Twitter</label>
-                    <input  type="text" id='tw' name='tw' onChange={handleLinks}/>
+                    <input  type="text" id='tw' name='tw' value={links.tw} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="insta">Instagram</label>
-                    <input  type="text" id='insta' name='insta' onChange={handleLinks}/>
+                    <input  type="text" id='insta' name='insta'value={links.insta} onChange={handleLinks}/>
+                   </CustomInput>
+                   <CustomInput>
+                   <label htmlFor="linkedIn">LinkedIn</label>
+                    <input  type="text" id='linkedIn' name = 'linkedIn' value={links.linkedIn} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="other">Other</label>
-                    <input  type="text" id='other' name='other' onChange={handleLinks}/>
+                    <input  type="text" id='other' name='other' value={links.other} onChange={handleLinks}/>
                    </CustomInput>
                    
                     <CustomButton type='submit'>Save Changes</CustomButton>
