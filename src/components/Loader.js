@@ -19,7 +19,7 @@ export const Spinner = () =>{
      <SpinnerInfinity
             size = {100}
             thickness={100}
-            color= 'tomato'
+            color= '#e24727'
             speed={100}/>
     </Container> 
     )      

@@ -15,10 +15,13 @@ export const StyledForm = styled.form`
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
-
+  @media screen and (min-width: 700px){
+      width: 100%;
+      margin: auto;
+  }
  
   h2{
-      color: white;
+      color: #e24727;
       margin-bottom: 2rem;
       text-transform: uppercase;
       font-weight: 400;
@@ -28,13 +31,14 @@ export const StyledForm = styled.form`
       margin: 0;
       font-size: .8rem;
       opacity: .6;
-      
+      color: white;
   }
   input{ 
       background-color: transparent;
       border: none;
+      color: white;
       margin-bottom: 1rem;
-      border-bottom: 1px solid black;
+      border-bottom: 1px solid #e24727;
       transition: all .5s ease-in-out;
       @media screen and (min-width: 576px){
           width:40%;
@@ -82,9 +86,9 @@ export const Login = (props) => {
             <StyledForm onSubmit={handleSubmit} noValidate >
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label>
-                <input autoFocus type="email" id='email' name='email' onChange={handleChange}/>
+                <input autoFocus type="email" id='email' name='email' value={loginData.email} onChange={handleChange}/>
                 <label htmlFor="password">Password</label>
-                <input  type="password" id='password' name='password' onChange={handleChange}/>
+                <input  type="password" id='password' name='password' value={loginData.password} onChange={handleChange}/>
                 <CustomButton type='submit'>Log In</CustomButton>
                 <small>New here? <span style={{marginLeft:'5px'}}><Link to='/register'>Create an account</Link></span></small>
             </StyledForm>

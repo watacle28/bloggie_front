@@ -6,7 +6,7 @@ import 'react-markdown-editor-lite/lib/index.css';
 import styled from 'styled-components';
 
 const EditorContainer = styled.div`
-background-color: tomato;
+background-color: #e24727;
 margin: 1rem auto;
 min-height: 30vh;
 width: 100%;

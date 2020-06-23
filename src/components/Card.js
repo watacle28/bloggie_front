@@ -9,7 +9,7 @@ import img from './bg.jpg';
 import avatar from './clo.jpg';
 import {} from 'react-icons';
 import Ava from 'react-avatar';
-import { FaEdit, FaTrash } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaRegComments, FaRegHeart } from 'react-icons/fa';
 import { getSinglePost, deletePost } from '../redux/actions/posts';
 import { CustomButton } from './CustomButtom';
 
@@ -17,15 +17,18 @@ const StyledCard = styled(motion.div)`
 width: 100%;
 overflow: hidden;
 border-radius: 10px;
+border: 1px solid rgba(255,255,255,0.05);
 font-size: 80%;
 transition: all 1s ease-in-out;
 color: white;
+background: #000000;
+margin: .5rem auto;
 box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
 :last-child{
   margin-bottom: 1rem;
 }
 a{
-  color: tomato;
+  color: white;
   text-decoration: none;
 }
 img{
@@ -41,6 +44,9 @@ justify-content: space-between;
 align-items: center;
 align-content: center;
 p{display: flex; align-items: center}
+svg{
+  margin-right: .5rem;
+}
 `
 const CardContent = styled(motion.div)`
 padding:1rem;
@@ -56,13 +62,14 @@ padding:1rem;
     justify-content: space-evenly;
     width: 30%;
     svg{
-      color: tomato;
+      color: #e24727;
+
     }
   }
 }
 `
 const Heading = styled(motion.h6)`
-color: tomato;
+color: #e24727;
 text-transform: uppercase;
 font-weight: bold;`
 
@@ -123,11 +130,12 @@ export const Card = (props)=>{
       <Heading variants={grandChildren}><Link to={`/post/${props.post._id}`}>{props.post.title}</Link></Heading>
         
         <CardFooter variants={grandChildren}>
-            <Ava name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
-            
-            <p>{props.post.author ? props.post.author.username : 'Unknown'}</p>
-            <p>{props.post.comments.length} comments</p>
-            <p>{props.post.likes.length} likes</p>
+           <p> 
+             <Ava name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
+            <span>{props.post.author ? props.post.author.username : 'Unknown'}</span>
+            </p>
+            <p><FaRegComments/>{props.post.comments.length} </p>
+            <p><FaRegHeart/>{props.post.likes.length} </p>
 
             
         </CardFooter>

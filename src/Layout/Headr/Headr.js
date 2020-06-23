@@ -2,12 +2,13 @@ import React,{useState,useRef,useLayoutEffect} from 'react';
 import {useSelector,useDispatch} from 'react-redux';
 import Avatar from 'react-avatar'
 import styled from 'styled-components';
-import {NavLink,Link} from 'react-router-dom';
+import {NavLink,Link,useLocation, matchPath} from 'react-router-dom';
 import {useOnClickOutside} from './handleOutsideClick'
 import {Burger} from './Burger'
 import {logout} from '../../redux/actions/auth'  
 import Logo from './Bloggie.svg'
 import { CLEAR_POST } from '../../redux/types';
+import { getSingleBlogger } from '../../redux/actions/user';
   
 const publicLinks = [
     {to:'/', label: 'Home'},
@@ -26,14 +27,14 @@ const publicLinks = [
   
   {to:'/contact', label: 'Contact'},
   {to: '/editor', label: 'Add Post'},
-  {to: '#', label: 'LogOut'},
+  {to: '', label: 'LogOut'},
  ]
 
 const StyledHeadr = styled.div`
  display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #222222;
+  background: #000000;
   height: 100vh;
   text-align: left;
   padding: 2rem;
@@ -44,12 +45,13 @@ const StyledHeadr = styled.div`
   z-index: 110;
   width: 100%;
   transform: ${({open})=> open ? 'translateX(0)' : 'translateX(-100%)'}  ;
- a.active button{
-   color: tomato;
- }
+  .active{
+    color : #e24727
+  }
  @media screen and (min-width: 577px){
       flex-direction: row;
       justify-content: space-between;
+      align-items: center;
       height: 10vh;
       transform: translateX(0)
 
@@ -63,7 +65,7 @@ button{
 
 }
 
-  a , button{
+  a{
     font-size: 1rem;
     text-transform: uppercase;
     padding: 1rem 0;
@@ -73,15 +75,14 @@ button{
     
     text-decoration: none;
     transition: color 0.3s linear;
-      
+     .active{
+       color:#e24727
+     } 
       text-align: center;
     &:hover{
-      color: tomato;
+      color: #e24727;
     }
-    &.active{
-      color:tomato;
-      
-    }
+   
     @media screen and (min-width: 577px) {
         font-size: 1rem;
        letter-spacing: 2px;
@@ -99,12 +100,15 @@ const MobileHead = styled.div`
    padding: 2rem auto;
    justify-content: space-around;
    transition: all .6s ease-in-out;
-   background: ${props => props.scrolled ? '#222222' : null};
+   background: ${props => props.scrolled ? '#000000' : null};
    top: 0;
-   height: 60px;
+   height: 10vh;
    img{
      width: 40px;
      border-radius: 50%
+   }
+   @media screen and (min-width: 577px) {
+     display: none
    }
  
 `
@@ -112,9 +116,12 @@ const MobileHead = styled.div`
 
 
 
-export const Headr = ({history}) => {
+export const Headr = (props) => {
+  const location = useLocation()
+   console.log(location.pathname);
    const [scrollStatus, setScrollStatus] = useState(false)
     const auth = useSelector(state=> state.auth)
+    const loading = useSelector(state=>state.auth.loading)
     const dispatch = useDispatch()
     const [open , setOpen] = useState(false);
     const node = useRef();
@@ -148,16 +155,16 @@ export const Headr = ({history}) => {
         <div >
        <MobileHead scrolled ={scrollStatus}>
        <Burger open={open} setOpen={setOpen}/>
-{!auth.loading && auth.authenticated && auth.userData && <Link to={`/authors/${auth.userData._id}`}><Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/></Link>}
+{!auth.loading && auth.authenticated && auth.userData && <Link  to={`/author/${auth.userData._id}`}><Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/></Link>}
 
       <Link to='/'> <img src={Logo} alt="logo"/></Link>
        </MobileHead>
         <StyledHeadr ref ={node} open = {open}>
-    {auth.authenticated ? authLinks.map((link,index)=><NavLink  key={index} to={link.to}>
-                  <button
-                   onClick={()=>handleClick(link)}>
-                    {link.label}</button></NavLink>):
-                  publicLinks.map((link,index)=><NavLink key={index} to={link.to}><button>{link.label}</button></NavLink>)}
+    {auth.authenticated ? authLinks.map((link,index)=><Link className={location.pathname === link.to ? 'active': ''}  onClick={()=>handleClick(link)} key={index} to={link.to}>
+                  
+                 
+                    {link.label}</Link>):
+                  publicLinks.map((link,index)=><Link className={location.pathname === link.to ? 'active' :''} key={index} to={link.to}>{link.label}</Link>)}
         </StyledHeadr>
         </div>
     )

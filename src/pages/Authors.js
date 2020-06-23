@@ -8,7 +8,8 @@ import { FaArrowCircleRight } from 'react-icons/fa';
 
 
 const Container = styled.div`
-margin-top: 8rem;`
+text-transform: uppercase;
+margin-top: 4rem;`
 
 
 const StyledHeading = styled.h4`
@@ -16,6 +17,7 @@ const StyledHeading = styled.h4`
     justify-content: center;
     margin-top: 2rem;
     text-transform:uppercase;
+    letter-spacing: 5px;
     color: white;
     font-weight: 900;
     ::before{
@@ -44,46 +46,55 @@ const StyledHeading = styled.h4`
 
 export const StyledAuthors = styled.div`
 
-width: 80%;
+width: 100%;
 overflow: hidden;
+border: 1px solid rgba(255,255,255,.05);
 border-radius: 10px;
 margin:2rem auto;
-padding: 1rem;
+padding: 1rem 2rem;
 font-size: 80%;
 color: white;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
-
-:last-child{
-  margin-bottom: 3rem;
-};
+/* box-shadow: 0 2px 3px 1px rgba(255,255,255,.14),0 1px 5px 1px rgba(255,255,255,.12),0 2px 4px -2px rgba(255,255,255,.2); */
+a{
+    color: #e24727;
+    text-decoration:none;
+    letter-spacing: 3px;
+    transition: all .5s ease-in-out;
+    :hover{
+        letter-spacing:5px;
+    }
+}
 
 img{ 
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
+    /* box-shadow: 0 1px 4px 1px #e24727,0 2px 3px 1px #e24727,0 8px 10px -5px #e24727; */
     width: 8rem;
     height: 8rem;
-    border-radius: 50%;
+    border-radius: 100%;
+    object-fit:cover;
 }
 .posts{
     display: flex;
     width: 100%;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 h5{
     margin-top: 1rem;
 }
 .num{
-    background-color: #222;
-    width:30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
+    background-color: #e24727;
+    width:2rem;
+    color: #000000;
+    height: 2rem;
+    display:grid;
+    place-items: center;
     border-radius: 50%;
-    font-size: .8rem;
+    font-size: 1rem;
+    font-weight: 700;
 }
 
 `
@@ -103,18 +114,19 @@ export const Authors = ({match}) => {
         <StyledHeading>Authors</StyledHeading>
        {!loadingBloggers && authors.map(author => ( 
             
-           <Link to={`/authors/${author._id}`}>
+           
                <StyledAuthors data-aos ='flip-right'>
-          <img src={pic} alt=""/>
-            <h5>{author.username}</h5>
-            <small>Web developer</small>
+         <Link to={`/author/${author._id}`}> <img src={pic} alt=""/></Link>
+         <Link to={`/author/${author._id}`}> <h5>{author.username}</h5></Link>
+         {author.role && <p>{author.role}</p>}
+            {author.location && <p>Based in {author.location}</p>}
             <div className="posts">
-                <h6>Posts</h6>
-                <h6><FaArrowCircleRight/></h6>
-       <h6 className="num">{author.posts.length}</h6>
+                <div>Posts</div>
+                
+       <div className="num">{author.posts.length}</div>
             </div> 
             </StyledAuthors>
-        </Link>
+      
 
 
        ))} 

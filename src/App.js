@@ -1,4 +1,5 @@
 import React ,{useEffect}from 'react';
+import axios from 'axios'
 import {useDispatch,useSelector} from 'react-redux';
 import {BrowserRouter as Router,Switch,Route,Redirect} from 'react-router-dom';
 import {createBrowserHistory} from 'history'
@@ -26,27 +27,31 @@ import { FourOFour } from './pages/404';
 import { EditProfile } from './pages/EditProfile';
 
 
+
 function App() {
   const dispatch = useDispatch()
   const history = createBrowserHistory()
   const loading = useSelector(state =>state.auth.loading)
   useEffect(() => {
     Aos.init()
+    axios.defaults.baseURL = 'http://192.168.1.7:5002/api'
     dispatch(loadUserData())
   
   }, [dispatch])
   return ( <Router history={history}>
   
   {!loading && ( <Layout>
-     <Switch>
-        <Route exact path='/' component={Home}/>
+    
+        
+        <Switch>
+          <Route exact path='/' component={Home}/> 
           <AuthRoute exact path='/login' component={Login}/>
           <AuthRoute exact path='/register' component={Register}/>
           <PrivateRoute exact path='/editor' component={Editor}/>
           <CanEditRoute exact path='/edit/:id' component={Editor}/>
           <ProfileRoute exact path ='/profile/:id' component ={EditProfile}/>
           <Route exact path='/authors' component={Authors}/>
-          <Route exact path ='/authors/:id' component ={Author}/>
+          <Route exact path ='/author/:id' component ={Author}/>
           <Route exact path ='/post/:id' component = {SinglePost}/>
           <Route component={FourOFour}/>
        

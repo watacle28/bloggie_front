@@ -7,7 +7,6 @@ import { CustomButton } from '../components/CustomButtom';
 import { Location } from '../components/Location';
 import { updateProfile } from '../redux/actions/auth';
 
-
     const ProfileContainer = styled(motion.div)`
         width: 100vw;
         min-height: 100vh;
@@ -20,10 +19,12 @@ import { updateProfile } from '../redux/actions/auth';
             color: white;
             font-weight: 900;
             text-transform: uppercase;
+            margin-bottom: 3rem;
         }
         h3{
             
             font-weight: 700;
+            color: rgba(255,255,255,.1);
         }
 
     `
@@ -38,7 +39,12 @@ import { updateProfile } from '../redux/actions/auth';
              margin-bottom: 2rem;
          }
         button{
-            border-color: #161a23
+            border-color:white;
+            color: #e24727;
+            :hover{
+                color:white;
+                border-color:#e24727;
+            }
         }
         
     `
@@ -54,9 +60,9 @@ import { updateProfile } from '../redux/actions/auth';
             color: white;
         }
         input,textarea{
-            background: #161a23;
+            background: transparent;
             border-radius: 200px;
-            border: none;
+            border: 1px solid #e24727;
             padding: .5rem 1rem;
             appearance: none;
             color: white;
@@ -72,7 +78,7 @@ import { updateProfile } from '../redux/actions/auth';
         const [image,setImage] = useState({preview:'',raw:''})
         const [data,setData] = useState({first_name : '', surname:'', email:'', role:'',location:''})
         const [country, setCountry] = useState('')
-        const [links,setLinks] = useState({fb:'https://www.facebook.com/', tw:'htttps://twitter.com/',insta:'https:instagram.com/',linkedIn:'https://linkedin.com/',other:''})
+        const [links,setLinks] = useState({fb:'', tw:'',insta:'',linkedIn:'',other:''})
 
         //redux
         const userData = useSelector(state => state.auth.userData)
@@ -164,23 +170,23 @@ import { updateProfile } from '../redux/actions/auth';
                     <h3>Contacts</h3>
                     <CustomInput>
                    <label htmlFor="fb">Facebook</label>
-                    <input  type="text" id='fb' name='fb'value = {links.fb} onChange={handleLinks}/>
+                    <input placeholder='facebook username' type="text" id='fb' name='fb'value = {links.fb} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="tw">Twitter</label>
-                    <input  type="text" id='tw' name='tw' value={links.tw} onChange={handleLinks}/>
+                    <input placeholder='twitter handle' type="text" id='tw' name='tw' value={links.tw} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="insta">Instagram</label>
-                    <input  type="text" id='insta' name='insta'value={links.insta} onChange={handleLinks}/>
+                    <input placeholder='instagram username' type="text" id='insta' name='insta'value={links.insta} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="linkedIn">LinkedIn</label>
-                    <input  type="text" id='linkedIn' name = 'linkedIn' value={links.linkedIn} onChange={handleLinks}/>
+                    <input placeholder='linkedIn username' type="text" id='linkedIn' name = 'linkedIn' value={links.linkedIn} onChange={handleLinks}/>
                    </CustomInput>
                    <CustomInput>
                    <label htmlFor="other">Other</label>
-                    <input  type="text" id='other' name='other' value={links.other} onChange={handleLinks}/>
+                    <input placeholder='extra contact ' type="text" id='other' name='other' value={links.other} onChange={handleLinks}/>
                    </CustomInput>
                    
                     <CustomButton type='submit'>Save Changes</CustomButton>

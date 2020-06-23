@@ -9,11 +9,10 @@ import { getAllPosts } from '../redux/actions/posts';
 
 export const Container = styled.div`
 margin-top: -4rem;
-background-color: #161e20;
 z-index: 100;
 position: relative;
 height: auto;
-width: 80%;
+width: 100%;
 padding: 1rem;
 scroll-behavior: smooth;
 margin: -100px auto 0 auto;
@@ -21,13 +20,13 @@ box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px
 border-radius: 20px;
 display: flex;
 flex-direction: column;
- @media screen and (min-width: 577px) {
-     display: grid;
-     grid-template-columns: repeat(2, 1fr);
-     grid-gap: 10px;
-    
- }
-
+h3{
+    color: white;
+    letter-spacing: 2px;
+}
+@media screen and (min-width: 700px){
+    margin: 2rem auto;
+}
 `
 
 const CardsContainer = () => {
@@ -46,6 +45,7 @@ const CardsContainer = () => {
 
     return (
         <Container >
+            <h3>Latest Posts:</h3>
             {!loadingPosts && allposts.map((post,i) => (<Card key={post._id} post={post} />))}
         </Container>
     )

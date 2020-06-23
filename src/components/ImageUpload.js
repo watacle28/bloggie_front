@@ -18,6 +18,7 @@ const Container = styled(motion.div)`
         svg{
           width: 3rem;
           height: 3rem;
+          color:#e24727;
         }
       }
   img{
@@ -37,7 +38,7 @@ export const ImageUpload =({image,handleChange})=> {
       <label htmlFor="upload-button">
          <FaCamera/>
       </label>
-      <input autoFocus type="file" id="upload-button"  style={{ display: 'none' }} onChange={handleChange}/>
+      <input autoFocus type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange}/>
       
 
     </Container>

@@ -1,44 +1,68 @@
 import React from 'react'
 import {} from 'react-bootstrap'
 import styled from 'styled-components';
+import bg from './dark_type.jpg'
+import { CustomButton } from './CustomButtom';
+import { Link } from 'react-router-dom';
 
 
 
 const Jumbo = styled.div`
-
 width: 100%;
-height: 30vh;
+height: 100vh;
 color: white;
+background-image: url(${bg});
+background-position: center;
+background-repeat: no-repeat;
+background-size: cover;
 position: relative;
-margin: 80px auto;
+margin: 0 auto;
 text-align: center;
 display: flex;
 flex-direction: column;
 align-items: center;
-
+justify-content: center;
 z-index:2;
-span{
-    color: #000;
+@media screen and (min-width: 700px){
+    display: none;
 }
 p{
-    margin: auto;
+    
+    color: white;
+    font-family: 'typer';
+
 }
-a{color:#151d1f }
+
 `
-const Title = styled.h2`
-width : 50%;
+const Title = styled.div`
 font-weight: bold;
 text-transform: uppercase;
 line-height: 3rem;
 letter-spacing: 4px;
-text-align: center;
+margin-bottom: 30vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+button{
+    width: 10rem;
+    letter-spacing: .5rem;
+    margin-bottom: 4rem;
+    a{
+        color: #e24727;
+        text-decoration: none;
+    }
+}
+
 `
 
 export const Hero = () => {
     return (
    <Jumbo>
-   <Title>Web_dev? <span>Welcome home</span></Title>
-   
+   <Title>
+    <h1> Web_dev?</h1>
+   <CustomButton><Link to ='/register'>Join</Link></CustomButton> 
+  <p>blogging space for web developers</p> 
+  </Title>
    </Jumbo>
     )
 }

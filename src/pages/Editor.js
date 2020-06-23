@@ -6,16 +6,20 @@ import { Md } from './md';
 import axios from 'axios';
 import { createPost, getSinglePost, editPost } from '../redux/actions/posts';
 import { CustomButton } from '../components/CustomButtom';
+import { Tiny } from './Tiny';
 
 const StyledEditor = styled.form`
-  width: 80vw;
- min-height: 100vh;
-  overflow-y: scroll;
+ width: 100%;
+ height: min-content;
  display: flex;
  flex-direction: column;
  align-items: center;
  justify-content: center;
  margin: 4rem auto;
+ @media screen and (min-width: 700px){
+   overflow-y: hidden;
+   margin: 0;
+ }
  label{
    color: white
  }
@@ -28,16 +32,15 @@ transform: translate(-50%,-50%); */
     text-transform: uppercase;
     color: white;
     font-weight: 900;
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 
    }
 
 input,textarea{ 
-      background-color: #161a23;
-      border: 1px solid black;
+      border: 1px solid #e24727;
+      background: transparent;
       margin-bottom: 1rem;
-      border-radius: 10px;
-      border: none;
+      border-radius: 200px;
       padding: 5px 12px;
       color: white;
       transition: all .5s ease-in-out;
@@ -54,7 +57,7 @@ input,textarea{
 const StyledContainer = styled.div`
  min-height: 100vh;
  width: 100vw;
- overflow-y: scroll;
+
  scroll-behavior: smooth;
  padding: 2rem 0;
 `
@@ -64,20 +67,26 @@ export const Editor = (props) => {
 
    
     const dispatch = useDispatch();
-    const [image, setImage] = useState({preview: '', raw: ''})
-    const [markdown,setMarkdown] = useState({html:'',text:''})
+    // const [image, setImage] = useState({preview: '', raw: ''})
+    //  const [markdown,setMarkdown] = useState({html:'',text:''})
     const [data, setData] = useState({title : '', tags:''})
+    const [tinyData, setTinyData] = useState('watacle')
 
     let loading = useSelector(state=> state.posts.loading)
    
-    const handleMD = (e) => setMarkdown({...markdown,html: e.html, text: e.text})
-    const handleImage = (e) => {
-         setImage({...image,
-        preview: URL.createObjectURL(e.target.files[0]),
-        raw: e.target.files[0]
-      })
-       
+    //  const handleMD = (e) => setMarkdown({...markdown,html: e.html, text: e.text})
+    const handleEditorChange = (value) =>{
+      setTinyData(value)
     }
+    // const handleImage = (e) => {
+     
+    //      setImage({...image,
+    //     preview: URL.createObjectURL(e.target.files[0]),
+    //     raw: e.target.files[0]
+    //   })
+    //   console.log({preview: image.preview});
+       
+    // }
     
     const handleDataChange = (e)=>{
       setData({
@@ -92,31 +101,30 @@ export const Editor = (props) => {
 
       const handleReset = ()=>{
         setData({...data, title: '',tags:''})
-        setMarkdown({...markdown, html:'',text: ''})
-        setImage({...image, preview: '', raw: ''})
-        //postData.body = ''
+        setTinyData('')
+        // setImage({...image, preview: '', raw: ''})
+       
 
       }
 
     const handlePublish = async (e) => {
         e.preventDefault()
-      
-      const formdata = new FormData();
-      formdata.append('blogImage',image.raw)
-      formdata.append('body', markdown.html)
-      formdata.append('title', data.title)
-      formdata.append('tags', data.tags)
+    
+      let formdata = {};
+      formdata.tags = data.tags;
+      formdata.title = data.title;
+      formdata.body = tinyData
      
       if(id){
         dispatch(editPost(formdata,id,props.history))
-        
           handleReset()
           return;
       } 
       
       dispatch(createPost(formdata,props.history))
-      handleReset()
-    
+      
+       handleReset()
+    loading = true;
       } 
       
       useEffect(() => {    
@@ -129,8 +137,8 @@ export const Editor = (props) => {
      handleReset()
       if(postData) {
      setData({...data, title:postData.title, tags: postData.tags})
-     setImage({...image, preview: postData.blogImage})
-     setMarkdown({...markdown, html: postData.body})
+    //  setImage({...image, preview: postData.blogImage})
+     setTinyData(postData.body)
       }
      
     }, [postData])
@@ -142,16 +150,14 @@ export const Editor = (props) => {
         <StyledEditor  onSubmit={handlePublish}>
 
           <h2 className='hdr'>Add a post</h2>
-          <label htmlFor="title">Title</label>
+          <label htmlFor="title">TITLE</label>
           {!loading && <input type="text" autoFocus value={data.title} onChange = {handleDataChange} id="title" name="title"/>}
-          <label htmlFor="tags">Tags</label>
+          <label htmlFor="tags">TAGS</label>
           <input type="text" value ={data.tags} id="tags"  onChange = {handleDataChange}  name="tags"/>
-          {/* <label htmlFor="body">Post</label> */}
-          <Md name = "markdown" value={postData ? postData.body : markdown.text}  onChange = {handleMD} />
-          {/* <textarea name="body" id="body" cols="30" rows="auto"></textarea> */}
-          <ImageUpload image={image} handleChange={handleImage} />
-          <CustomButton disabled ={data.title === '' || data.tags === '' || markdown.html === '' ||
-            image.preview === '' ? true : false} 
+          {/* <ImageUpload image={image} handleChange={handleImage} /> */}
+          <Tiny value={tinyData} handleEditorChange={handleEditorChange}/>
+          <CustomButton disabled ={data.title === '' || data.tags === '' ||
+            tinyData === '' ? true : false} 
           type='submit' >Publish</CustomButton>
           </StyledEditor>
 

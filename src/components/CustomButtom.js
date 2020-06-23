@@ -3,9 +3,9 @@ import {motion} from 'framer-motion';
 
 export const CustomButton = styled(motion.button)`
     padding: .25rem 1rem;
-    background: ${props => props.secondary ? 'white' : 'transparent'};
-    color: ${props => props.secondary ? '#161e20' : 'white'};
-    border: 1px solid white;
+    background: transparent;
+    color: ${props => props.secondary ? '#e24727' : 'white'};
+    border: 1px solid ${props => props.secondary ? 'white' : '#e24727'};
     border-radius: 200px;
     text-transform: uppercase;
     display: flex;
@@ -15,12 +15,11 @@ export const CustomButton = styled(motion.button)`
     font-weight: 700;
     margin: 1rem;
     outline: none;
-    transition: all .5s ease-in-out;
+    transition: all .5s ease;
     &:hover{
-        border-color: #161e20;
-        background: ${props => props.secondary ? 'tomato': 'transparent'};
-        color: ${props => props.secondary ? 'white' : '#161e20'};
-        scale: 1.1;    
+        border-color: ${props => props.secondary ? '#e24727': 'white'};
+        color: ${props => props.secondary ? 'white' : '#e24727'};
+        scale: 1.01;    
         };
     &:disabled{
     opacity: 0.2;

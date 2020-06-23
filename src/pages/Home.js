@@ -8,10 +8,10 @@ import { Spinner } from '../components/Loader';
 //import { CardsContainer } from '../components/CardsContainer';
 const CardsContainer = lazy(()=> import('../components/CardsContainer'))
 const Hom = styled.div`
-  padding-top: 2rem;
+  
 
 `
-export const Home = () => {
+export const Home = (props) => {
  
   
     return (

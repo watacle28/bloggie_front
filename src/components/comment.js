@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime' 
-import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart, FaTrash}  from 'react-icons/fa'
+import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart, FaTrash, FaRegClock}  from 'react-icons/fa'
 import Avatar from 'react-avatar';
 import me from './clo.jpg'
 import { Link } from 'react-router-dom';
@@ -11,35 +11,49 @@ import { Link } from 'react-router-dom';
 
 const StyledComment = styled.div`
     display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+
+    background-color:#111111;
+    border-radius: 10px;
+    justify-content: center;
+    padding: .5rem;
+    align-items: center;
     margin-bottom: 1rem;
+  
+    a{
+        text-decoration: none;
+    }
     .comment_data{
         display: flex;
         width: 100%;
         flex-direction: column;
         justify-content: space-evenly;
-        margin-left: 1rem;
         font-size: .7rem;
-        .line{
-            width: 80%;
-            height: 1px;
-            background-color: tomato;
-            margin: 1rem auto auto auto;
-        }
+       
+       .comment_head{
+        .sb-avatar__text div span{
+            border-radius: 50%;
+            background: #a24727;
+         }
+           display: flex;
+           align-items: center;
+           justify-content: space-between;
+           padding-right: .2rem;
+           margin-bottom: .5rem;
+       } 
     }
     .comment_meta_info{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 100%;
+        margin: auto;
+        width: 90%;
         svg{
             margin-right: 3px;
             color: white;
         }
-        li{
-            color:tomato;
-        }
+       
         
     }
 `
@@ -52,21 +66,25 @@ export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handl
     return (
      
         <StyledComment>
-            
-        <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
-           
-            <div className="comment_data">
-                <ul className="comment_meta_info"> 
-                <li><FaCalendarAlt/>{' '}{dayjs(postedOn).fromNow()}</li>
-   {currentUser == owner._id ? <div>
-    <Link to='#' onClick={clickToEdit}><FaEdit/> {' '} </Link>
-    <Link to='#' onClick={handleDeleteComment}><FaTrash/></Link>
-       </div> : ''}
-   
-    <Link  to='#' onClick={handleLikingComment}>{'  '} <FaHeart /><sup>{likes.length} </sup></Link>
-                </ul>
+         
+            <div className="comment_data">  
+                <div className="comment_head">
+                <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
+               <div style={{color:'rgba(255,255,255,0.6)'}}>{dayjs(postedOn).fromNow()}  </div>  
+                </div>
                 <div className="comment_body" dangerouslySetInnerHTML={{__html: body}}/>
-                <div className="line"></div>
+                    <section className="comment_meta_info"> 
+                    <div> <Link  to='#' onClick={handleLikingComment}>{'  '} <FaHeart /> </Link><span>{likes.length}</span></div>
+                
+                        {currentUser == owner._id ? <div>
+                            <Link to='#' onClick={clickToEdit}><FaEdit/> {' '} </Link>
+                            <span></span>
+                            <Link to='#' onClick={handleDeleteComment}><FaTrash/></Link>
+                            </div> : ''}
+                        
+                    </section>
+                                
+                    
             </div>
         
         </StyledComment>
