@@ -22,7 +22,9 @@
     font-size:1em
    }
    a {
-    background-color:transparent
+    background-color:transparent;
+    text-decoration: none;
+    color: white
    }
    abbr[title] {
     border-bottom:none;

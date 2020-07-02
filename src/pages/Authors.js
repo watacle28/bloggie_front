@@ -58,7 +58,7 @@ display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-/* box-shadow: 0 2px 3px 1px rgba(255,255,255,.14),0 1px 5px 1px rgba(255,255,255,.12),0 2px 4px -2px rgba(255,255,255,.2); */
+
 a{
     color: #e24727;
     text-decoration:none;
@@ -124,6 +124,7 @@ export const Authors = ({match}) => {
                 <div>Posts</div>
                 
        <div className="num">{author.posts.length}</div>
+       Joined on 28 June 2020
             </div> 
             </StyledAuthors>
       

@@ -25,7 +25,7 @@ import { Author } from './pages/Author';
 import { loadUserData } from './redux/actions/auth';
 import { FourOFour } from './pages/404';
 import { EditProfile } from './pages/EditProfile';
-
+import {Contact} from './pages/Contact';
 
 
 function App() {
@@ -50,6 +50,7 @@ function App() {
           <PrivateRoute exact path='/editor' component={Editor}/>
           <CanEditRoute exact path='/edit/:id' component={Editor}/>
           <ProfileRoute exact path ='/profile/:id' component ={EditProfile}/>
+          <Route exact path='/contact' component={Contact}/>
           <Route exact path='/authors' component={Authors}/>
           <Route exact path ='/author/:id' component ={Author}/>
           <Route exact path ='/post/:id' component = {SinglePost}/>

@@ -10,7 +10,7 @@ import avatar from './clo.jpg';
 import {} from 'react-icons';
 import Ava from 'react-avatar';
 import { FaEdit, FaTrash, FaRegComments, FaRegHeart } from 'react-icons/fa';
-import { getSinglePost, deletePost } from '../redux/actions/posts';
+import { deletePost } from '../redux/actions/posts';
 import { CustomButton } from './CustomButtom';
 
 const StyledCard = styled(motion.div)`
@@ -130,10 +130,10 @@ export const Card = (props)=>{
       <Heading variants={grandChildren}><Link to={`/post/${props.post._id}`}>{props.post.title}</Link></Heading>
         
         <CardFooter variants={grandChildren}>
-           <p> 
-             <Ava name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
+           <div> 
+             <Ava src={props.post.author &&props.post.author.avatar} name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
             <span>{props.post.author ? props.post.author.username : 'Unknown'}</span>
-            </p>
+            </div>
             <p><FaRegComments/>{props.post.comments.length} </p>
             <p><FaRegHeart/>{props.post.likes.length} </p>
 

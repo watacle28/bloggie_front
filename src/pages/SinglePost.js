@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import bg from '../components/bg.jpg';
 import { getSinglePost, addComment, likePost, unlikePost, editComment, removeComment, likeComment } from '../redux/actions/posts';
-import { Md } from './md';
+
 import { smartRedirect } from '../redux/actions/ui';
 import { Comment } from '../components/comment';
 import {Spinner} from '../components/Loader'
@@ -17,20 +17,18 @@ import { LOADING } from '../redux/types';
 import { NotFound } from './NotFound';
 import { toast } from 'react-toastify';
 import { CustomButton } from '../components/CustomButtom';
-import { Spacer } from '../components/Spacer';
 import { Tiny } from './Tiny';
- //import {highlight,languages,highlightAll, highlightElement} from 'prismjs/components/prism-core'
+
 
 const StyledPost = styled.div`
  
     width: 100%;
-    margin: auto;
-   height: min-content;
+    
+    height: min-content;
     display: flex;
     align-items:center;
     color: white;
     flex-direction: column;
-    
     margin-top: calc(2rem + 50px);
     margin-bottom: 2rem;
     background-color: #010100;
@@ -38,7 +36,9 @@ const StyledPost = styled.div`
      overflow-x: hidden;
     padding: .5rem;
     @media screen and (min-width: 700px){
+       
         margin-top: auto;
+
     }
     ul{
         margin-left: .5rem;
@@ -62,7 +62,8 @@ const StyledPost = styled.div`
     }
     .post_content{
         padding: .2rem;
-        width: 100%;
+        width: 98%;
+       
         
         .comments{
             width: 100%;
@@ -232,7 +233,7 @@ export const SinglePost = (props) => {
          </small>
         </div>
         <div className="post_body">
-        
+      
             <div ref={node} className='html' dangerouslySetInnerHTML={{__html:post.body}}/>
           
         </div>
@@ -254,11 +255,11 @@ export const SinglePost = (props) => {
          </div>: 
 
 
-        <div className='coa'>
-        <Link to='/login'><CustomButton secondary onClick={handleRedirect}>Log In </CustomButton></Link> <br/> or <br/> {' '}
-         <Link to='/register'><CustomButton secondary onClick={handleRedirect}>Register </CustomButton></Link> <br/>
+        <>
+        <Link to='/login'><CustomButton secondary onClick={handleRedirect}>Log In </CustomButton></Link>  or  {' '}
+         <Link to='/register'><CustomButton secondary onClick={handleRedirect}>Register </CustomButton></Link> 
            {' '} to comment
-        </div>
+        </>
          }
            
        

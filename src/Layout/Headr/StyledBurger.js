@@ -10,7 +10,7 @@ export const StyledBurger = styled.button`
   border: none;
   cursor: pointer;
   padding: 0;
-  z-index: 1000;
+  z-index: 11;
  @media screen and (min-width : 577px) {
     transform: translateX(-200%) 
  }

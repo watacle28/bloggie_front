@@ -1,4 +1,5 @@
 import React from 'react';
+import {useDispatch} from 'react-redux'
 import {motion} from 'framer-motion'
 import styled from 'styled-components';
 import Avatar from 'react-avatar'
@@ -6,24 +7,28 @@ import pic from './clo.jpg'
 import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaSignOutAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CustomButton } from './CustomButtom';
+import { logout } from '../redux/actions/auth';
+
+
 
 const StyledSideBar = styled(motion.section)`
-     width : 100%;
-     border: 1px solid rgba(255,255,255,0.1);
-     border-right:none;
+   
+     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
      padding: 1rem;
-     min-width: 330px;
+    
 `
 const UserInfo = styled(motion.div)`
-    display: flex;
+   width: 100%;
+   display: flex;
     justify-content: center;
     padding: 1rem;
     background: rgba(255,255,255,0.1);
-    border-radius: 200px;
+    border-radius: 20px;
+    border-left: 3px solid #e24727;
     .avatar{
        flex:1;
     }
@@ -47,15 +52,16 @@ const UserInfo = styled(motion.div)`
                 background: #e24727;
                 mix-blend-mode: screen;
                 border-radius: 200px;
-                padding: .5rem 2rem;
+                padding: .2rem .6rem;
                 font-weight:bold;
-                margin-left: 2rem;
+                margin-left: 1rem;
             }
         }
     }
     `
 
-export const SideBar = () => {
+export const AuthSideBar = ({user}) => {
+const dispatch = useDispatch()
     const links = [
         {icon: <FaFacebook/>, to: '/authors'},
         {icon: <FaTwitter/>, to: 'www.facebook.com'},
@@ -66,18 +72,20 @@ export const SideBar = () => {
     return (
         <StyledSideBar>
           <UserInfo>
-            <Avatar className='avatar' size='100' round src={pic}/>
+            <Avatar className='avatar' size='100' round src={user && user.avatar}/>
             <div className='links'>
-                <h6>Cleopas T Wangayi</h6>
+            <h6>{user && user.fullname}</h6>
+            <p>{user && user.role}</p>
                 <ul>
     {links.map((link,i)=> (<Link to={link.to}>{link.icon}</Link>))}
                 </ul>
-            <div>Posts  <span>6</span></div>
+            <div>Posts  <span>{user && user.posts.length}</span></div>
             </div>
           </UserInfo>  
-        <CustomButton>Create a new Post</CustomButton>
+         
+        <CustomButton><Link to='/editor'>Add new Post</Link></CustomButton>
         <div>
-            <FaSignOutAlt/>Sign Out
+           <Link onClick={()=>dispatch(logout())}> <FaSignOutAlt/>Sign Out</Link>
         </div>
         </StyledSideBar>
     )

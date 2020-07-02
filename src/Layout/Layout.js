@@ -1,36 +1,36 @@
 import React from 'react';
+import {useSelector} from 'react-redux'
 import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-
 import {Footer} from './Footer'
 import styled from 'styled-components';
 import { Headr } from './Headr/Headr';
-import { SideBar } from '../components/SideBar';
+import { AuthSideBar } from '../components/AuthSideBar';
+import { GuestSideBar } from '../components/GuestSideBar';
+import { Resources } from '../components/Resources';
 
 
 const StyledLayout= styled.div`
 width: 100vw;
-min-height: 100vh;
-position: relative;
-
-.min880{
-    position: relative;
+height: min-content;
+position: relative; 
   display: flex;
  justify-content: center;
  margin: auto;
  margin-top: 10vh;
  margin-bottom: 5vh;
+ 
 
-  .profile{
+  .sidebar{
+      position: relative;
     display: none;
     @media screen and (min-width: 700px) {
+          
             display:flex;
-            
-            flex: 1;
+            flex-direction:column;
+            justify-content:center;
             max-width: 500px;
             height: min-content;
-           
+            border: 1px solid rgba(255,255,255,0.1);
         }
     }
     .children{
@@ -40,19 +40,21 @@ position: relative;
         width: 100%;
         border: 1px solid rgba(255,255,255,0.1);
         @media screen and (min-width: 700px) {
-            max-width: 700px;
+         width: 58%;
+         max-width: 700px;
+         display: flex;
+         justify-content: center;
             
-             flex: 2;
-             display: flex;
-             justify-content: center;
             
         }
     }
-}
+
 `
 
 export const Layout = (props) => {
-   
+  const isLoggedIn = useSelector(state => state.auth.authenticated)
+  const user = useSelector(state => state.auth.userData)
+  console.log({user});
     return (
         <StyledLayout>
         <Headr />
@@ -66,12 +68,14 @@ export const Layout = (props) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover/>
-        <div className="min880">
-        <div className="profile"> 
-          <SideBar/>
+        {/* <div className="min880"> */}
+        <div className="sidebar"> 
+        {isLoggedIn ? <AuthSideBar user={user}/>: <GuestSideBar/>} 
+        <Resources/>
         </div>
         <div className="children">{props.children}</div>
-        </div>
+        
+        {/* </div> */}
          <Footer />  
             
         </StyledLayout>

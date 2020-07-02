@@ -8,6 +8,11 @@ const key = process.env.REACT_APP_TINY_CLOUD_KEY;
 const Container = styled.div`
     height: min-content;
     width: 100%;
+    display: flex;
+    justify-content: center;
+   .tox-dialog{
+      align-self: center;
+    }
     .tox-statusbar__branding{
         display: none;
     }
@@ -68,7 +73,7 @@ export const Tiny = ({value,handleEditorChange}) => {
           //   'undo redo | image emoticons media | formatselect | bold italic backcolor | \
           //   alignleft aligncenter alignright alignjustify | \
           //   bullist numlist outdent indent | removeformat | help | code codesample',
-          toolbar: 'undo redo | bold italic underline strikethrough codesample preview | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons |  save print | insertfile image media template link anchor | ltr rtl',
+          toolbar: 'undo redo | bold italic underline image emoticons codesample preview | fontselect fontsizeselect formatselect | alignleft aligncenter alignright alignjustify | outdent indent |  numlist bullist | forecolor backcolor removeformat | pagebreak | charmap emoticons |  save print | insertfile image media template link anchor | ltr rtl',
           toolbar_mode: 'sliding',
          
          images_upload_handler: async (blobInfo,success,failure)=>{

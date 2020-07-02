@@ -1,9 +1,6 @@
 import React,{useEffect,useState} from 'react';
 import {useDispatch,useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {ImageUpload} from '../components/ImageUpload';
-import { Md } from './md';
-import axios from 'axios';
 import { createPost, getSinglePost, editPost } from '../redux/actions/posts';
 import { CustomButton } from '../components/CustomButtom';
 import { Tiny } from './Tiny';
@@ -17,8 +14,8 @@ const StyledEditor = styled.form`
  justify-content: center;
  margin: 4rem auto;
  @media screen and (min-width: 700px){
-   overflow-y: hidden;
-   margin: 0;
+  width: 100%;
+   margin: auto;
  }
  label{
    color: white
@@ -46,7 +43,7 @@ input,textarea{
       transition: all .5s ease-in-out;
 
       @media screen and (min-width: 576px){
-          width:40%;
+          width:60%;
       };
       :focus{
           outline: none;
@@ -55,7 +52,7 @@ input,textarea{
         };
 `
 const StyledContainer = styled.div`
- min-height: 100vh;
+ height: 100%;
  width: 100vw;
 
  scroll-behavior: smooth;
@@ -147,7 +144,7 @@ export const Editor = (props) => {
     return (
        
        <StyledContainer>
-        <StyledEditor  onSubmit={handlePublish}>
+        <StyledEditor autoComplete='off' onSubmit={handlePublish}>
 
           <h2 className='hdr'>Add a post</h2>
           <label htmlFor="title">TITLE</label>

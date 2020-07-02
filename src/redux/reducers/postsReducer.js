@@ -2,15 +2,7 @@ import {GET_ALL_POSTS, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS, ADD_COM
 
 const initialState = {
     posts: [
-        // {
-        //     comments: '',
-        //     likes: '',
-        //     publishDate: '',
-        //     tags: [],
-        //      image: '',
-        //      title: '',
-        //     body: '',
-        // }
+      
     ],
     errors: null,
     currentPost: null,

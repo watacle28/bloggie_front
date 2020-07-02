@@ -9,10 +9,11 @@ import {logout} from '../../redux/actions/auth'
 import Logo from './Bloggie.svg'
 import { CLEAR_POST } from '../../redux/types';
 import { getSingleBlogger } from '../../redux/actions/user';
+import { FaHome } from 'react-icons/fa';
   
 const publicLinks = [
     {to:'/', label: 'Home'},
-    {to:'/blogs' ,label: 'Blogs'},
+    // {to:'/blogs' ,label: 'Blogs'},
     {to:'/authors', label: 'Authors'},
     {to:'/contact', label: 'Contact'},
     {to: '/login' , label: 'Login'},
@@ -21,12 +22,11 @@ const publicLinks = [
 ]
  const authLinks = [
  
-  {to:'/', label: 'Home'},
+  {to:'/', label: <FaHome/>},
   {to:'/authors', label: 'Authors'},
-  {to:'/blogs' ,label: 'Blogs'},
-  
-  {to:'/contact', label: 'Contact'},
+  // {to:'/blogs' ,label: 'Blogs'},
   {to: '/editor', label: 'Add Post'},
+  {to:'/contact', label: 'Contact'},
   {to: '', label: 'LogOut'},
  ]
 
@@ -35,6 +35,7 @@ const StyledHeadr = styled.div`
   flex-direction: column;
   justify-content: center;
   background: #000000;
+  opacity:.9;
   height: 100vh;
   text-align: left;
   padding: 2rem;
@@ -42,7 +43,7 @@ const StyledHeadr = styled.div`
   top: 0;
   left: 0;
   transition: transform 0.3s ease-in-out;
-  z-index: 110;
+  z-index: 10;
   width: 100%;
   transform: ${({open})=> open ? 'translateX(0)' : 'translateX(-100%)'}  ;
   .active{
@@ -52,8 +53,9 @@ const StyledHeadr = styled.div`
       flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      height: 10vh;
-      transform: translateX(0)
+      height: 4vh;
+      transform: translateX(0);
+      
 
   }
 button{
@@ -94,7 +96,7 @@ const MobileHead = styled.div`
    display:flex;
    position: fixed;
    align-items: center;
-   z-index:9999;
+   z-index:11;
    width: 100%;
    margin: auto;
    padding: 2rem auto;

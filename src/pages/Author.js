@@ -11,7 +11,7 @@ import { getSingleBlogger } from '../redux/actions/user'
 import { Link } from 'react-router-dom';
 import { CustomButton } from '../components/CustomButtom';
 import { motion } from 'framer-motion';
-import { AvatarEd } from '../components/AvatarEd';
+
 
 const Container = styled(motion.div)`
     h5{

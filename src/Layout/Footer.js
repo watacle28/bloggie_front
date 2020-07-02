@@ -9,7 +9,7 @@ background: #000000;
 position: fixed;
 bottom: 0;
 left:0;
-z-index: 100;
+z-index: 10;
 display: flex;
 color: white;
 flex-direction: column;

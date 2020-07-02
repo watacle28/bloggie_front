@@ -6,8 +6,18 @@ body,html {
   -moz-osx-font-smoothing: grayscale;
   background-color: #000000 !important;
   overflow-x: hidden !important;
+  color: white;
 }
-
+  
+a {
+ 
+  color:white;
+  transition: all .5s ease-in-out;
+}
+a:hover{
+    color: #e24727; 
+    text-decoration: none;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

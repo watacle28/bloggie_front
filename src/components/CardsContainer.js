@@ -9,7 +9,7 @@ import { getAllPosts } from '../redux/actions/posts';
 
 export const Container = styled.div`
 margin-top: -4rem;
-z-index: 100;
+
 position: relative;
 height: auto;
 width: 100%;

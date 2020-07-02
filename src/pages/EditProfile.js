@@ -138,7 +138,7 @@ import { updateProfile } from '../redux/actions/auth';
             <ProfileContainer>
                 <h2>Update Profile </h2>
                
-                <ProfileForm onSubmit={handleSubmit}>
+                <ProfileForm autoComplete='off' onSubmit={handleSubmit}>
                 <div className="profilePic">
                     
                      <ImageUpload image={image} handleChange={handleUpload}/>

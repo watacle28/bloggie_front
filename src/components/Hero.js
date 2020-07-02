@@ -1,5 +1,5 @@
 import React from 'react'
-import {} from 'react-bootstrap'
+
 import styled from 'styled-components';
 import bg from './dark_type.jpg'
 import { CustomButton } from './CustomButtom';

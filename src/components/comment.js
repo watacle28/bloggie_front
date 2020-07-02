@@ -69,7 +69,7 @@ export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handl
          
             <div className="comment_data">  
                 <div className="comment_head">
-                <Link to={`/authors/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
+                <Link to={`/author/${owner._id}`}> <Avatar  name={owner.username } textSizeRatio ={2} size={40} round={true}/></Link>
                <div style={{color:'rgba(255,255,255,0.6)'}}>{dayjs(postedOn).fromNow()}  </div>  
                 </div>
                 <div className="comment_body" dangerouslySetInnerHTML={{__html: body}}/>
