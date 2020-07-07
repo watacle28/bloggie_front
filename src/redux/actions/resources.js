@@ -89,7 +89,7 @@ export const addChannel = (channel) => async dispatch =>{
     const token = localStorage.getItem('token')
     setAuthToken(token)
         try {
-            const res = await axios.post('/external/course',channel)
+            const res = await axios.post('/external/channel',channel)
             const newChannel = res.data.channel;
 
             dispatch({
@@ -145,8 +145,9 @@ export const getAllTwitAccs = () => async dispatch => {
 export const addTwitAcc = (twitacc) => async dispatch =>{
     const token = localStorage.getItem('token')
     setAuthToken(token)
+    console.log({twitacc});
         try {
-            const res = await axios.post('/external/twitacc',{username:twitacc})
+            const res = await axios.post('/external/twitacc',{username:twitacc.username})
             const newTwitAcc = res.data.twitacc;
 
             dispatch({
@@ -199,8 +200,11 @@ export const getAllCourses = () => async dispatch => {
 }
 
 export const addCourse = (course) => async dispatch =>{
+
     const token = localStorage.getItem('token')
+  
     setAuthToken(token)
+   
         try {
             const res = await axios.post('/external/course',course)
             const newCourse = res.data.course;

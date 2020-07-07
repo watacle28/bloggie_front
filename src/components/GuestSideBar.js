@@ -12,7 +12,14 @@ const StyledGuestSideBar = styled.div`
      padding: 1rem;
      overflow-x: hidden;
     color: white;
-        
+     h3{
+         padding: .2rem 1rem;
+         border-radius: 200px;
+         box-shadow: 1px 3px 3px rgba(255,255,255,.2);
+         border-left: 2px solid #e24727;
+         border-bottom: 2px solid #e24727;
+         margin-bottom: 2rem;
+     }   
         
     p{
         opacity: .5;
@@ -24,7 +31,7 @@ export const GuestSideBar = () => {
 
     return (
         <StyledGuestSideBar>
-           <h3>Altimate developer blogging space</h3>  
+           <h3>Ultimate developer blogging space</h3>  
        
             <p>Got an account already ? </p>
             <CustomButton><Link to='/login'>Sign In</Link></CustomButton>

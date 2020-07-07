@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {SpinnerInfinity} from 'spinners-react'
+import {SpinnerCircularSplit} from 'spinners-react'
 const Container = styled.div`
     width: 5rem;
     height: 5rem;
@@ -16,7 +16,7 @@ const Container = styled.div`
 export const Spinner = () =>{
     return (
     <Container>
-     <SpinnerInfinity
+     <SpinnerCircularSplit
             size = {100}
             thickness={100}
             color= '#e24727'

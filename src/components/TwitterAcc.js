@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 export const TwitterAcc = ({acc,onEdit,onDelete}) => {
     return (
         <StyledResource>
-            <div className='info'><h5>{acc.username}</h5> 
+            <div className='info'><h5><a href={`https://twitter.com/${acc.username}`} target='_blank' noreferer>{acc.username}</a></h5> 
             <div className='user-actions'><button onClick={onEdit}><FaEdit/></button> <button onClick={onDelete}> <FaTrashAlt/></button>
             </div>
             </div>

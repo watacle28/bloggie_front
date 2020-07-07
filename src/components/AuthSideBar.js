@@ -28,7 +28,9 @@ const UserInfo = styled(motion.div)`
     padding: 1rem;
     background: rgba(255,255,255,0.1);
     border-radius: 20px;
-    border-left: 3px solid #e24727;
+    border-left: 3px solid var(--primary-color);
+    
+    box-shadow: 1px 3px 3px rgba(255,255,255,0.1);
     .avatar{
        flex:1;
     }
@@ -38,7 +40,7 @@ const UserInfo = styled(motion.div)`
         flex-direction: column;
         margin-left: 2rem;
         h6{
-            color: #e24727;
+            color: var(--primary-color);
         }
         a{
             text-decoration: none;
@@ -46,10 +48,10 @@ const UserInfo = styled(motion.div)`
             margin: auto 1rem;
         }
         div{
-            color: #e24727;
+            color: var(--primary-color);
             span{
                 color : white;
-                background: #e24727;
+                background: var(--primary-color);
                 mix-blend-mode: screen;
                 border-radius: 200px;
                 padding: .2rem .6rem;
@@ -63,10 +65,10 @@ const UserInfo = styled(motion.div)`
 export const AuthSideBar = ({user}) => {
 const dispatch = useDispatch()
     const links = [
-        {icon: <FaFacebook/>, to: '/authors'},
-        {icon: <FaTwitter/>, to: 'www.facebook.com'},
-        {icon: <FaLinkedin/>, to: 'www.facebook.com'},
-        {icon: <FaInstagram/>, to: 'www.facebook.com'},
+        {icon: <FaFacebook/>, href: 'https://facebook.com'},
+        {icon: <FaTwitter/>, href: ' https://twitter.com'},
+        {icon: <FaLinkedin/>, href: ' https://linkedin.com'},
+        {icon: <FaInstagram/>, href: ' https://instagram.com'},
 
     ]
     return (
@@ -77,7 +79,7 @@ const dispatch = useDispatch()
             <h6>{user && user.fullname}</h6>
             <p>{user && user.role}</p>
                 <ul>
-    {links.map((link,i)=> (<Link to={link.to}>{link.icon}</Link>))}
+    {links.map((link,i)=> (<a href={`${link.href}/cwangayi`} target='_blank' noreferer>{link.icon}</a>))}
                 </ul>
             <div>Posts  <span>{user && user.posts.length}</span></div>
             </div>

@@ -11,13 +11,14 @@ export const StyledForm = styled.form`
  flex-direction: column;
  align-items: center;
  justify-content: center;
-  position: absolute;
+  position:fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%,-50%);
   @media screen and (min-width: 700px){
       width: 100%;
       margin: auto;
+      position: absolute;
   }
  
   h2{

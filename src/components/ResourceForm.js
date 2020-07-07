@@ -8,8 +8,11 @@ import {CustomButton} from './CustomButtom'
 import { Modal } from './modal';
 import { Resource } from './Resource';
 import { Spinner } from './Loader';
+import { useComp } from '../customHooks';
 export const StyledResourceForm = styled.div`
     width:100%;
+    transition: all 1s ease;
+    position: relative;
      .resource_container{
          width: 100%;
      }
@@ -62,14 +65,21 @@ export const Form = styled.form`
     label{
       text-align: center;
     }
-    input[type='text'], input[type='url'] {
+    input[type='text'], input[type='url'], input[type='number'] {
         margin-bottom: 1rem;
         padding: .2rem 1rem;
+        -moz-appearance: textfield;
         &:focus{
             border: solid 1px #e24727;
             outline:none;
         }
     }
+    input[type=number]::-webkit-inner-spin-button,
+    input [type=number]::-webkit-outer-spin-button{
+      -webkit-appearance: none;
+      margin: 0
+    }
+   
     input[type='radio'] {
         display:none;   
     };
@@ -92,39 +102,24 @@ export const Form = styled.form`
       }
    
 `
-export const ResourceForm = ({clicks, setClicks,open,handleOpen}) => {
+export const ResourceForm = ({clicks, setClicks}) => {
     const types = ['Other','Video','Article','Website']
-    const dispatch = useDispatch()
-    const [resource,setResource] = useState({name:'', link:'',type:'Other'})
+    const dispatch = useDispatch() 
+    const srcs = useSelector(state => state.resources)
+    //custom hook
+    const { openModal,
+            setOpenModal,
+            handleChange,
+            handleEdit,
+            saveChanges,
+            add,
+            editMode,
+            reset,
+            values   
+    
+          } = useComp(()=>dispatch(editResource(values,editMode.id)), ()=>dispatch(addResource(values)))
+    
   
-    const [editMode, setEditMode] = useState({state: false, id: null})
-    
-    const handleChange = (e)=>{
-      setResource({...resource, [e.target.name]:e.target.value })
-    
-    }
-    const handleEdit = (src)=>{
-         handleOpen(true)
-       
-          setResource({name:src.name, link:src.link, type:src.type})
-          setEditMode({...editMode, state:true, id: src._id})
-
-    }
-
-    const saveChanges = (e)=>{
-       e.preventDefault()
-        dispatch(editResource(resource, editMode.id))   
-        setResource({name:'',link:'',type:''})
-       handleOpen(false)
-    }
-    const add = (e)=>{
-      e.preventDefault();
-      
-       dispatch(addResource({...resource}))
-       setResource({name:'',link:'',type:''})
-       handleOpen(false)
-    }
-   const srcs = useSelector(state => state.resources)
     useEffect(() => {
      
      if(clicks.resourcesTab === 0){   
@@ -132,21 +127,23 @@ export const ResourceForm = ({clicks, setClicks,open,handleOpen}) => {
      setClicks({...clicks, resourcesTab: 1})
      }
     }, [srcs.length])
+    
     return (
         <StyledResourceForm>
-            <button title='add new resource' id='add_btn' onClick={()=>handleOpen(true)}><FaPlusCircle/></button>
+            <button title='add new resource' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
             
-            <Modal editing ={editMode} saveChanges={saveChanges} setOpen={handleOpen} open={open}>
+            <Modal reset = {reset} editing ={editMode} saveChanges={saveChanges} setOpen={setOpenModal} open={openModal}>
             <Form  autoComplete = 'off'  onSubmit={editMode.state === true ? saveChanges : add}>
               <h5>Enter Resource Details</h5>
             <label htmlFor="name">Name </label>
-            <input autoFocus='true' type="text" name="name" id="name" value={resource.name} onChange={handleChange} placeholder='name of resource'/>
+            <input autoFocus='true' type="text" name="name" id="name" value={values.name || ''} onChange={handleChange} placeholder='name of resource'/>
            <label htmlFor="link">Link </label>
-           <input type="url" name="link" id="link" value={resource.link} onChange={handleChange} placeholder='link to resource' />
+           <input type="url" name="link" id="link" value={values.link || ''} onChange={handleChange} placeholder='link to resource' />
             <h6>Select a type for your resource </h6>
               {types.map((type,i) =><div className='radioLabel' key={i}>
                 
-                  <input type="radio" name="type" value={type} id={type} checked ={resource.type === type} onChange={handleChange} />
+                  <input type="radio" name="type" value={type || 'Other'} id={type} checked ={values.type === type } onChange={handleChange} />
+                
                   <label htmlFor={type}>{type}</label>
               </div>)}
           

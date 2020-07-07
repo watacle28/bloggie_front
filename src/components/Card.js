@@ -16,16 +16,38 @@ import { CustomButton } from './CustomButtom';
 const StyledCard = styled(motion.div)`
 width: 100%;
 overflow: hidden;
+position: relative;
 border-radius: 10px;
 border: 1px solid rgba(255,255,255,0.05);
 font-size: 80%;
 transition: all 1s ease-in-out;
-color: white;
-background: #000000;
 margin: .5rem auto;
+padding-top: 2rem;
 box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2);
+@media screen and (min-width: 700px){
+width: 80%;
+}
+.author{
+  position: absolute;
+  left: 0;
+  top: 0;
+  .name{
+    margin-left: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius:200px;
+    padding: .2rem 1rem;
+    letter-spacing: 2px;
+    text-transform: capitalize;
+    opacity: .5;
+  }
+}
 :last-child{
   margin-bottom: 1rem;
+}
+svg{
+  margin-right: .5rem;
+  width: 1rem;
+  height: 1rem;
 }
 a{
   color: white;
@@ -38,20 +60,20 @@ box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px
 }
 
 `
-const CardFooter = styled(motion.div)`
+const PostData = styled(motion.div)`
 display : flex;
 justify-content: space-between;
 align-items: center;
 align-content: center;
-p{display: flex; align-items: center}
-svg{
-  margin-right: .5rem;
-}
+margin-top: 1rem;
 `
 const CardContent = styled(motion.div)`
 padding:1rem;
+button{
+  margin-left: 0;
+}
 .post_meta{
-  margin-bottom: 1rem;
+  margin-top: 1rem;
   width: 100%;
   display: flex;
   align-items: center;
@@ -59,19 +81,36 @@ padding:1rem;
   .post_actions{
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
-    width: 30%;
-    svg{
-      color: #e24727;
-
-    }
+    justify-content: space-between;
+   svg{
+     color: rgba(255,255,255,.2);
+     transition: all .5s ease;
+     &:hover{
+       color: var(--primary-color);
+     }
+     } 
   }
 }
 `
 const Heading = styled(motion.h6)`
-color: #e24727;
+
 text-transform: uppercase;
-font-weight: bold;`
+margin-bottom: 1rem;
+font-weight: bold;
+display: flex;
+align-items: center;
+justify-content: space-between;
+.date{
+  opacity: .1;
+  text-transform: lowercase;
+  color:  rgba(255,255,255,0.8)
+}
+.data{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+`
 
 const parentVariants = {
   closed: { opacity: 0, x: "-100%" },
@@ -117,8 +156,26 @@ export const Card = (props)=>{
      <Link to={`/post/${props.post._id}`}> <motion.img variants={childrenVariants} src={props.post.blogImage} alt=""/></Link>
       <CardContent  variants={childrenVariants}>
      
-    <motion.div variants={grandChildren} className='post_meta'>
-      {dayjs(props.post.createdAt).fromNow()}
+            <div className='author'> 
+            <Link to = {`/author/${props.post.author && props.post.author._id}`}>
+            <Ava src={props.post.author &&props.post.author.avatar} name ={props.post.author && props.post.author.username}textSizeRatio={2} size={40}  round={true}/>
+            <span className='name'>{props.post.author ? props.post.author.username : 'Unknown'}</span>
+            </Link>
+            </div>
+      <Heading variants={grandChildren}>
+        <Link to={`/post/${props.post._id}`}>{props.post.title}</Link>
+       <div className='data'>
+       <span className='date'>{dayjs(props.post.createdAt).fromNow()}</span>
+        <PostData variants={grandChildren}>
+         <span data-count ={props.post.comments.length}><FaRegComments   /> </span>
+        <span data-count ={props.post.likes.length}><FaRegHeart /> </span>
+        </PostData>
+       </div>
+       </Heading>
+        
+       
+        <motion.div variants={grandChildren} className='post_meta'>
+      <Link to={`/post/${props.post._id}`}><CustomButton variants={childrenVariants} secondary>Read more</CustomButton></Link>
      {userId === postAuthor ? <>
       <div className="post_actions">
        <Link to={`/edit/${props.post._id}`}><FaEdit/></Link>
@@ -127,21 +184,8 @@ export const Card = (props)=>{
       </div>
      </>: null}
       </motion.div>
-      <Heading variants={grandChildren}><Link to={`/post/${props.post._id}`}>{props.post.title}</Link></Heading>
-        
-        <CardFooter variants={grandChildren}>
-           <div> 
-             <Ava src={props.post.author &&props.post.author.avatar} name ={props.post.author && props.post.author.username}textSizeRatio={2} size={30}  round={true}/>
-            <span>{props.post.author ? props.post.author.username : 'Unknown'}</span>
-            </div>
-            <p><FaRegComments/>{props.post.comments.length} </p>
-            <p><FaRegHeart/>{props.post.likes.length} </p>
-
-            
-        </CardFooter>
-      
       </CardContent>  
-      <Link to={`/post/${props.post._id}`}><CustomButton variants={childrenVariants} secondary>Read more</CustomButton></Link>  
+       
         </StyledCard>
       
     )

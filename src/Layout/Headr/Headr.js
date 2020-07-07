@@ -5,11 +5,12 @@ import styled from 'styled-components';
 import {NavLink,Link,useLocation, matchPath} from 'react-router-dom';
 import {useOnClickOutside} from './handleOutsideClick'
 import {Burger} from './Burger'
-import {logout} from '../../redux/actions/auth'  
-import Logo from './Bloggie.svg'
+
+import Logo from './logo.svg'
 import { CLEAR_POST } from '../../redux/types';
 import { getSingleBlogger } from '../../redux/actions/user';
 import { FaHome } from 'react-icons/fa';
+import { logout } from '../../redux/actions/auth';
   
 const publicLinks = [
     {to:'/', label: 'Home'},
@@ -51,12 +52,15 @@ const StyledHeadr = styled.div`
   }
  @media screen and (min-width: 577px){
       flex-direction: row;
-      justify-content: space-between;
+      justify-content:space-between;
       align-items: center;
       height: 4vh;
       transform: translateX(0);
-      
-
+      max-width: 1200px;
+ 
+  }
+  @media screen and (min-width: 1201px){
+      margin-left: calc((100vw - 1200px)/2)
   }
 button{
   background: transparent;
@@ -106,8 +110,8 @@ const MobileHead = styled.div`
    top: 0;
    height: 10vh;
    img{
-     width: 40px;
-     border-radius: 50%
+     width: 30px;
+     color: black;
    }
    @media screen and (min-width: 577px) {
      display: none
@@ -120,7 +124,7 @@ const MobileHead = styled.div`
 
 export const Headr = (props) => {
   const location = useLocation()
-   console.log(location.pathname);
+
    const [scrollStatus, setScrollStatus] = useState(false)
     const auth = useSelector(state=> state.auth)
     const loading = useSelector(state=>state.auth.loading)

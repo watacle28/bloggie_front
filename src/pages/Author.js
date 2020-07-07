@@ -1,11 +1,11 @@
 import React,{useEffect} from 'react'
-import { FaFacebook,FaRegHeart, FaTwitter, FaInstagram, FaLinkedin, FaComments, FaPencilAlt, FaHeart, FaRegComments } from 'react-icons/fa'
+import { FaFacebook,FaRegHeart, FaTwitter, FaInstagram, FaLinkedin,  FaPencilAlt,  FaRegComments } from 'react-icons/fa'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
 import {StyledAuthors} from './Authors'
 import pic from '../components/clo.jpg'
-import bg from '../components/bg.jpg'
+
 import { useSelector, useDispatch } from 'react-redux'
 import { getSingleBlogger } from '../redux/actions/user'
 import { Link } from 'react-router-dom';
@@ -91,7 +91,7 @@ export const Author = (props) => {
     useEffect(() => {
       dispatch(getSingleBlogger(props.match.params.id))
       
-    }, [props.match.params.id])
+    }, [dispatch,props.match.params.id])
     return (
       <Container>
       {currentBlogger &&   <StyledAuthors>

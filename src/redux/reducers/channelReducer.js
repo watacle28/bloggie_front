@@ -9,7 +9,7 @@ export const channelReducer = (state=initialState , {type, payload}) =>{
     switch (type) {
         case GET_ALL_CHANNELS:
           return {
-              ...state, channels:[...state.channels, payload], loading: false
+              ...state, channels:[...payload], loading: false
           }
     
         case ADD_CHANNEL:
@@ -26,7 +26,7 @@ export const channelReducer = (state=initialState , {type, payload}) =>{
             }
         case DELETE_CHANNEL: 
             return {
-                ...state, channels:[...state.channels.filter(channel => channel._id !== payload.id)]
+                ...state, channels:[...state.channels.filter(channel => channel._id !== payload)]
             }
         default :
            return state

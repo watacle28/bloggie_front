@@ -9,7 +9,7 @@ export const coursesReducer = (state=initialState , {type, payload}) =>{
     switch (type) {
         case GET_ALL_COURSES:
           return {
-              ...state, courses:[...state.courses, payload], loading: false
+              ...state, courses:[...payload], loading: false
           }
     
         case ADD_COURSE:
@@ -28,7 +28,7 @@ export const coursesReducer = (state=initialState , {type, payload}) =>{
             
         case DELETE_COURSE: 
             return {
-                ...state, courses:[...state.courses.filter(course => course._id !== payload.id)]
+                ...state, courses:[...state.courses.filter(course => course._id !== payload)]
             }
         default :
            return state

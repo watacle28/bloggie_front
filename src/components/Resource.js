@@ -55,7 +55,7 @@ export const StyledResource = styled.div`
            padding: .1rem .5rem;
            border-radius: 200px;
            box-shadow: 1px 2px 5px rgba(255,255,255,.1);
-         
+           border-bottom: 2px solid #e24727; 
            width: 5rem;
            text-align:center;
            
@@ -70,7 +70,7 @@ export const Resource = ({resource,onDelete,onEdit}) => {
               <div className="info">
               <h5><a href={resource.link} rel='noreferer' target='_blank'>{resource.name}</a></h5>
               <div className='user-actions'>
-              <button onClick={() => onEdit()}><FaRegEdit/></button>
+              <button onClick={onEdit}><FaRegEdit/></button>
               <button onClick={onDelete}><FaRegTrashAlt/></button></div>
               </div>
              

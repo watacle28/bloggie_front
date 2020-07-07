@@ -30,11 +30,14 @@ const StyledModal = styled.div`
 `
 
 export const Modal = (props) => {
-    const {children,open,setOpen} = props
-  
+    const {children,open,setOpen,reset} = props
+  const handleClose =()=>{
+      setOpen(false)
+      reset()
+  }
     return (
         <StyledModal open={open}>
-            <button className='x' onClick={()=>setOpen(false)}><FaTimesCircle/></button>
+            <button className='x' onClick={handleClose}><FaTimesCircle/></button>
           
            {children} 
         </StyledModal>
