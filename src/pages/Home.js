@@ -1,25 +1,24 @@
 import React, {Suspense, lazy} from 'react';
 import styled from 'styled-components';
-//import bg from '../components/bg.jpg'
-import {Hero} from '../components/Hero'
-import { Loader } from './SinglePost';
-import { Spinner } from '../components/Loader';
 
-//import { CardsContainer } from '../components/CardsContainer';
+import { Spinner } from '../components/Loader';
+import { useEffect } from 'react';
+import { getPostByTag } from '../redux/actions/posts';
+import { useDispatch } from 'react-redux';
+
 const CardsContainer = lazy(()=> import('../components/CardsContainer'))
+const Hero = lazy(()=>import('../components/Hero'))
 const Hom = styled.div`
-  
+  width: 100%;
 
 `
-export const Home = (props) => {
- 
-  
+export const Home = ({match:{params:{tag}}}) => {
     return (
       <Hom>
       
        <Suspense fallback = {<Spinner/>}>
            <Hero/>
-           <CardsContainer/>
+           <CardsContainer tag={tag}/>
           
        </Suspense>
       

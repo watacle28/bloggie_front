@@ -19,6 +19,10 @@ const Container = styled(motion.div)`
           width: 3rem;
           height: 3rem;
           color:#e24727;
+          transition: all .5s ease-out;
+          &:hover{
+            transform: scale(1.5)
+          }
         }
       }
   img{
@@ -35,8 +39,8 @@ export const ImageUpload =({image,handleChange})=> {
   return (
     <Container align="center">
       <div> {image.preview && <img style={{opacity:'0.5'}} src={ image.preview }  alt='preview'/>}</div>
-      <label htmlFor="upload-button">
-         <FaCamera/>
+      <label title='choose an image' htmlFor="upload-button">
+         <FaCamera />
       </label>
       <input autoFocus type="file" id="upload-button" style={{ display: 'none' }} onChange={handleChange}/>
       

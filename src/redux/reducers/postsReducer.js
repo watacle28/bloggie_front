@@ -1,4 +1,4 @@
-import {GET_ALL_POSTS, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS, ADD_COMMENT, LOADING, EDIT_SUCCESS, CLEAR_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST} from '../types';
+import {GET_ALL_POSTS, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS, ADD_COMMENT, LOADING, EDIT_SUCCESS, CLEAR_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST, GET_POST_BY_TAG} from '../types';
 
 const initialState = {
     posts: [
@@ -20,6 +20,11 @@ export const postsReducer = (state = initialState,{type,payload})=>{
             return{
                 ...state,posts:payload,errors:null, loading: false
             }
+        case GET_POST_BY_TAG:
+            
+            return{
+                ...state,posts:payload,errors:null, loading: false
+                }    
          case GET_SINGLE_POST:
              
              return {

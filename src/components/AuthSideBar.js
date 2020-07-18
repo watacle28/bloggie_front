@@ -4,7 +4,7 @@ import {motion} from 'framer-motion'
 import styled from 'styled-components';
 import Avatar from 'react-avatar'
 import pic from './clo.jpg'
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaSignOutAlt } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaSignOutAlt, FaLinkedinIn } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CustomButton } from './CustomButtom';
 import { logout } from '../redux/actions/auth';
@@ -18,7 +18,7 @@ const StyledSideBar = styled(motion.section)`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-     padding: 1rem;
+     padding: 0 1rem;
     
 `
 const UserInfo = styled(motion.div)`
@@ -45,10 +45,10 @@ const UserInfo = styled(motion.div)`
         a{
             text-decoration: none;
             color: white;
-            margin: auto 1rem;
+            margin-right: 1rem;
         }
         div{
-            color: var(--primary-color);
+            color: rgba(255,255,255,0.2);
             span{
                 color : white;
                 background: var(--primary-color);
@@ -56,7 +56,7 @@ const UserInfo = styled(motion.div)`
                 border-radius: 200px;
                 padding: .2rem .6rem;
                 font-weight:bold;
-                margin-left: 1rem;
+               
             }
         }
     }
@@ -67,21 +67,21 @@ const dispatch = useDispatch()
     const links = [
         {icon: <FaFacebook/>, href: 'https://facebook.com'},
         {icon: <FaTwitter/>, href: ' https://twitter.com'},
-        {icon: <FaLinkedin/>, href: ' https://linkedin.com'},
+        {icon: <FaLinkedinIn/>, href: ' https://linkedin.com'},
         {icon: <FaInstagram/>, href: ' https://instagram.com'},
 
     ]
     return (
         <StyledSideBar>
           <UserInfo>
-            <Avatar className='avatar' size='100' round src={user && user.avatar}/>
+            <Avatar className='avatar' size='100' round src={user && user.avatar} name={user && user.email}/>
             <div className='links'>
             <h6>{user && user.fullname}</h6>
             <p>{user && user.role}</p>
                 <ul>
     {links.map((link,i)=> (<a href={`${link.href}/cwangayi`} target='_blank' noreferer>{link.icon}</a>))}
                 </ul>
-            <div>Posts  <span>{user && user.posts.length}</span></div>
+    <div> <span>{user && user.posts.length}</span>{user&& user.posts.length === 1 ? 'Post' : 'Posts'}</div>
             </div>
           </UserInfo>  
          

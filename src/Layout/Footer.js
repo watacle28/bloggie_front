@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import logo from './Headr/logo.svg'
 
 const StyledFoot = styled.div`
 width: 100%;
@@ -20,25 +21,26 @@ justify-content: center;
 
 const Copyright = styled.div`
 display: flex;
-
- p{color:white;
+img{
+    width:1rem;
+    margin-right: 1rem;
+}
+ p{
     margin:0;
- span{
-     color: white
- }}
+ }
 `
 const Contact = styled.ul`
 list-style: none;
-color: rgba(255,255,255,.7);
+color: rgba(255,255,255,.2);
 display: flex;
 justify-content: space-between;
-a{
-    color: skyblue;
+/* a{
+ 
     transition: all 1s cubic-bezier(0.075, 0.82, 0.165, 1);
     :hover{
         border-bottom: #e24727 !important;
     }
-};
+}; */
 li{margin: .5rem}
 `
 const contactLinks = [
@@ -49,7 +51,7 @@ const contactLinks = [
     {name: 'LinkedIn',
     link: 'https://www.linkedin.com/cwangayi'},
     {name: 'Instagram',
-    link: 'https://www.instagram.com/cleopatros28'},
+    link: 'https://www.instagram.com/cleopatros'},
     
 ]
 
@@ -57,7 +59,7 @@ export const Footer = () => {
     return (
         <StyledFoot>
         <Copyright>
-            <p>Bloggie <span> © {new Date().getFullYear()} 
+            <p> <img src={logo} alt="logo"/> Dev_Blogger <span> © {new Date().getFullYear()} 
                 </span></p>
          </Copyright>
             <Contact>

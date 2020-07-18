@@ -1,5 +1,6 @@
 body,html {
   margin: 0;
+  
   font-family: 'Roboto', 
     sans-serif !important;
   -webkit-font-smoothing: antialiased;
@@ -26,10 +27,7 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-@font-face {
-  font-family: typer;
-  src : local('typer') ,url(./fonts/typer.ttf) format('truetype')
-}
+
 
 span{
   margin: auto .25rem;
@@ -54,4 +52,9 @@ span{
  justify-content: center;
  padding: .2rem;
  font-size: 12px;
+ transition: all 3s ease-in;
+}
+
+button:focus, input:focus, textarea:focus, select:focus{
+  outline: none;
 }

@@ -161,7 +161,7 @@ export const Headr = (props) => {
         <div >
        <MobileHead scrolled ={scrollStatus}>
        <Burger open={open} setOpen={setOpen}/>
-{!auth.loading && auth.authenticated && auth.userData && <Link  to={`/author/${auth.userData._id}`}><Avatar name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/></Link>}
+{!auth.loading && auth.authenticated && auth.userData && <Link  to={`/author/${auth.userData._id}`}><Avatar src={auth.userData.avatar} name={auth.userData.username } textSizeRatio={2} size={40}  round={true}/></Link>}
 
       <Link to='/'> <img src={Logo} alt="logo"/></Link>
        </MobileHead>

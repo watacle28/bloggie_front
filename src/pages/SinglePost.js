@@ -6,7 +6,7 @@ import Avatar from 'react-avatar';
 import {useSelector,useDispatch} from 'react-redux';
 import {Link} from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import bg from '../components/bg.jpg';
+
 import { getSinglePost, addComment, likePost, unlikePost, editComment, removeComment, likeComment } from '../redux/actions/posts';
 
 import { smartRedirect } from '../redux/actions/ui';
@@ -18,6 +18,7 @@ import { NotFound } from './NotFound';
 import { toast } from 'react-toastify';
 import { CustomButton } from '../components/CustomButtom';
 import { Tiny } from './Tiny';
+import { Tags } from '../components/Card';
 
 
 const StyledPost = styled.div`
@@ -39,6 +40,24 @@ const StyledPost = styled.div`
        
         margin-top: auto;
 
+    }
+    button:not([class='tox-tbtn']){
+            border: none;
+            background: transparent;
+            color: white;
+            margin: auto .5rem;
+            transition: all .5s ease-in;
+            padding: .2rem .4rem;
+           &:hover{
+            background: #222;
+           }
+          
+        }
+      
+    svg:not([width='24']){
+        width: 1rem;
+        height: 1rem;
+        margin-right:.5rem;
     }
     ul{
         margin-left: .5rem;
@@ -71,7 +90,11 @@ const StyledPost = styled.div`
         }
     }
     img{
-        width: 100%;
+        display: inline-block;
+        width:100%;
+        object-fit: contain;
+        border-radius: 20px;
+        max-height: 300px;
         
      }
      h4,h5{
@@ -119,6 +142,12 @@ const StyledPost = styled.div`
     .likes{
         display: flex;
         align-items: center
+    }
+    .unauth{
+        text-align: center;
+        color: #222;
+        margin-top: 2rem;
+       
     }
 
 `
@@ -224,14 +253,16 @@ export const SinglePost = (props) => {
         <div className="meta">
      
     
-            <small>{post.author.username}</small>
+        <small>by <span> </span><Link to={`/author/${post.author._id}`}>{post.author.username}</Link></small>
+    
          <small>{new Date(post.createdAt).toLocaleDateString()}</small>
          <small>
-         {hasLikedPost && hasLikedPost.length > 0 ? <Link  onClick={handleUnLikePost} ><FaHeart className = 'liked icon'/> </Link> :
-         <Link  onClick={handleLikePost} ><FaRegHeart className = 'icon'/> </Link>}
-        <span style={{marginLeft:'0.5rem'}}>{post.likes.length}</span>
+         {hasLikedPost && hasLikedPost.length > 0 ? <button data-count={post.likes.length}  onClick={handleUnLikePost} ><FaRegHeart className = 'liked'/> </button> :
+         <button data-count={post.likes.length}  onClick={handleLikePost} ><FaRegHeart /> </button>}
+        
          </small>
-        </div>
+        </div>  
+        <Tags> {post.tags && post.tags.map((tag,i)=> <span key={i}>{tag}</span>)}</Tags>
         <div className="post_body">
       
             <div ref={node} className='html' dangerouslySetInnerHTML={{__html:post.body}}/>
@@ -248,18 +279,18 @@ export const SinglePost = (props) => {
         </div>
 
          {  isLoggedIn ?  <div className="commenting">
-         {/* <Md name='comment' value={comment.text} onChange={handleComment}/> */}
+        
          <Tiny value={comment.html} handleEditorChange={handleComment}/>
                 {isEditing.status ?  <CustomButton secondary disabled={comment.text === '' ? true : false} onClick={handleEditComment}>Save</CustomButton> :
                 <CustomButton secondary disabled={comment.html === '' ? true : false} onClick={sendComment}>Add Comment</CustomButton>}
          </div>: 
 
 
-        <>
-        <Link to='/login'><CustomButton secondary onClick={handleRedirect}>Log In </CustomButton></Link>  or  {' '}
-         <Link to='/register'><CustomButton secondary onClick={handleRedirect}>Register </CustomButton></Link> 
+        <div className='unauth'>
+        <Link to='/login'><button secondary onClick={handleRedirect}>Log In </button></Link>  or  {' '}
+         <Link to='/register'><button secondary onClick={handleRedirect}>Register </button></Link> 
            {' '} to comment
-        </>
+        </div>
          }
            
        

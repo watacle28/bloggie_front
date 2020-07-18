@@ -11,9 +11,10 @@ import 'aos/dist/aos.css'
 import{ Home }from './pages/Home';
 import{ Login }from './pages/Login';
 import{ Register} from './pages/Register';
-//import {Blogs} from './pages/Blogs';
 import {Authors }from './pages/Authors';
 import {Editor} from './pages/Editor';
+import {ForgotPassword} from './pages/ForgotPassword';
+import {ResetPassword} from './pages/ResetPassword'
 
 //custom routes
 import {AuthRoute,PrivateRoute, CanEditRoute, ProfileRoute} from './utils/myRoutes'
@@ -45,8 +46,11 @@ function App() {
         
         <Switch>
           <Route exact path='/' component={Home}/> 
+          <Route exact path='/posts/:tag' component={Home}/>
           <AuthRoute exact path='/login' component={Login}/>
           <AuthRoute exact path='/register' component={Register}/>
+          <AuthRoute exact path='/forgotPassword' component={ForgotPassword}/>
+          <AuthRoute exact path='/resetPassword' component={ResetPassword}/>
           <PrivateRoute exact path='/editor' component={Editor}/>
           <CanEditRoute exact path='/edit/:id' component={Editor}/>
           <ProfileRoute exact path ='/profile/:id' component ={EditProfile}/>

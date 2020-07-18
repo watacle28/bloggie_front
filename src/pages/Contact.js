@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import pic from './bloggie_contact.jpg'
-import { FaLocationArrow, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaMapPin, FaMapMarker, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLocationArrow, FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaMapPin, FaMapMarker, FaMapMarkerAlt, FaLinkedinIn } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { CustomButton } from '../components/CustomButtom';
+import Axios from 'axios';
 
 const StyledContainer = styled.div`
     width: 100%;
@@ -31,9 +32,11 @@ const StyledContainer = styled.div`
             border-radius: 50%;
             padding: .5rem;
             background: rgba(255,255,255,.1);
+            max-width:150px;
             img{
                 width:100%;
                 border-radius: 50%;
+              
             }
         }
         .info{
@@ -58,7 +61,9 @@ const StyledContainer = styled.div`
         .socio{
             width: 100%;
             display: flex;
-            justify-content: space-between;
+            svg{
+                margin-right: 1rem;
+            }
             a{
                opacity: .2;
             }
@@ -77,7 +82,7 @@ const StyledContainer = styled.div`
        label{
            display: flex;
            justify-content: space-between;
-           width: 60%;
+           width: 100%;
        }
         input,textarea{
             background: transparent;
@@ -103,12 +108,25 @@ const StyledContainer = styled.div`
     `
 
 export const Contact = () => {
+    const [data, setData] = useState({name:'',email:'',message:''})
     const Socio = [
         {icon: <FaFacebook/>, link: 'https://facebook.com/cwangayi'},
         {icon: <FaTwitter/>, link: 'https://twitter.com/watacle28'},
         {icon: <FaInstagram/>, link: 'https://instagram.com/cleopatros'},
-        {icon: <FaLinkedin/>, link: 'https://linkedin.com/sirwatacle'}
+        {icon: <FaLinkedinIn/>, link: 'https://linkedin.com/sirwatacle'}
     ]
+
+    const handleDataInput = (e)=>{
+        const {name,value} = e.target
+        setData({...data, [name]: value})
+    }
+
+    const submitForm = async(e)=>{
+        e.preventDefault();
+    
+        // await Axios.post("https://formspree.io/mbjzpwlp",data)
+     
+    }
 
     return (
         <StyledContainer>
@@ -133,12 +151,12 @@ export const Contact = () => {
            </div>
            <h4>Send me a message</h4>
          
-               <form autoComplete='off' className="contact-form">
-                    <label htmlFor="name">Your name
-                    <input type="text" id="name" name="name" placeholder='Name' /> </label>
-                    <label htmlFor="email">Email Address
-                    <input type="email" name="email" id="email" placeholder='email'/></label>
-                    <textarea name="message" cols="30" rows="10" placeholder='Your message here'></textarea>
+               <form  onSubmit={submitForm}  autoComplete='off' className="contact-form">
+                    <label htmlFor="name">
+                    <input type="text" value={data.name} onChange={handleDataInput} id="name" name="name" placeholder='Your Name' /> </label>
+                    <label htmlFor="email">
+                    <input type="email" value={data.email} onChange={handleDataInput} name="email" id="email" placeholder='email address'/></label>
+                    <textarea value={data.message} onChange={handleDataInput} name="message" cols="30" rows="10" placeholder='Your message here'></textarea>
                     <CustomButton>Send Message</CustomButton>
 
                </form>

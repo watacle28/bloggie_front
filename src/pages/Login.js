@@ -19,6 +19,7 @@ export const StyledForm = styled.form`
       width: 100%;
       margin: auto;
       position: absolute;
+      top: 30%;
   }
  
   h2{
@@ -59,7 +60,13 @@ export const StyledForm = styled.form`
   a{
       color: white
   }
-  
+  small{
+      color: #222;
+      margin-right: 1rem;
+  }
+  .forgotPwd{
+      margin-top: 1rem;
+  }
 `
 
 export const Login = (props) => {
@@ -87,11 +94,14 @@ export const Login = (props) => {
             <StyledForm autoComplete='off' onSubmit={handleSubmit} noValidate >
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label>
-                <input autoFocus type="email" id='email' name='email' value={loginData.email} onChange={handleChange}/>
+                <input autoFocus type="email" id='email' name='email' placeholder='your email ' value={loginData.email} onChange={handleChange}/>
                 <label htmlFor="password">Password</label>
-                <input  type="password" id='password' name='password' value={loginData.password} onChange={handleChange}/>
+                <input  type="password" id='password' name='password' placeholder='your password' value={loginData.password} onChange={handleChange}/>
                 <CustomButton type='submit'>Log In</CustomButton>
                 <small>New here? <span style={{marginLeft:'5px'}}><Link to='/register'>Create an account</Link></span></small>
+                <div className="forgotPwd">
+                <Link to='/forgotPassword'>Forgot Password?</Link>
+                </div>
             </StyledForm>
     
     )

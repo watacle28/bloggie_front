@@ -9,12 +9,12 @@ import { Link } from 'react-router-dom';
 
 const Jumbo = styled.div`
 width: 100%;
-height: 100vh;
+/* height: 100vh; */
 color: white;
-background-image: url(${bg});
+/* background-image: url(${bg});
 background-position: center;
 background-repeat: no-repeat;
-background-size: cover;
+background-size: cover; */
 position: relative;
 margin: 0 auto;
 text-align: center;
@@ -29,7 +29,7 @@ z-index:2;
 p{
     
     color: white;
-    font-family: 'typer';
+   
 
 }
 
@@ -54,8 +54,7 @@ button{
 }
 
 `
-
-export const Hero = () => {
+const Hero = () => {
     return (
    <Jumbo>
    <Title>
@@ -66,3 +65,4 @@ export const Hero = () => {
    </Jumbo>
     )
 }
+export default Hero;

@@ -1,11 +1,9 @@
 import React,{useEffect} from 'react'
-import { FaFacebook,FaRegHeart, FaTwitter, FaInstagram, FaLinkedin,  FaPencilAlt,  FaRegComments } from 'react-icons/fa'
+import { FaFacebook,FaRegHeart, FaTwitter, FaInstagram, FaLinkedin,  FaPencilAlt,  FaRegComments, FaMapMarkerAlt, FaCalendarAlt, FaLinkedinIn } from 'react-icons/fa'
 import styled from 'styled-components';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime'
-import {StyledAuthors} from './Authors'
-import pic from '../components/clo.jpg'
-
+import Avatar from 'react-avatar';
 import { useSelector, useDispatch } from 'react-redux'
 import { getSingleBlogger } from '../redux/actions/user'
 import { Link } from 'react-router-dom';
@@ -14,37 +12,46 @@ import { motion } from 'framer-motion';
 
 
 const Container = styled(motion.div)`
+   width: 100%;
+   padding: auto 1rem;
     h5{
-        text-transform: uppercase;
+        
         color: #e24727;
 
     }
-    p{ 
-        text-transform: uppercase;
+   
+    @media screen and (min-width: 768px){
+       width: 80%;
     }
     `
 const Socio = styled.div`
-margin: 1rem;
-width: 100%;
+width: max-content;
+padding: .5rem 1rem;
+margin-top: 1rem;
 display: flex;
 align-items: center;
-color: #e24727;
-justify-content: space-around;`
+ a{color : rgba(255,255,255,.2);}
+box-shadow: var(--box-shadow);
+border-radius: 200px;
+svg{
+    margin-right: 1rem;
+   
+}
+`
 
 const StyledPost =  styled.div`
     margin: .5rem;
-    border: .1px solid rgba(255,255,255,.5) ;
+    border: 1px solid rgba(255,255,255,.2) ;
     /* box-shadow: 2px 2px 31px 0px rgba(227,199,227,0.1); */
     width: 100%;
-    border-radius: 5px;
+    border-radius: 20px;
     display: flex;
     overflow: hidden;
     justify-content: center;
     align-items: center;
     text-align: center;
-    a {
-        color : #e24727
-    }
+    
+    
     img{
         width:100%;
         border-radius: 0;
@@ -69,7 +76,7 @@ const PostContent = styled.div`
 
 `
 const Date = styled(motion.p)`
-        color: rgba(255,255,255,.5)
+        color: rgba(255,255,255,.2)
     `
 
 const PostFooter = styled.div`
@@ -81,12 +88,63 @@ const PostFooter = styled.div`
 `
 
 
+const Profile = styled.div`
+     width: 100%;
+     display: flex;
+     flex-direction: column;
+     align-items: flex-start;
+     .header{
+         width: 100%;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         h5{
+             text-transform: capitalize;
+             font-weight: bolder;
+             margin: .5rem auto;
+         }
+         h6{
+             color: rgba(255,255,255,.2);
+         }
+     }
+     .loc_joined{
+         display: flex;
+         width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        color: rgba(255,255,255,.2);
+        div{
+            margin-right: 2rem;
+            display: flex;
+            align-items: center;
+        }
+        svg{
+            margin-right: .5rem;
+        }
+     }
+     .posts{
+       color: rgba(255,255,255,.2);
+         .num{
+             font-weight: bolder;
+             color: #fff;
+         }
+     }
+`
+
+
 
 export const Author = (props) => {
     const currentBlogger = useSelector(state => state.bloggers && state.bloggers.currentBlogger)
     const loggedInBlogger = useSelector(state => state.auth && state.auth.userData && state.auth.userData._id)
     const dispatch = useDispatch()
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
+    const links = [
+        {icon: <FaFacebook/>, href: 'https://facebook.com'},
+        {icon: <FaTwitter/>, href: ' https://twitter.com'},
+        {icon: <FaLinkedinIn/>, href: ' https://linkedin.com'},
+        {icon: <FaInstagram/>, href: ' https://instagram.com'},
+
+    ]
     dayjs.extend(relativeTime)
     useEffect(() => {
       dispatch(getSingleBlogger(props.match.params.id))
@@ -94,29 +152,42 @@ export const Author = (props) => {
     }, [dispatch,props.match.params.id])
     return (
       <Container>
-      {currentBlogger &&   <StyledAuthors>
+      {currentBlogger &&  
       
-              <img src={currentBlogger.avatar? currentBlogger.avatar : pic} alt=""/>
-                <h5>{currentBlogger.fullname ? currentBlogger.fullname : currentBlogger.username}</h5>
-                 {currentBlogger.role && <p>{currentBlogger.role}</p>}
-                 {currentBlogger.location && <p>Based in {currentBlogger.location}</p>}
+        <div>
+        <Profile>  
+              <div className="header">
+              <div className="left">
+              <Avatar src={currentBlogger.avatar} name ={currentBlogger.username} textSizeRatio={2} size={150} round={true} />
+                <h5>{currentBlogger.fullname ? currentBlogger.fullname : null}</h5>
+                <h6>@{currentBlogger.username}</h6>
+              </div>
+              <div className="coa-edit">
+              {currentBlogger._id === loggedInBlogger ?
+             <Link to ={`/profile/${loggedInBlogger}`}><CustomButton secondary ><FaPencilAlt/> {'  '}<span>Edit Profile</span></CustomButton></Link> : null}
+              </div>
+              </div>
+                 {currentBlogger.role && <span>{currentBlogger.role}</span>}
+                 <div className="loc_joined">
+                 {currentBlogger.location && <div><FaMapMarkerAlt/> <span>{currentBlogger.location}</span></div>}
+                 <div><FaCalendarAlt/><span>{currentBlogger.joined ? currentBlogger.joined : `joined 28 June 1989`}</span></div>
+                 </div>
+                 <div className="posts">
+               
+                 <span className="num">{currentBlogger.posts.length}</span> <span>{currentBlogger.posts.length === 1 ? 'Post' : 'Posts'}</span>
+                </div>
+           
             <Socio className="socio-icons">
-                <FaFacebook/>
-                <FaTwitter/>
-                <FaInstagram/>
-                <FaLinkedin/>
+             {links.map((link,i)=> <a href={link.href}>{link.icon}</a>)}
             </Socio>
             <p style={{ textAlign: 'justify', marginTop:'1rem', textTransform:'capitalize'}}>{currentBlogger.bio && currentBlogger.bio}</p>
 
-            {currentBlogger._id === loggedInBlogger ?
-             <Link to ={`/profile/${loggedInBlogger}`}><CustomButton secondary ><FaPencilAlt/> {'  '}<span>Edit Profile</span></CustomButton></Link> : null}
-            <div className="posts">
-                <div>POSTS</div>
-                
-    <div className="num">{currentBlogger.posts.length}</div>
-            </div>
-            
-           {currentBlogger.posts.map(post =>(
+          
+           
+        </Profile>
+         
+          <div>
+          {currentBlogger.posts.map(post =>(
                 <StyledPost>
                
                 <PostContent>
@@ -137,8 +208,9 @@ export const Author = (props) => {
                 </PostContent>
             </StyledPost>
            ))}
-
-        </StyledAuthors>}
+          </div>
+         
+        </div>}
       </Container>
     )
 }

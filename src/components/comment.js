@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime' 
-import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart, FaTrash, FaRegClock}  from 'react-icons/fa'
+import { FaEdit , FaCalendarAlt, FaThumbsUp, FaHeart, FaTrash, FaRegClock, FaRegHeart}  from 'react-icons/fa'
 import Avatar from 'react-avatar';
 import me from './clo.jpg'
 import { Link } from 'react-router-dom';
@@ -34,7 +34,7 @@ const StyledComment = styled.div`
        .comment_head{
         .sb-avatar__text div span{
             border-radius: 50%;
-            background: #a24727;
+            /* background: #e24727; */
          }
            display: flex;
            align-items: center;
@@ -53,13 +53,16 @@ const StyledComment = styled.div`
             margin-right: 3px;
             color: white;
         }
-       
+       .liked{
+           color: #e24727
+       }
         
     }
 `
 
 export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handleDeleteComment, handleLikingComment}) => {
     const currentUser = useSelector(state => state.auth.userData ? state.auth.userData._id : null);
+    const hasLiked = likes && likes.find(id => id == currentUser);
     
 
     dayjs.extend(relativeTime)
@@ -74,7 +77,7 @@ export const Comment = ({comment:{body,likes,postedOn,owner}, clickToEdit, handl
                 </div>
                 <div className="comment_body" dangerouslySetInnerHTML={{__html: body}}/>
                     <section className="comment_meta_info"> 
-                    <div> <Link  to='#' onClick={handleLikingComment}>{'  '} <FaHeart /> </Link><span>{likes.length}</span></div>
+                    <div> <button data-count={likes.length} to='#' onClick={handleLikingComment}>{'  '} <FaRegHeart className={hasLiked && hasLiked.length > 0 ? 'liked': null} /> </button></div>
                 
                         {currentUser == owner._id ? <div>
                             <Link to='#' onClick={clickToEdit}><FaEdit/> {' '} </Link>

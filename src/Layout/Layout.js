@@ -13,8 +13,9 @@ const StyledLayout= styled.div`
 width: 100vw;
 height: min-content;
 position: relative; 
-  display: flex;
+display: flex;
  justify-content: center;
+
  margin: auto;
  margin-top: 10vh;
  margin-bottom: 5vh;
@@ -24,18 +25,18 @@ position: relative;
       position: relative;
     display: none;
     @media screen and (min-width: 700px) {
-          
+            padding: 2rem 0 ;
             display:flex;
             flex-direction:column;
             justify-content:center;
             max-width: 500px;
             height: min-content;
             border: 1px solid rgba(255,255,255,0.1);
+            
         }
     }
     .children{
-        /* padding: 2rem 0 4rem 0; */
-       
+        padding: 2rem 0 ;
         position: relative;
         width: 100%;
         border: 1px solid rgba(255,255,255,0.1);
@@ -68,14 +69,13 @@ export const Layout = (props) => {
         pauseOnFocusLoss
         draggable
         pauseOnHover/>
-        {/* <div className="min880"> */}
+       
         <div className="sidebar"> 
         {isLoggedIn ? <AuthSideBar user={user}/>: <GuestSideBar/>} 
         <Resources/>
         </div>
         <div className="children">{props.children}</div>
-        
-        {/* </div> */}
+    
          <Footer />  
             
         </StyledLayout>

@@ -111,7 +111,7 @@ export const  loadUserData = () => async dispatch =>{
                 type: PROFILE_UPDATE_SUCCESS,
                 payload: userData.data.user
         })
-          history.push(`/authors/${id}`)
+          history.push(`/author/${id}`)
             
         } catch (error) {
             dispatch({
@@ -120,3 +120,6 @@ export const  loadUserData = () => async dispatch =>{
             })
         }
     }
+
+    //SEND RESET PASSWORD LINK
+    

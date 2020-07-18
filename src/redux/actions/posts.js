@@ -13,7 +13,8 @@ import {
     EDIT_COMMENT,
     REMOVE_COMMENT,
     LIKE_COMMENT,
-    UNLIKE_COMMENT
+    UNLIKE_COMMENT,
+    GET_POST_BY_TAG
 } from '../types';
 import axios from 'axios';
 import {
@@ -30,10 +31,13 @@ import {
 axios.defaults.baseURL = 'http://192.168.1.7:5002/api'
 
 
-export const getAllPosts = () => async dispatch => {
+export const getAllPosts = (page,limit) => async dispatch => {
     try {
-        const res = await axios.get('/public/blogs')
-        const posts = res.data.blogs
+        dispatch({
+            type: LOADING
+        })
+        const res = await axios.get(`/public/blogs?page=${page}&limit=${limit}`)
+        const posts = res.data
 
         dispatch({
             type: GET_ALL_POSTS,
@@ -41,6 +45,20 @@ export const getAllPosts = () => async dispatch => {
         })
     } catch (error) {
         // dispatch({type: POST_NOT_FOUND})
+    }
+}
+
+export const getPostByTag = (tag) => async dispatch => {
+    try {
+        const res = await axios.get(`/public/blogs/${tag}`)
+        const posts = res.data
+
+        dispatch({
+            type: GET_POST_BY_TAG,
+            payload: posts
+        })
+    } catch (error) {
+         dispatch({type: POST_NOT_FOUND})
     }
 }
 

@@ -35,7 +35,7 @@ const dispatch = useDispatch();
       };
  
     return (
-        <StyledForm onSubmit={handleSubmit}  noValidate>
+        <StyledForm autoComplete='off' onSubmit={handleSubmit}  noValidate>
        
         <h2>Register</h2>
         <label htmlFor="username">Username</label>

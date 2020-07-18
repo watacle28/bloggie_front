@@ -10,7 +10,7 @@ import avatar from './clo.jpg';
 import {} from 'react-icons';
 import Ava from 'react-avatar';
 import { FaEdit, FaTrash, FaRegComments, FaRegHeart } from 'react-icons/fa';
-import { deletePost } from '../redux/actions/posts';
+import { deletePost, getPostByTag } from '../redux/actions/posts';
 import { CustomButton } from './CustomButtom';
 
 const StyledCard = styled(motion.div)`
@@ -29,8 +29,9 @@ width: 80%;
 }
 .author{
   position: absolute;
-  left: 0;
-  top: 0;
+  left: 2%;
+  top: 5%;
+  z-index:10;
   .name{
     margin-left: 1rem;
     border: 1px solid rgba(255,255,255,0.2);
@@ -92,6 +93,25 @@ button{
   }
 }
 `
+export const Tags = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 1rem auto;
+  span{ 
+   .active{
+     border: 1px solid var(--primary-color)
+   }
+  
+    background: #222222;
+    border-radius: 200px;
+    cursor: pointer;
+    padding: .1rem .5rem;
+    margin-right: .5rem;
+  }
+`
+
 const Heading = styled(motion.h6)`
 
 text-transform: uppercase;
@@ -103,7 +123,8 @@ justify-content: space-between;
 .date{
   opacity: .1;
   text-transform: lowercase;
-  color:  rgba(255,255,255,0.8)
+  color:  rgba(255,255,255,0.8);
+  font-weight: normal;
 }
 .data{
   display: flex;
@@ -128,7 +149,7 @@ const childrenVariants = {
         staggerChildren: 1
       }
   },
-  closed: { opacity: 0, x: "-100%" }
+  closed: { opacity: 0, x:'-100%' }
 }
 const grandChildren = {
   open:{opacity: 1},
@@ -136,8 +157,10 @@ const grandChildren = {
 }
 
 export const Card = (props)=>{
+ 
   const dispatch = useDispatch()
   const history = useHistory()
+   console.log(history.location.pathname);
   const userId = useSelector(state => state.auth.userData ? state.auth.userData._id : '')
   const postAuthor = props.post.author ? props.post.author._id : null
   dayjs.extend(relativeTime)
@@ -153,15 +176,15 @@ export const Card = (props)=>{
          animate = 'open'
          
          >
-     <Link to={`/post/${props.post._id}`}> <motion.img variants={childrenVariants} src={props.post.blogImage} alt=""/></Link>
-      <CardContent  variants={childrenVariants}>
-     
-            <div className='author'> 
+     <Link to={`/post/${props.post._id}`}> <motion.img variants={childrenVariants} src={props.post.blogImage} alt=""/></Link>  <div className='author'> 
             <Link to = {`/author/${props.post.author && props.post.author._id}`}>
             <Ava src={props.post.author &&props.post.author.avatar} name ={props.post.author && props.post.author.username}textSizeRatio={2} size={40}  round={true}/>
             <span className='name'>{props.post.author ? props.post.author.username : 'Unknown'}</span>
             </Link>
             </div>
+      <CardContent  variants={childrenVariants}>
+     
+          
       <Heading variants={grandChildren}>
         <Link to={`/post/${props.post._id}`}>{props.post.title}</Link>
        <div className='data'>
@@ -171,8 +194,11 @@ export const Card = (props)=>{
         <span data-count ={props.post.likes.length}><FaRegHeart /> </span>
         </PostData>
        </div>
+       
        </Heading>
-        
+        <Tags>
+        {props.post.tags && props.post.tags.map((tag,i)=> <span key={i}className={history.location.pathname === `/posts/${tag}` ? 'active' : null} onClick={() =>dispatch(getPostByTag(tag))}><Link to={`/posts/${tag}`}>{tag}</Link></span>)}
+       </Tags>
        
         <motion.div variants={grandChildren} className='post_meta'>
       <Link to={`/post/${props.post._id}`}><CustomButton variants={childrenVariants} secondary>Read more</CustomButton></Link>

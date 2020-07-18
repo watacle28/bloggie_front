@@ -125,8 +125,8 @@ import { updateProfile } from '../redux/actions/auth';
            
             if(userData){
                 const {socialLinks,email,avatar,fullname,bio,role,location} = userData
-                setData({...data,email,first_name: fullname.split(' ')[0],
-                 surname: fullname.split(' ')[1], role, bio})
+                setData({...data,email,first_name: fullname && fullname.split(' ')[0],
+                 surname: fullname && fullname.split(' ')[1], role, bio})
                  setLinks({...links,...socialLinks})
                 setImage({...image, preview: avatar})
                  setCountry(location)
