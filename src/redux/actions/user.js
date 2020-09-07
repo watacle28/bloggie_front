@@ -6,6 +6,7 @@ axios.defaults.baseURL = 'http://localhost:5002/api'
 export const getAllBloggers = () => async dispatch=>{
     try {
         const res = await axios.get('/public/bloggers')
+        console.log({res});
         dispatch({type: GET_BLOGGERS, payload: res.data.users})
 
 

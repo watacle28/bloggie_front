@@ -102,7 +102,8 @@ export const  loadUserData = () => async dispatch =>{
 
     export const updateProfile = (data,history,id) => async dispatch =>{
         const token = localStorage.getItem('token')
-        console.log({data})
+       
+      
         try {
             setAuthToken(token)
             const userData = await axios.put('/user/me', data)
@@ -116,7 +117,7 @@ export const  loadUserData = () => async dispatch =>{
         } catch (error) {
             dispatch({
                 type: PROFILE_UPDATE_FAILURE,
-                payload: error.response.data
+                payload: error.response?.data
             })
         }
     }

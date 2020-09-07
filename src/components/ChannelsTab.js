@@ -8,6 +8,7 @@ import { useComp } from '../customHooks';
 import { addChannel, editChannel, getAllChannels, deleteChannel } from '../redux/actions/resources';
 import { Spinner } from './Loader';
 import {Channel} from './Channel'
+import { AuthComponent } from './AuthComponent';
 
 export const ChannelsTab = ({clicks,setClicks}) => {
     const channels = useSelector(state => state.channels)
@@ -39,7 +40,9 @@ export const ChannelsTab = ({clicks,setClicks}) => {
     return (
         <StyledResourceForm>
             <h5>Channels to watch</h5>
+            <AuthComponent>
             <button title='add a channel' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+            </AuthComponent>
             <Modal reset={reset} open={openModal} setOpen={setOpenModal}>
             <Form autoComplete='off' onSubmit={editMode.state === true ? saveChanges : add}>
                 <h5>Enter Channel details</h5>

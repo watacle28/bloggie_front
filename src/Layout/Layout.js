@@ -1,6 +1,6 @@
 import React from 'react';
 import {useSelector} from 'react-redux'
-import { ToastContainer } from "react-toastify";
+
 import {Footer} from './Footer'
 import styled from 'styled-components';
 import { Headr } from './Headr/Headr';
@@ -59,17 +59,7 @@ export const Layout = (props) => {
     return (
         <StyledLayout>
         <Headr />
-        <ToastContainer
-        position="top-center"
-        autoClose={4000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover/>
-       
+      
         <div className="sidebar"> 
         {isLoggedIn ? <AuthSideBar user={user}/>: <GuestSideBar/>} 
         <Resources/>

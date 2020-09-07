@@ -14,7 +14,8 @@ import {
     REMOVE_COMMENT,
     LIKE_COMMENT,
     UNLIKE_COMMENT,
-    GET_POST_BY_TAG
+    GET_POST_BY_TAG,
+    SET_ERRORS
 } from '../types';
 import axios from 'axios';
 import {
@@ -38,7 +39,7 @@ export const getAllPosts = (page,limit) => async dispatch => {
         })
         const res = await axios.get(`/public/blogs?page=${page}&limit=${limit}`)
         const posts = res.data
-
+        
         dispatch({
             type: GET_ALL_POSTS,
             payload: posts
@@ -110,12 +111,14 @@ export const editPost = (data, id, history) => async dispatch => {
         const token = localStorage.getItem('token')
         setAuthToken(token)
         const res = await axios.put(`blog/edit/${id}`, data)
+       console.log({res});
         dispatch({
             type: LOADING
         })
+        
         dispatch({
             type: EDIT_SUCCESS,
-            payload: res.data
+            payload: res.data.editedPost
         })
         history.push(`/post/${id}`)
 
@@ -131,9 +134,7 @@ export const deletePost = (id, history) => async dispatch => {
         toast(res.data.msg, {
             type: 'success'
         })
-        dispatch({
-            type: LOADING
-        })
+      
         dispatch({
             type: REMOVE_POST,
             payload: id

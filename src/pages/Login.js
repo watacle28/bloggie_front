@@ -29,31 +29,33 @@ export const StyledForm = styled.form`
       font-weight: 400;
   }
   label{
-      display: block;
+      /* display: block; */
       margin: 0;
-      font-size: .8rem;
+      margin-bottom: .5rem;
       opacity: .6;
       color: white;
   }
   input{ 
+      width: 100%;
       background-color: transparent;
-      border: none;
+      padding: .3rem 1rem;
       color: white;
       margin-bottom: 1rem;
-      border-bottom: 1px solid #e24727;
+      border: 1px solid #e24727;
+      border-radius: 200px;
       transition: all .5s ease-in-out;
       @media screen and (min-width: 576px){
-          width:40%;
+          width:60%;
       };
       :focus{
           outline: none;
-          transform: scale(1.1);
+          transform: scale(1.02);
       }
   }
   button{
-     
+     width: 100%;
       @media screen and (min-width: 576px){
-          width:20%;
+          width:60%;
       };
 
     }
@@ -94,10 +96,10 @@ export const Login = (props) => {
             <StyledForm autoComplete='off' onSubmit={handleSubmit} noValidate >
                 <h2>Login</h2>
                 <label htmlFor="email">Email</label>
-                <input autoFocus type="email" id='email' name='email' placeholder='your email ' value={loginData.email} onChange={handleChange}/>
+                <input autoFocus type="email" id='email' name='email' placeholder='email ' value={loginData.email} onChange={handleChange}/>
                 <label htmlFor="password">Password</label>
-                <input  type="password" id='password' name='password' placeholder='your password' value={loginData.password} onChange={handleChange}/>
-                <CustomButton type='submit'>Log In</CustomButton>
+                <input  type="password" id='password' name='password' placeholder='password' value={loginData.password} onChange={handleChange}/>
+                <CustomButton secondary type='submit'>Log In</CustomButton>
                 <small>New here? <span style={{marginLeft:'5px'}}><Link to='/register'>Create an account</Link></span></small>
                 <div className="forgotPwd">
                 <Link to='/forgotPassword'>Forgot Password?</Link>

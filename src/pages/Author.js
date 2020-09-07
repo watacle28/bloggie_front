@@ -13,7 +13,7 @@ import { motion } from 'framer-motion';
 
 const Container = styled(motion.div)`
    width: 100%;
-   padding: auto 1rem;
+   padding: 1rem;
     h5{
         
         color: #e24727;
@@ -37,36 +37,28 @@ svg{
     margin-right: 1rem;
    
 }
+@media screen and(max-width: 576px){
+    width: 100%
+}
 `
 
 const StyledPost =  styled.div`
-    margin: .5rem;
+   margin-bottom: .5rem;
     border: 1px solid rgba(255,255,255,.2) ;
-    /* box-shadow: 2px 2px 31px 0px rgba(227,199,227,0.1); */
     width: 100%;
     border-radius: 20px;
-    display: flex;
-    overflow: hidden;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    
-    
-    img{
-        width:100%;
-        border-radius: 0;
-    }
+    max-width: 500px;
 
 `
 
 
 const PostContent = styled.div`
     width: 100%;
+    height: min-content;
     padding: 1rem;
-
     display: flex;
-    flex-direction: column;
-   align-items: stretch;
+   justify-content: space-between;
+   align-items: center;
     justify-content: space-between;
      h6{
          text-transform: uppercase;
@@ -75,16 +67,40 @@ const PostContent = styled.div`
     
 
 `
-const Date = styled(motion.p)`
-        color: rgba(255,255,255,.2)
+const Date = styled(motion.div)`
+        display: flex;
+        flex-direction:column;
+        justify-content: center;
+        margin-right: 1rem;
+        text-align: center;
+       background: var(--primary-color);
+       width: 5rem;
+       height: 100%;
+       padding: 1rem;
+       text-transform: uppercase;
+
     `
 
-const PostFooter = styled.div`
+const PostInfo = styled.div`
     width: 100%;
+   height: 100%;
     display: flex;
-    
+    flex-direction: column;
     justify-content: space-between;
-    
+    align-items: center;
+    .post_data{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        span{
+            margin: 1rem;
+            position: relative;
+            svg{
+                width: 2rem;
+            }
+           
+        }
+    }
 `
 
 
@@ -93,6 +109,7 @@ const Profile = styled.div`
      display: flex;
      flex-direction: column;
      align-items: flex-start;
+     
      .header{
          width: 100%;
          display: flex;
@@ -136,13 +153,14 @@ const Profile = styled.div`
 export const Author = (props) => {
     const currentBlogger = useSelector(state => state.bloggers && state.bloggers.currentBlogger)
     const loggedInBlogger = useSelector(state => state.auth && state.auth.userData && state.auth.userData._id)
+    const social = {}
     const dispatch = useDispatch()
     const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul","Aug", "Sep", "Oct", "Nov", "Dec"]
     const links = [
-        {icon: <FaFacebook/>, href: 'https://facebook.com'},
-        {icon: <FaTwitter/>, href: ' https://twitter.com'},
-        {icon: <FaLinkedinIn/>, href: ' https://linkedin.com'},
-        {icon: <FaInstagram/>, href: ' https://instagram.com'},
+        {icon: <FaFacebook/>, href: `https://facebook.com/${currentBlogger?.socialLinks?.fb}`},
+        {icon: <FaTwitter/>, href:  `https://twitter.com/${currentBlogger?.socialLinks?.tw}`},
+        {icon: <FaLinkedinIn/>, href:  `https://linkedIn.com/${currentBlogger?.socialLinks?.linkedIn}`},
+        {icon: <FaInstagram/>, href:  `https://instagram.com/${currentBlogger?.socialLinks?.insta}`},
 
     ]
     dayjs.extend(relativeTime)
@@ -170,7 +188,7 @@ export const Author = (props) => {
                  {currentBlogger.role && <span>{currentBlogger.role}</span>}
                  <div className="loc_joined">
                  {currentBlogger.location && <div><FaMapMarkerAlt/> <span>{currentBlogger.location}</span></div>}
-                 <div><FaCalendarAlt/><span>{currentBlogger.joined ? currentBlogger.joined : `joined 28 June 1989`}</span></div>
+                 <div><FaCalendarAlt/><span>{currentBlogger.joined ? currentBlogger.joined : `Joined 28 June 1989`}</span></div>
                  </div>
                  <div className="posts">
                
@@ -191,20 +209,25 @@ export const Author = (props) => {
                 <StyledPost>
                
                 <PostContent>
-                    <h6>{post.title}</h6>
-                    <PostFooter>
-                  
-           <div><FaRegComments/><span>{'  '}</span>{post.comments.length}</div>
-           <div> <FaRegHeart/> <span>{'  '}</span>{post.likes.length} </div>
-                    </PostFooter>
                     <Date> 
-                    {dayjs(post.createdAt).date() } 
-                    <span>{' '}</span>
-                    {month[dayjs(post.createdAt).month()]}
-                    <span>{' '}</span>
-                    {dayjs(post.createdAt).year()}
-                    </Date>
-                    <Link to={`/post/${post._id}`}>READ MORE...</Link>
+                        {dayjs(post.createdAt).date() } 
+                        <span>{' '}</span>
+                        {month[dayjs(post.createdAt).month()]}
+                        <span>{' '}</span>
+                        {dayjs(post.createdAt).year()}
+                    </Date> 
+                    <PostInfo>
+                        <h6 className='hvr'>{post.title}</h6>
+                        <div className='post_data'>
+                        <span data-count={post.comments.length}><FaRegComments/></span>
+                        <span>{' '}</span>
+                            <span data-count = {post.likes.length}> <FaRegHeart/></span> 
+                        </div>
+                       
+                        <Link to={`/post/${post._id}`}>READ MORE...</Link> 
+     
+                    </PostInfo>
+                   
                 </PostContent>
             </StyledPost>
            ))}

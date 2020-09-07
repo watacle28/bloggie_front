@@ -8,6 +8,7 @@ import { getAllCourses, addCourse, deleteCourse, editCourse } from '../redux/act
 import { useComp } from '../customHooks'
 import { Spinner } from './Loader'
 import { Course } from './Course'
+import { AuthComponent } from './AuthComponent'
 
 export const CoursesTab = ({clicks,setClicks,open,handleOpen}) => {
     const courses = useSelector(state => state.courses)
@@ -53,7 +54,9 @@ export const CoursesTab = ({clicks,setClicks,open,handleOpen}) => {
               
             </Modal>
             List of courses
+            <AuthComponent>
             <button title='add new course' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+            </AuthComponent>
             <div className="resource_container">
                 
             {courses.loading ? <Spinner/> : courses.courses.map(src =>

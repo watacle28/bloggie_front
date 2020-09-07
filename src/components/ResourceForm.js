@@ -9,6 +9,7 @@ import { Modal } from './modal';
 import { Resource } from './Resource';
 import { Spinner } from './Loader';
 import { useComp } from '../customHooks';
+import { AuthComponent } from './AuthComponent';
 export const StyledResourceForm = styled.div`
     width:100%;
     transition: all 1s ease;
@@ -130,7 +131,9 @@ export const ResourceForm = ({clicks, setClicks}) => {
     
     return (
         <StyledResourceForm>
-            <button title='add new resource' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+           <AuthComponent>
+           <button title='add new resource' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+           </AuthComponent>
             
             <Modal reset = {reset} editing ={editMode} saveChanges={saveChanges} setOpen={setOpenModal} open={openModal}>
             <Form  autoComplete = 'off'  onSubmit={editMode.state === true ? saveChanges : add}>

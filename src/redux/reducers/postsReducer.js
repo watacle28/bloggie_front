@@ -1,9 +1,9 @@
 import {GET_ALL_POSTS, GET_SINGLE_POST, POST_NOT_FOUND, PUBLISH_SUCCESS, ADD_COMMENT, LOADING, EDIT_SUCCESS, CLEAR_POST, REMOVE_POST, LIKE_POST, UNLIKE_POST, GET_POST_BY_TAG} from '../types';
 
 const initialState = {
-    posts: [
-      
-    ],
+    posts: {
+      blogs:[]
+    },
     errors: null,
     currentPost: null,
     loading: true
@@ -36,12 +36,14 @@ export const postsReducer = (state = initialState,{type,payload})=>{
              }
          case PUBLISH_SUCCESS:
          case EDIT_SUCCESS :
+            console.log(state,payload)
+             let currentPost = {...state.currentPost, ...payload}
              return {
-                 ...state, errors: null, loading: false, posts: [...state.posts, payload]
+                 ...state, errors: null, loading: false, currentPost
              } 
         case REMOVE_POST:
             return {
-                ...state, loading: false, errors: null, posts: [...state.posts.filter(post=> post._id !== payload)]
+                ...state, loading: false, errors: null, posts:{...state.posts, blogs: [...state.posts.blogs.filter(post => post._id !== payload)]}
             }     
         case CLEAR_POST:
             return{

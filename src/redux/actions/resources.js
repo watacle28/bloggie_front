@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { GET_ALL_RESOURCES, ADD_RESOURCE, EDIT_RESOURCE, DELETE_RESOURCE, GET_ALL_CHANNELS, ADD_CHANNEL, GET_ALL_TWITACCS, ADD_TWITACC, EDIT_TWITACC, DELETE_TWITACC, GET_ALL_COURSES, ADD_COURSE, EDIT_COURSE, DELETE_COURSE } from '../types';
+import { GET_ALL_RESOURCES, ADD_RESOURCE, EDIT_RESOURCE, DELETE_RESOURCE, GET_ALL_CHANNELS, ADD_CHANNEL, GET_ALL_TWITACCS, ADD_TWITACC, EDIT_TWITACC, DELETE_TWITACC, GET_ALL_COURSES, ADD_COURSE, EDIT_COURSE, DELETE_COURSE, SET_ERRORS, UPVOTE_RESOURCE, UPVOTE_CHANNEL, UPVOTE_TWITACC, UPVOTE_COURSE, EDIT_CHANNEL, DELETE_CHANNEL } from '../types';
 
 import {
     toast
@@ -68,6 +68,18 @@ export const deleteResource = (id) => async dispatch =>{
         }
 }
 
+export const upVoteResource = (id) => async dispatch =>{
+    const token = localStorage.getItem('token')
+    setAuthToken(token)
+    try {
+        const res = await axios.post(`external/resource/upvote/${id}`)
+        console.log({res})
+        dispatch ({type: UPVOTE_RESOURCE, payload: res.data.response})
+
+    } catch (err) {
+        dispatch({type: SET_ERRORS, payload:err.response?.data})
+    }
+}
 
 //*****CHANNEL ACTIONS***************************************************************
 
@@ -107,7 +119,7 @@ export const editChannel = (channel, id) => async dispatch =>{
         try {
             const res = await axios.put(`external/channel/${id}`, channel);
             const edited = res.data.updatedChannel
-            dispatch({type: EDIT_RESOURCE, payload: edited})
+            dispatch({type: EDIT_CHANNEL, payload: edited})
         } catch (error) {
             console.log({error});
         }
@@ -119,12 +131,25 @@ export const deleteChannel = (id) => async dispatch =>{
         try {
             const res = await axios.delete(`external/channel/${id}`);
             const msg = res.data.msg;
-            dispatch({type:DELETE_RESOURCE, payload:id})
+            dispatch({type:DELETE_CHANNEL , payload:id})
         } catch (error) {
             console.log({error});
         }
 }
 
+export const upVoteChannel = (id) => async dispatch =>{
+   
+    const token = localStorage.getItem('token')
+    setAuthToken(token)
+    try {
+        const res = await axios.post(`external/channel/upvote/${id}`)
+        
+        dispatch ({type: UPVOTE_CHANNEL, payload: res.data.response})
+
+    } catch (error) {
+        dispatch({type: SET_ERRORS, payload:error.response.data})
+    }
+}
 //*************8*******TWITTER ACC ACTIONS***************************************************** */
 export const getAllTwitAccs = () => async dispatch => {
     const token = localStorage.getItem('token')
@@ -183,6 +208,19 @@ export const deleteTwitAcc = (id) => async dispatch =>{
         }
 }
 
+export const upVoteTwitAcc = (id) => async dispatch =>{
+    const token = localStorage.getItem('token')
+    setAuthToken(token)
+    console.log(id)
+    try {
+        const res = await axios.post(`external/twitacc/upvote/${id}`)
+        console.log(res.data.response)
+        dispatch ({type: UPVOTE_TWITACC, payload: res.data.response})
+
+    } catch (error) {
+        dispatch({type: SET_ERRORS, payload:error.response?.data})
+    }
+}
 /************************************COURSE ACTIONS*************************************** */
 
 export const getAllCourses = () => async dispatch => {
@@ -240,4 +278,16 @@ export const deleteCourse = (id) => async dispatch =>{
         } catch (error) {
             console.log({error});
         }
+}
+
+export const upVoteCourse = (id) => async dispatch =>{
+    const token = localStorage.getItem('token')
+    setAuthToken(token)
+    try {
+        const res = await axios.post(`external/course/upvote/${id}`)
+        dispatch ({type: UPVOTE_COURSE, payload: res.data.response})
+
+    } catch (error) {
+        dispatch({type: SET_ERRORS, payload:error.response.data})
+    }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css'
 import App from './App';
 import './normalize.css'
 import './bootstrap.min.css'
@@ -14,6 +15,17 @@ import store from './redux/store'
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+    <ToastContainer
+        position="top-center"
+        autoClose={4000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover/>
+       
        <App />
     </Provider>
    

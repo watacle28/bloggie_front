@@ -12,6 +12,7 @@ import Ava from 'react-avatar';
 import { FaEdit, FaTrash, FaRegComments, FaRegHeart } from 'react-icons/fa';
 import { deletePost, getPostByTag } from '../redux/actions/posts';
 import { CustomButton } from './CustomButtom';
+import { Spinner } from './Loader';
 
 const StyledCard = styled(motion.div)`
 width: 100%;
@@ -99,6 +100,7 @@ export const Tags = styled.div`
   flex-wrap: wrap;
   align-items: center;
   margin: 1rem auto;
+  position:relative;
   span{ 
    .active{
      border: 1px solid var(--primary-color)
@@ -160,7 +162,7 @@ export const Card = (props)=>{
  
   const dispatch = useDispatch()
   const history = useHistory()
-   console.log(history.location.pathname);
+   console.log(history);
   const userId = useSelector(state => state.auth.userData ? state.auth.userData._id : '')
   const postAuthor = props.post.author ? props.post.author._id : null
   dayjs.extend(relativeTime)
@@ -196,7 +198,7 @@ export const Card = (props)=>{
        </div>
        
        </Heading>
-        <Tags>
+        <Tags className='hvr'>
         {props.post.tags && props.post.tags.map((tag,i)=> <span key={i}className={history.location.pathname === `/posts/${tag}` ? 'active' : null} onClick={() =>dispatch(getPostByTag(tag))}><Link to={`/posts/${tag}`}>{tag}</Link></span>)}
        </Tags>
        
@@ -211,7 +213,7 @@ export const Card = (props)=>{
      </>: null}
       </motion.div>
       </CardContent>  
-       
+     
         </StyledCard>
       
     )

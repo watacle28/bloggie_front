@@ -19,11 +19,15 @@ const Paginate = styled.div`
          background: var(--primary-color);
          padding: .5rem;
          transition: all .5s ease-in-out;
+         &:hover{
+            transform: scale(1.1)
+         }
          &:disabled{
              background: #222;
          }
          svg{
             font-size:1.5rem;
+            color: white;
          }
      }
    .pageNumber{
@@ -34,7 +38,8 @@ const Paginate = styled.div`
    }
 `
 
-export const Pagination = ({page,setPage,totalPages,loading}) => {
+export const Pagination = ({page,setPage,totalPages,}) => {
+   
     return (
         <Paginate>
             <button disabled={page === 1} onClick={()=> setPage(page - 1)} className="arrow"><MdKeyboardArrowLeft/></button>
@@ -42,6 +47,7 @@ export const Pagination = ({page,setPage,totalPages,loading}) => {
             <div className="slash">OF</div>
             <div className="availpages">{totalPages}</div>
             <button disabled={page === totalPages} onClick={()=> setPage(page + 1)} className="arrow"><MdKeyboardArrowRight/></button>
+            
         </Paginate>
     )
 }

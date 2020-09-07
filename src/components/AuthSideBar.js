@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux'
 import {motion} from 'framer-motion'
 import styled from 'styled-components';
@@ -8,6 +8,7 @@ import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaSignOutAlt, FaLinkedi
 import { Link } from 'react-router-dom';
 import { CustomButton } from './CustomButtom';
 import { logout } from '../redux/actions/auth';
+import { getSingleBlogger } from '../redux/actions/user';
 
 
 
@@ -71,6 +72,10 @@ const dispatch = useDispatch()
         {icon: <FaInstagram/>, href: ' https://instagram.com'},
 
     ]
+    useEffect(() => {
+       dispatch(getSingleBlogger(user._id))
+       
+    }, [user])
     return (
         <StyledSideBar>
           <UserInfo>

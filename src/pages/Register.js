@@ -39,14 +39,14 @@ const dispatch = useDispatch();
        
         <h2>Register</h2>
         <label htmlFor="username">Username</label>
-        <input type="text" id='username' name='username' onChange={handleChange}/> 
+        <input autoFocus type="text" id='username' name='username' onChange={handleChange}/> 
         <label htmlFor="email">Email</label>
         <input type="email" id='email' name='email' onChange={handleChange}/>
         <label htmlFor="password">Password</label>
         <input type="password" id='password' name='password' onChange={handleChange}/>
         <label htmlFor="confirmPassword">Confirm Password</label>
         <input type="password" id='confirmPassword' name='cpassword' onChange={handleChange}/>
-        <CustomButton type='submit'>Register</CustomButton>
+        <CustomButton secondary type='submit'>Register</CustomButton>
         <small>Already have an account? <Link to='/login'>Sign In</Link></small>
 
     </StyledForm>

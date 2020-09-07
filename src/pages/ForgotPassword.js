@@ -12,12 +12,20 @@ export const StyledContainer = styled.div`
     flex-direction: column;
     align-items: center;
     padding:2rem;
+    @media screen and (max-width: 576px){
+        padding: .2rem;
+       
+    }
    form{
-       position: relative;
+     position: relative;
     box-shadow: var(--box-shadow);
     border-radius: 20px;
     padding: 2rem;
     width: 100%;
+    @media screen and (max-width: 576px){
+        padding: 0;
+        box-shadow: none;
+    }
    }
    fieldset{
     &[disabled]{
@@ -39,14 +47,23 @@ export const StyledContainer = styled.div`
        background: var(--primary-color);
        transition: all .5s ease-in-out;
        font-weight: bolder;
-       font-size:2rem;
+     
        letter-spacing: 2px;
        &:hover{
            background: #222;
            color: var(--primary-color);
        }
+       &:disabled{
+           opacity:.3;
+       }
    }
- div{
+
+.error{
+    color: var(--primary-color)
+}
+`
+const Logo = styled.div`
+     
      text-align: center;
      margin-bottom: 2rem;
      width: 100%;
@@ -56,10 +73,7 @@ export const StyledContainer = styled.div`
          width: 3rem;
          height: 3rem;
      }
- }
-.error{
-    color: var(--primary-color)
-}
+ 
 `
 export const Success = styled.div`
     width: 100%;
@@ -93,7 +107,7 @@ export const ForgotPassword = () => {
        }
        
      try {
-        const response = await Axios.post('http://localhost:5002/api/public/forgotPassword',{email})
+        const response = await Axios.post('http://192.168.1.7:5002/api/public/forgotPassword',{email})
         setResult({...result,success: response.data.message})
         setEmail('')
      } catch (err) {
@@ -107,7 +121,7 @@ export const ForgotPassword = () => {
         <StyledContainer>
         
        <form onSubmit={sendLink} noValidate autoComplete='off'>
-           <div><img src={logo} alt='Dev Blogger'/></div>
+           <Logo><img src={logo} alt='Dev Blogger'/></Logo>
        {result && result.success ? 
        <Success>
           <p> {result.success}</p>

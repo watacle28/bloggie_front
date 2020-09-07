@@ -174,7 +174,7 @@ export const SinglePost = (props) => {
     const handleComment = (value)=> setComment({...comment,html: value})
    const [isEditing, setIsEditing] = useState({status : false, id: null}) 
  /*check if user has already liked post  */
-    let hasLikedPost = post && currentUser && post.likes.filter(like => like === currentUser._id);
+    let hasLikedPost = post && currentUser && post.likes?.filter(like => like === currentUser._id);
 
   const handleLikePost = ()=>{
     if(!isLoggedIn) return toast('please log in or register first',{type: 'error'})
@@ -253,7 +253,7 @@ export const SinglePost = (props) => {
         <div className="meta">
      
     
-        <small>by <span> </span><Link to={`/author/${post.author._id}`}>{post.author.username}</Link></small>
+        <small>by <span> </span><Link to={`/author/${post.author?._id}`}>{post.author.username}</Link></small>
     
          <small>{new Date(post.createdAt).toLocaleDateString()}</small>
          <small>

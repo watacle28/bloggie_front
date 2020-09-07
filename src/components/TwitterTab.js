@@ -9,6 +9,7 @@ import { getAllTwitAccs, deleteTwitAcc, addTwitAcc, editTwitAcc } from '../redux
 import { Loader } from '../pages/SinglePost';
 import {TwitterAcc} from './TwitterAcc'
 import { useComp } from '../customHooks';
+import { AuthComponent } from './AuthComponent';
 
 
 export const TwitterTab = ({clicks,setClicks,open,handleOpen}) => {
@@ -46,7 +47,9 @@ export const TwitterTab = ({clicks,setClicks,open,handleOpen}) => {
                 <CustomButton type="submit">Save</CustomButton>
             </Form>
             </Modal>
-            <button title='add twitter acc' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+           <AuthComponent>
+           <button title='add twitter acc' id='add_btn' onClick={()=>setOpenModal(true)}><FaPlusCircle/></button>
+           </AuthComponent>
             <>
                 {twitAccs.loading ? <Loader/> : twitAccs.twitterAccs.map(acc =>
                  <TwitterAcc key={acc._id} acc={acc} onEdit ={() =>handleEdit(acc)} onDelete={() => dispatch(deleteTwitAcc(acc._id))}/>)

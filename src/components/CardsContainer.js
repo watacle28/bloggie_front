@@ -7,6 +7,7 @@ import { getAllPosts, getPostByTag } from '../redux/actions/posts';
 import { useState } from 'react';
 import { Pagination } from './Pagination';
 import { Spinner } from './Loader';
+import { Header } from './StyledComponents/Header';
 
 
 
@@ -24,12 +25,7 @@ display: flex;
 align-items: center;
 flex-direction: column;
 max-width: 500px;
-h3{
-    color: white;
-    letter-spacing: 2px;
-    margin:0;
-  
-}
+
 @media screen and (min-width: 700px){
     margin:0 auto;
     max-width: 700px;
@@ -71,10 +67,10 @@ const CardsContainer = ({tag}) => {
     const dispatch = useDispatch();
     const [page, setPage] = useState(1)
     const [limit, setLimit] = useState(3)
-    const allposts = useSelector(state=>state.posts.posts.blogs)
+    const allposts = useSelector(state=>state.posts.posts?.blogs)
      const totalPages = useSelector(state=>state.posts.posts?.totalPages)
     let loadingPosts = useSelector(state => state.posts.loading)
-   
+  
     useEffect(() => {
        if(tag){
          dispatch(getPostByTag(tag))
@@ -82,15 +78,15 @@ const CardsContainer = ({tag}) => {
       else{
         dispatch(getAllPosts(page,limit))
       }
-    }, [tag,page])
+    }, [tag,page,allposts?.length,limit])
 
     return (
         <Container > 
           
            <div className="all_posts">
-               <div className="line"></div>
-               <h3>{tag ? `${tag} posts`: 'All Posts'}</h3>
-               <div className="line"></div>
+               
+               <Header>{tag ? `${allposts?.length} ${tag} posts`: 'All Posts'}</Header>
+              
            </div>  
            {loadingPosts && <Spinner/>}
           {!loadingPosts && !tag && allposts &&  <Pagination page={page} setPage={setPage} totalPages={totalPages} loading={loadingPosts}/>}

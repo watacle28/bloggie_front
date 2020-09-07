@@ -109,10 +109,16 @@ import { updateProfile } from '../redux/actions/auth';
         //save user updated profile
         const handleSubmit = (e) =>{
             e.preventDefault();
+           console.log({...links})
+            let social = {...links}
             let fullname = `${data.first_name} ${data.surname}`
              let formData = new FormData()
              formData.append('avatar',image.raw)
-             formData.append('socialLinks', links)
+             formData.append('fb', links.fb)
+             formData.append('tw', links.tw)
+             formData.append('insta', links.insta)
+             formData.append('linkedIn', links.linkedIn)
+             formData.append('other', links.other)
              formData.append('fullname', fullname)
              formData.append('email', data.email)
              formData.append('role', data.role)
